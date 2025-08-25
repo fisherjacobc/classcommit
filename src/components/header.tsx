@@ -81,13 +81,13 @@ export default function Header() {
 					{session && !loading && (
 						<div className="flex items-center gap-x-2">
 							<Image
-								src={session.user.image}
+								src={session.user.image ?? ""}
 								className="h-8 w-8 rounded-full"
 								width={150}
 								height={150}
 								alt={session.user.name ?? "User Account"}
 							/>
-							<span className="text-primary dark:text-secondary font-medium">
+							<span className="font-medium text-primary dark:text-secondary">
 								{session.user.name}
 							</span>
 						</div>
