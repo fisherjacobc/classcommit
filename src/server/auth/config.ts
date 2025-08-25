@@ -1,6 +1,7 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import type { DefaultSession, NextAuthOptions } from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
+import { env } from "~/env";
 
 import { db } from "~/server/db";
 
@@ -33,8 +34,8 @@ declare module "next-auth" {
 export const authOptions = {
 	providers: [
 		GitHubProvider({
-			clientId: process.env.AUTH_GITHUB_CLIENT_ID,
-			clientSecret: process.env.AUTH_GITHUB_CLIENT_SECRET,
+			clientId: env.AUTH_GITHUB_CLIENT_ID,
+			clientSecret: env.AUTH_GITHUB_CLIENT_SECRET,
 		}),
 		/**
 		 * ...add more providers here.
