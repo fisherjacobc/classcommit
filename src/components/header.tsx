@@ -110,9 +110,7 @@ export default function Header() {
 							// @ts-ignore Icon renders
 							renderIcon={IconExternalLinkSolid}
 							color="ai-primary"
-							onClick={() =>
-								void signIn("github", { callbackUrl: "/classses" })
-							}
+							onClick={() => void signIn("github", { callbackUrl: "/classes" })}
 						>
 							Login
 						</Button>
