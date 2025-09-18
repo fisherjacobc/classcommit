@@ -1,5 +1,12 @@
+import type { GetServerSidePropsContext } from "next";
 import { postRouter } from "~/server/api/routers/post";
-import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
+import {
+	createCallerFactory,
+	createTRPCRouter,
+	createTRPCContext,
+} from "~/server/api/trpc";
+import { createServerSideHelpers } from "@trpc/react-query/server";
+import superjson from "superjson";
 
 /**
  * This is the primary router for your server.
@@ -21,3 +28,12 @@ export type AppRouter = typeof appRouter;
  *       ^? Post[]
  */
 export const createCaller = createCallerFactory(appRouter);
+
+export const serverSideApi = async (ctx: GetServerSidePropsContext) => {
+	return createServerSideHelpers({
+		router: appRouter,
+		//@ts-expect-error Incompatible type, however still fully works!
+		ctx: await createTRPCContext(ctx),
+		transformer: superjson,
+	});
+};

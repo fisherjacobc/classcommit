@@ -3,8 +3,8 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { signIn, signOut, useSession } from "next-auth/react";
-import { ExternalLink, ChevronDown } from "lucide-react";
-import { Button } from "./ui/button";
+import { Avatar, Button, Byline, Menu } from "@instructure/ui";
+import { IconExternalLinkSolid } from "@instructure/ui-icons";
 import { Skeleton } from "./ui/skeleton";
 
 function Logo() {
@@ -21,6 +21,7 @@ function Logo() {
 			stroke-linejoin="round"
 			className="lucide lucide-school-icon lucide-school h-12 w-12"
 		>
+			<title>ClassCommit</title>
 			<path d="M18 5v16" />
 			<path d="m4 6 7.106-3.79a2 2 0 0 1 1.788 0L20 6" />
 			<path d="m6 11-3.52 2.147a1 1 0 0 0-.48.854V19a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5a1 1 0 0 0-.48-.853L18 11" />
@@ -79,38 +80,56 @@ export default function Header() {
 						Classes
 					</Link>
 					{session && !loading && (
-						<div className="flex items-center gap-x-2">
-							<Image
-								src={session.user.image ?? ""}
-								className="h-8 w-8 rounded-full"
-								width={150}
-								height={150}
-								alt={session.user.name ?? "User Account"}
-							/>
-							<span className="font-medium text-primary dark:text-secondary">
-								{session.user.name}
-							</span>
-						</div>
+						<Menu
+							placement="bottom"
+							trigger={
+								<Button cellPadding={0} size="small" color="primary-inverse">
+									<Byline
+										description={session.user.name}
+										themeOverride={{
+											background: "",
+										}}
+									>
+										<Avatar
+											size="small"
+											showBorder="always"
+											src={session.user.image ?? ""}
+											name={session.user.name ?? "User Account"}
+										/>
+									</Byline>
+								</Button>
+							}
+						>
+							<Menu.Item href="/account">Account</Menu.Item>
+							<Menu.Separator />
+							<Menu.Item href="/auth/logout">Logout</Menu.Item>
+						</Menu>
 					)}
 					{!session && !loading && (
 						<Button
-							className="font-medium"
-							variant="outline"
+							// @ts-ignore Icon renders
+							renderIcon={IconExternalLinkSolid}
+							color="ai-primary"
 							onClick={() =>
 								void signIn("github", { callbackUrl: "/classses" })
 							}
 						>
-							Login <ExternalLink className="ml-1 h-4 w-4" />
+							Login
 						</Button>
 					)}
 					{loading && (
-						<Button
-							variant="ghost"
-							className="flex cursor-pointer select-none items-center justify-center gap-1"
+						<Byline
+							description={<Skeleton className="h-6 w-24 rounded-full" />}
 						>
-							<Skeleton className="aspect-square h-10 w-10 rounded-full" />
-							<Skeleton className="h-6 w-24 rounded-full" />
-						</Button>
+							<Avatar
+								size="small"
+								name="Loading"
+								showBorder="always"
+								renderIcon={
+									<Skeleton className="aspect-square h-full w-full rounded-full" />
+								}
+							/>
+						</Byline>
 					)}
 				</div>
 			</header>

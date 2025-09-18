@@ -20,6 +20,8 @@
 	},
 	"dependencies": {
 		"@auth/prisma-adapter": "^2.7.2",
+		"@instructure/ui": "^10.25.0",
+		"@instructure/ui-icons": "^10.25.0",
 		"@prisma/client": "^6.5.0",
 		"@radix-ui/react-label": "^2.1.7",
 		"@radix-ui/react-slot": "^1.2.3",
