@@ -91,6 +91,7 @@ export default function Github<P extends GithubProfile>(
 				return profile;
 			},
 		},
+		//@ts-ignore
 		profile(profile: P) {
 			return {
 				id: profile.id.toString(),
