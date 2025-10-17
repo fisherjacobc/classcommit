@@ -85,7 +85,18 @@ export default function Header() {
 							trigger={
 								<Button cellPadding={0} size="small" color="primary-inverse">
 									<Byline
-										description={session.user.name}
+										description={
+											<div className="flex flex-col">
+												<span>
+													{session.user.displayName ?? `@${session.user.name}`}
+												</span>
+												{session.user.displayName && (
+													<span className="text-gray-600 text-xs">
+														@{session.user.name}
+													</span>
+												)}
+											</div>
+										}
 										themeOverride={{
 											background: "",
 										}}
@@ -116,18 +127,28 @@ export default function Header() {
 						</Button>
 					)}
 					{loading && (
-						<Byline
-							description={<Skeleton className="h-6 w-24 rounded-full" />}
-						>
-							<Avatar
-								size="small"
-								name="Loading"
-								showBorder="always"
-								renderIcon={
-									<Skeleton className="aspect-square h-full w-full rounded-full" />
+						<Button cellPadding={0} size="small" color="primary-inverse">
+							<Byline
+								description={
+									<div className="flex flex-col gap-y-1">
+										<Skeleton className="h-5 w-24" />
+										<Skeleton className="h-3 w-24" />
+									</div>
 								}
-							/>
-						</Byline>
+								themeOverride={{
+									background: "",
+								}}
+							>
+								<Avatar
+									size="small"
+									name="Loading"
+									showBorder="always"
+									renderIcon={
+										<Skeleton className="aspect-square h-full w-full rounded-full" />
+									}
+								/>
+							</Byline>
+						</Button>
 					)}
 				</div>
 			</header>
