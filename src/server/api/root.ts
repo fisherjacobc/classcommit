@@ -1,5 +1,4 @@
 import type { GetServerSidePropsContext } from "next";
-import { postRouter } from "~/server/api/routers/post";
 import {
 	createCallerFactory,
 	createTRPCRouter,
@@ -7,6 +6,7 @@ import {
 } from "~/server/api/trpc";
 import { createServerSideHelpers } from "@trpc/react-query/server";
 import superjson from "superjson";
+import { classesRouter } from "./routers/classes";
 
 /**
  * This is the primary router for your server.
@@ -14,7 +14,7 @@ import superjson from "superjson";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
-	post: postRouter,
+	classes: classesRouter,
 });
 
 // export type definition of API
