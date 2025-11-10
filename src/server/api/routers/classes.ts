@@ -21,26 +21,29 @@ export const classesRouter = createTRPCRouter({
 		const classes = ctx.db.class.findMany({
 			where: {
 				createdById: user.id,
-			}
+			},
+			include: {
+				createdBy: {
+					select: {
+						id: true,
+						name: true,
+					},
+				},
+			},
 		});
 
 		return classes;
 	}),
 
-	createClass: protectedProcedure.input(z.object({ className: z.string(), term: z.string() })).query(async ({ input, ctx }) => {
-		const user = ctx.db.user.findUnique({
-			where: {
-				id: ctx.session.user.id,
-			}
-		})
-
-		ctx.db.class.create({
-			data: {
-				name: input.className, 
-				term: input.term,
-				createdBy: { connect: { id: ctx.session.user.id } }
-			}
-		})
-	})
-
+	createClass: protectedProcedure
+		.input(z.object({ className: z.string(), term: z.string() }))
+		.mutation(async ({ input, ctx }) => {
+			return ctx.db.class.create({
+				data: {
+					name: input.className,
+					term: input.term,
+					createdBy: { connect: { id: ctx.session.user.id } },
+				},
+			});
+		}),
 });
