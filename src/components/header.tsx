@@ -91,7 +91,7 @@ export default function Header() {
 													{session.user.displayName ?? `@${session.user.name}`}
 												</span>
 												{session.user.displayName && (
-													<span className="text-gray-600 text-xs">
+													<span className="text-slate-600 text-xs">
 														@{session.user.name}
 													</span>
 												)}

@@ -8,14 +8,6 @@ import {
 } from "~/server/api/trpc";
 
 export const classesRouter = createTRPCRouter({
-	hello: publicProcedure
-		.input(z.object({ text: z.string() }))
-		.query(({ input }) => {
-			return {
-				greeting: `Hello ${input.text}`,
-			};
-		}),
-
 	getClasses: protectedProcedure.query(async ({ ctx }) => {
 		const user = ctx.session.user;
 
@@ -36,35 +28,37 @@ export const classesRouter = createTRPCRouter({
 		return classes;
 	}),
 
-	getClass: protectedProcedure.input(z.object({ classId: z.number().int().positive() })).query(async ({ input: { classId }, ctx }) => {
-		const user = ctx.session.user;
+	getClass: protectedProcedure
+		.input(z.object({ classId: z.number().int().positive() }))
+		.query(async ({ input: { classId }, ctx }) => {
+			const user = ctx.session.user;
 
-		const classResult = await ctx.db.class.findUnique({
-			where: {
-				id: classId
-			},
-			include: {
-				createdBy: {
-					select: {
-						id: true,
-						name: true,
+			const classResult = await ctx.db.class.findUnique({
+				where: {
+					id: classId,
+				},
+				include: {
+					createdBy: {
+						select: {
+							id: true,
+							name: true,
+						},
 					},
 				},
-			},
-		});
+			});
 
-		if (!classResult)
-			throw new TRPCError({
-				code: "NOT_FOUND"
-			})
+			if (!classResult)
+				throw new TRPCError({
+					code: "NOT_FOUND",
+				});
 
-		if (classResult.createdById !== user.id)
-			throw new TRPCError({
-				code: "UNAUTHORIZED"
-		})
+			if (classResult.createdById !== user.id)
+				throw new TRPCError({
+					code: "UNAUTHORIZED",
+				});
 
-		return classResult;
-	}),
+			return classResult;
+		}),
 
 	createClass: protectedProcedure
 		.input(z.object({ className: z.string(), term: z.string() }))
@@ -73,6 +67,7 @@ export const classesRouter = createTRPCRouter({
 				data: {
 					name: input.className,
 					term: input.term,
+					homepageMarkdown: `# Welcome to ${input.className}`,
 					createdBy: { connect: { id: ctx.session.user.id } },
 				},
 			});

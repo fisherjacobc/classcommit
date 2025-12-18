@@ -24,7 +24,23 @@ model Class {
     createdBy   User   @relation(fields: [createdById], references: [id])
     createdById String
 
+    homepageMarkdown String
+
+    assignments Assignment[]
+
     @@index([name])
+}
+
+model Assignment {
+    id String @id @default(uuid())
+
+    class   Class @relation(fields: [classId], references: [id])
+    classId Int
+
+    name        String
+    dueDate     DateTime?
+    description String
+    points      Int
 }
 
 // Necessary for Next auth

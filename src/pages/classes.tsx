@@ -1,9 +1,12 @@
 import { Button, Modal, TextInput } from "@instructure/ui";
 import { IconPlusSolid } from "@instructure/ui-icons";
+import type { Class } from "@prisma/client";
 import type {
 	GetServerSidePropsContext,
 	InferGetServerSidePropsType,
 } from "next";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import {
 	Card,
@@ -15,16 +18,35 @@ import {
 import { requireAuth } from "~/hooks";
 import { serverSideApi } from "~/server/api/root";
 import { getServerSessionProps } from "~/server/auth";
+import { api } from "~/utils/api";
 
 type ClassesProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 export default function Classes({ session, classes }: ClassesProps) {
 	requireAuth(session);
+	const [createFormData, setCreateFormData] = useState({
+		className: "",
+		term: ""
+	})
 	const [openCreateModal, setOpenCreateModal] = useState(false);
 
-	const handleCreateButtonClick = () => {
+	const handleButtonClick = () => {
 		setOpenCreateModal((s) => !s);
 	};
+
+	const createClassMutation = api.classes.createClass.useMutation();
+
+	const router = useRouter();
+
+	const handleCreateSubmit = (e: { preventDefault: () => void; }) => {
+		e.preventDefault();
+
+		createClassMutation.mutateAsync(createFormData).then((res) => {
+			router.push(`/classes/${res.id}`);
+		});
+
+		setOpenCreateModal(false);
+	}
 
 	return (
 		<div className="mt-4 flex min-w-full flex-col gap-y-4">
@@ -34,6 +56,7 @@ export default function Classes({ session, classes }: ClassesProps) {
 				onDismiss={() => {
 					setOpenCreateModal(false);
 				}}
+				onSubmit={handleCreateSubmit}
 				size="auto"
 				label="Create Class"
 				shouldCloseOnDocumentClick
@@ -42,11 +65,11 @@ export default function Classes({ session, classes }: ClassesProps) {
 					<span className="text-2xl">Create Class</span>
 				</Modal.Header>
 				<Modal.Body>
-					<TextInput renderLabel="Class Name" isRequired={true} />
-					<TextInput renderLabel="Term" placeholder="Fall 2025" />
+					<TextInput renderLabel="Class Name" isRequired={true} value={createFormData.className} onChange={(e) => setCreateFormData({ className: e.target.value, term: createFormData.term })} />
+					<TextInput renderLabel="Term" placeholder="Fall 2025" value={createFormData.term} onChange={(e) => setCreateFormData({ className: createFormData.className, term: e.target.value })} />
 				</Modal.Body>
 				<Modal.Footer>
-					<Button onClick={handleCreateButtonClick} margin="0 x-small 0 0">
+					<Button onClick={handleButtonClick} margin="0 x-small 0 0">
 						Close
 					</Button>
 					<Button color="ai-primary" type="submit">
@@ -57,8 +80,22 @@ export default function Classes({ session, classes }: ClassesProps) {
 			<span className="mx-4 text-4xl sm:mx-8 md:mx-16 lg:mx-24 xl:mx-32">
 				Classes
 			</span>
-			<div className="mx-4 grid gap-4 rounded-md border-2 border-gray-500 p-4 sm:mx-8 sm:grid-cols-2 md:mx-16 md:grid-cols-3 lg:mx-24 xl:mx-32 xl:grid-cols-4">
-				<button type="button" onClick={handleCreateButtonClick}>
+			<div className="mx-4 grid gap-4 rounded-md border-2 border-slate-500 p-4 sm:mx-8 sm:grid-cols-2 md:mx-16 md:grid-cols-3 lg:mx-24 xl:mx-32 xl:grid-cols-4">
+				{(JSON.parse(classes) as (Class & { createdBy: { id: string; name: string; } })[]).map((classData) =>
+					<Link key={classData.id} href={`/classes/${classData.id}`}>
+						<Card className="aspect-video border-4 hover:cursor-pointer hover:border-indigo-400">
+							<CardHeader>
+								<CardTitle className="text-center text-2xl">{classData.name}</CardTitle>
+								<hr />
+								<CardDescription className="text-center font-slate-500">{classData.term} &bull; Instructor: {classData.createdBy.name}</CardDescription>
+							</CardHeader>
+							<CardContent className="flex justify-center">
+								{/* <IconPlusSolid color="secondary" size="medium" /> */}
+							</CardContent>
+						</Card>
+					</Link>
+				)}
+				<button type="button" onClick={handleButtonClick}>
 					<Card className="aspect-video border-4 border-dashed hover:cursor-pointer hover:border-indigo-400">
 						<CardHeader>
 							<CardTitle className="text-center">Create new class</CardTitle>
@@ -80,16 +117,12 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 
 	const helper = await serverSideApi(ctx);
 
-	let classes = null;
-
-	try {
-		// classes = await helper.classes.getUserClasses.fetch();
-	} catch {}
+	const classes = await helper.classes.getClasses.fetch();
 
 	return {
 		props: {
 			session,
-			classes,
+			classes: JSON.stringify(classes),
 			trpcState: helper.dehydrate(),
 		},
 	};
