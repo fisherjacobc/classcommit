@@ -1,8 +1,10 @@
-import { Button, DateTimeInput, Modal, NumberInput, TextInput } from "@instructure/ui";
+import { Button, DateTimeInput, IconPlusSolid, Modal, NumberInput, TextInput } from "@instructure/ui";
 import { createServerSideHelpers } from "@trpc/react-query/server";
 import type { GetStaticPropsContext, InferGetStaticPropsType } from "next";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { Card, CardHeader, CardTitle, CardContent } from "~/components/ui/card";
 import { markdownToHtml } from "~/lib/markdown";
 import { appRouter, } from "~/server/api/root";
 import { api } from "~/utils/api";
@@ -14,6 +16,7 @@ export default function ClassPage(/*{ homepageMarkdown }: ClassProps*/) {
     const classId = Number.parseInt(router.query.classId as string);
 
     const { data: classData } = api.classes.getClass.useQuery({ classId });
+    const { data: assignmentsData } = api.assignments.getAssignmentsForClass.useQuery({ classId });
 
     const [createFormData, setCreateFormData] = useState({
         name: "",
@@ -34,6 +37,8 @@ export default function ClassPage(/*{ homepageMarkdown }: ClassProps*/) {
         createAssignmentMutation.mutateAsync({
             ...createFormData,
             classId
+        }).then((res) => {
+            router.push(`/classes/${classId}/assignments/${res.id}`);
         });
 
         setOpenCreateModal(false);
@@ -123,7 +128,6 @@ export default function ClassPage(/*{ homepageMarkdown }: ClassProps*/) {
                         invalidDateTimeMessage="Invalid date!"
                         prevMonthLabel="Previous month"
                         nextMonthLabel="Next month"
-                        defaultValue={defaultDate.toISOString()}
                         layout="columns"
                         isRequired={false}
                         value={createFormData.dueDate}
@@ -153,6 +157,22 @@ export default function ClassPage(/*{ homepageMarkdown }: ClassProps*/) {
                 <Button color="primary" type="submit" onClick={handleButtonClick}>
                     Create Assignment
                 </Button>
+            </div>
+            <div className="mx-4 grid grid-cols-2 gap-4 text-4xl sm:mx-8 md:mx-16 lg:mx-24 lg:grid-cols-3 xl:mx-32 xl:grid-cols-4">
+                <div className="lg:col-span-2 xl:col-span-3"/>
+                <div className="flex flex-col gap-y-2">
+                    {assignmentsData?.map((assignment) => 
+                        <Link key={assignment.id} href={`/classes/${classId}/assignments/${assignment.id}`}>
+                            <Card className="gap-2 border-4 py-4 hover:cursor-pointer hover:border-indigo-400">
+                                <CardHeader>
+                                    <CardTitle className="text-center text-2xl">{assignment.name}</CardTitle>
+                                </CardHeader>
+                                <CardContent className="flex justify-center font-normal text-base text-slate-600">
+                                    {assignment.points} Points{assignment.dueDate && ` | ${assignment.dueDate.toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "numeric" })}`}
+                                </CardContent>
+                            </Card>
+                        </Link>)}
+                </div>
             </div>
             {/* biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation> */}
             {/* <div dangerouslySetInnerHTML={{ __html: homepageMarkdown.contentHtml }} /> */}

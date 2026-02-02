@@ -7,6 +7,7 @@ import {
 import { createServerSideHelpers } from "@trpc/react-query/server";
 import superjson from "superjson";
 import { classesRouter } from "./routers/classes";
+import { assignmentsRouter } from "./routers/assignments";
 
 /**
  * This is the primary router for your server.
@@ -15,6 +16,7 @@ import { classesRouter } from "./routers/classes";
  */
 export const appRouter = createTRPCRouter({
 	classes: classesRouter,
+	assignments: assignmentsRouter,
 });
 
 // export type definition of API
