@@ -1,9 +1,7 @@
 import { api, HydrateClient } from "~/trpc/server";
 
 export default async function ClassSettings({ params }: { params: Promise<{ classId: string }> }) {
-    const data = await api.github.getRepos();
-
-    console.log(data);
+    const _data = await api.github.getRepos();
 
     return (
         <HydrateClient>

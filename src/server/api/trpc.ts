@@ -10,6 +10,7 @@
 import { createOAuthUserAuth } from "@octokit/auth-oauth-app";
 import { initTRPC, TRPCError } from "@trpc/server";
 import { Octokit } from "octokit";
+import { CreateOrUpdateFiles } from "octokit-commit-multiple-files";
 import superjson from "superjson";
 import z, { ZodError } from "zod";
 import { env } from "~/env";
@@ -149,7 +150,9 @@ export const githubProtectedProcedure = protectedProcedure.use(
 			throw new TRPCError({ code: "UNAUTHORIZED" });
 		}
 
-		const octokit = new Octokit({
+		const octokitWithPlugin = Octokit.plugin(CreateOrUpdateFiles);
+
+		const octokit = new octokitWithPlugin({
 			authStrategy: createOAuthUserAuth,
 			auth: {
 				// clientType: githubAccount.type,
