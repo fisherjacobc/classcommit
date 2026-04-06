@@ -24,6 +24,38 @@ export const classesRouter = createTRPCRouter({
 		return ctx.class;
 	}),
 
+	getHomepage: classProtectedProcedure.query(async ({ ctx }) => {
+		const [owner, repo] = ctx.class.githubRepo.split("/");
+
+		if (!owner || !repo) {
+			throw new TRPCError({
+				code: "BAD_REQUEST",
+				message: "Invalid GitHub repository format. Expected owner/repo.",
+			});
+		}
+
+		const response = await ctx.github.request(
+			"GET /repos/{owner}/{repo}/contents/{path}",
+			{
+				owner,
+				repo,
+				path: "README.md",
+			},
+		);
+
+		const content = response.data;
+		if (typeof content === "object" && "content" in content && content.content) {
+			return Buffer.from(content.content as string, "base64").toString(
+				"utf-8",
+			);
+		}
+
+		throw new TRPCError({
+			code: "NOT_FOUND",
+			message: "README.md not found in repository",
+		});
+	}),
+
 	createClass: githubProtectedProcedure
 		.input(
 			z.object({
@@ -44,7 +76,16 @@ export const classesRouter = createTRPCRouter({
 					code: "FORBIDDEN",
 				});
 
-			return await ctx.db.class.create({
+			const [owner, repo] = input.githubRepo.split("/");
+
+			if (!owner || !repo) {
+				throw new TRPCError({
+					code: "BAD_REQUEST",
+					message: "Invalid GitHub repository format. Expected owner/repo.",
+				});
+			}
+
+			const newClass = await ctx.db.class.create({
 				data: {
 					name: input.className,
 					term: input.term,
@@ -57,5 +98,20 @@ export const classesRouter = createTRPCRouter({
 					},
 				},
 			});
+
+			await ctx.github.request(
+				"PUT /repos/{owner}/{repo}/contents/{path}",
+				{
+					owner,
+					repo,
+					path: "README.md",
+					message: "Initialize class README",
+					content: Buffer.from(
+						`# ${input.className}\nEdit this page on your GitHub repo`,
+					).toString("base64"),
+				},
+			);
+
+			return newClass;
 		}),
 });

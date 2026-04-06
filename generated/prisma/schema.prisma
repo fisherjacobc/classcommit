@@ -74,15 +74,17 @@ model Assignment {
   class   Class @relation(fields: [classId], references: [id])
   classId Int
 
-  name    String
-  dueDate DateTime?
-  points  Int
+  name      String
+  dueDate   DateTime?
+  points    Int
+  published Boolean
 
   submissions Submission[]
 }
 
 model Submission {
-  id String @id @default(cuid(2))
+  id  String @id @default(cuid(2))
+  ref String
 
   assignment   Assignment @relation(fields: [assignmentId], references: [id])
   assignmentId Int
