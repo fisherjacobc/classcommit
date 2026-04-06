@@ -5099,6 +5099,7 @@ export namespace Prisma {
     name: string | null
     dueDate: Date | null
     points: number | null
+    published: boolean | null
   }
 
   export type AssignmentMaxAggregateOutputType = {
@@ -5107,6 +5108,7 @@ export namespace Prisma {
     name: string | null
     dueDate: Date | null
     points: number | null
+    published: boolean | null
   }
 
   export type AssignmentCountAggregateOutputType = {
@@ -5115,6 +5117,7 @@ export namespace Prisma {
     name: number
     dueDate: number
     points: number
+    published: number
     _all: number
   }
 
@@ -5137,6 +5140,7 @@ export namespace Prisma {
     name?: true
     dueDate?: true
     points?: true
+    published?: true
   }
 
   export type AssignmentMaxAggregateInputType = {
@@ -5145,6 +5149,7 @@ export namespace Prisma {
     name?: true
     dueDate?: true
     points?: true
+    published?: true
   }
 
   export type AssignmentCountAggregateInputType = {
@@ -5153,6 +5158,7 @@ export namespace Prisma {
     name?: true
     dueDate?: true
     points?: true
+    published?: true
     _all?: true
   }
 
@@ -5248,6 +5254,7 @@ export namespace Prisma {
     name: string
     dueDate: Date | null
     points: number
+    published: boolean
     _count: AssignmentCountAggregateOutputType | null
     _avg: AssignmentAvgAggregateOutputType | null
     _sum: AssignmentSumAggregateOutputType | null
@@ -5275,6 +5282,7 @@ export namespace Prisma {
     name?: boolean
     dueDate?: boolean
     points?: boolean
+    published?: boolean
     class?: boolean | ClassDefaultArgs<ExtArgs>
     submissions?: boolean | Assignment$submissionsArgs<ExtArgs>
     _count?: boolean | AssignmentCountOutputTypeDefaultArgs<ExtArgs>
@@ -5286,6 +5294,7 @@ export namespace Prisma {
     name?: boolean
     dueDate?: boolean
     points?: boolean
+    published?: boolean
     class?: boolean | ClassDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["assignment"]>
 
@@ -5295,6 +5304,7 @@ export namespace Prisma {
     name?: boolean
     dueDate?: boolean
     points?: boolean
+    published?: boolean
     class?: boolean | ClassDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["assignment"]>
 
@@ -5304,9 +5314,10 @@ export namespace Prisma {
     name?: boolean
     dueDate?: boolean
     points?: boolean
+    published?: boolean
   }
 
-  export type AssignmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "classId" | "name" | "dueDate" | "points", ExtArgs["result"]["assignment"]>
+  export type AssignmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "classId" | "name" | "dueDate" | "points" | "published", ExtArgs["result"]["assignment"]>
   export type AssignmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     class?: boolean | ClassDefaultArgs<ExtArgs>
     submissions?: boolean | Assignment$submissionsArgs<ExtArgs>
@@ -5331,6 +5342,7 @@ export namespace Prisma {
       name: string
       dueDate: Date | null
       points: number
+      published: boolean
     }, ExtArgs["result"]["assignment"]>
     composites: {}
   }
@@ -5761,6 +5773,7 @@ export namespace Prisma {
     readonly name: FieldRef<"Assignment", 'String'>
     readonly dueDate: FieldRef<"Assignment", 'DateTime'>
     readonly points: FieldRef<"Assignment", 'Int'>
+    readonly published: FieldRef<"Assignment", 'Boolean'>
   }
     
 
@@ -6223,6 +6236,7 @@ export namespace Prisma {
 
   export type SubmissionMinAggregateOutputType = {
     id: string | null
+    ref: string | null
     assignmentId: number | null
     studentId: string | null
     submittedAt: Date | null
@@ -6231,6 +6245,7 @@ export namespace Prisma {
 
   export type SubmissionMaxAggregateOutputType = {
     id: string | null
+    ref: string | null
     assignmentId: number | null
     studentId: string | null
     submittedAt: Date | null
@@ -6239,6 +6254,7 @@ export namespace Prisma {
 
   export type SubmissionCountAggregateOutputType = {
     id: number
+    ref: number
     assignmentId: number
     studentId: number
     submittedAt: number
@@ -6259,6 +6275,7 @@ export namespace Prisma {
 
   export type SubmissionMinAggregateInputType = {
     id?: true
+    ref?: true
     assignmentId?: true
     studentId?: true
     submittedAt?: true
@@ -6267,6 +6284,7 @@ export namespace Prisma {
 
   export type SubmissionMaxAggregateInputType = {
     id?: true
+    ref?: true
     assignmentId?: true
     studentId?: true
     submittedAt?: true
@@ -6275,6 +6293,7 @@ export namespace Prisma {
 
   export type SubmissionCountAggregateInputType = {
     id?: true
+    ref?: true
     assignmentId?: true
     studentId?: true
     submittedAt?: true
@@ -6370,6 +6389,7 @@ export namespace Prisma {
 
   export type SubmissionGroupByOutputType = {
     id: string
+    ref: string
     assignmentId: number
     studentId: string
     submittedAt: Date | null
@@ -6397,6 +6417,7 @@ export namespace Prisma {
 
   export type SubmissionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    ref?: boolean
     assignmentId?: boolean
     studentId?: boolean
     submittedAt?: boolean
@@ -6407,6 +6428,7 @@ export namespace Prisma {
 
   export type SubmissionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    ref?: boolean
     assignmentId?: boolean
     studentId?: boolean
     submittedAt?: boolean
@@ -6417,6 +6439,7 @@ export namespace Prisma {
 
   export type SubmissionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    ref?: boolean
     assignmentId?: boolean
     studentId?: boolean
     submittedAt?: boolean
@@ -6427,13 +6450,14 @@ export namespace Prisma {
 
   export type SubmissionSelectScalar = {
     id?: boolean
+    ref?: boolean
     assignmentId?: boolean
     studentId?: boolean
     submittedAt?: boolean
     grade?: boolean
   }
 
-  export type SubmissionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "assignmentId" | "studentId" | "submittedAt" | "grade", ExtArgs["result"]["submission"]>
+  export type SubmissionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ref" | "assignmentId" | "studentId" | "submittedAt" | "grade", ExtArgs["result"]["submission"]>
   export type SubmissionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     assignment?: boolean | AssignmentDefaultArgs<ExtArgs>
     student?: boolean | UserDefaultArgs<ExtArgs>
@@ -6455,6 +6479,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      ref: string
       assignmentId: number
       studentId: string
       submittedAt: Date | null
@@ -6885,6 +6910,7 @@ export namespace Prisma {
    */
   interface SubmissionFieldRefs {
     readonly id: FieldRef<"Submission", 'String'>
+    readonly ref: FieldRef<"Submission", 'String'>
     readonly assignmentId: FieldRef<"Submission", 'Int'>
     readonly studentId: FieldRef<"Submission", 'String'>
     readonly submittedAt: FieldRef<"Submission", 'DateTime'>
@@ -10625,7 +10651,8 @@ export namespace Prisma {
     classId: 'classId',
     name: 'name',
     dueDate: 'dueDate',
-    points: 'points'
+    points: 'points',
+    published: 'published'
   };
 
   export type AssignmentScalarFieldEnum = (typeof AssignmentScalarFieldEnum)[keyof typeof AssignmentScalarFieldEnum]
@@ -10633,6 +10660,7 @@ export namespace Prisma {
 
   export const SubmissionScalarFieldEnum: {
     id: 'id',
+    ref: 'ref',
     assignmentId: 'assignmentId',
     studentId: 'studentId',
     submittedAt: 'submittedAt',
@@ -11005,6 +11033,7 @@ export namespace Prisma {
     name?: StringFilter<"Assignment"> | string
     dueDate?: DateTimeNullableFilter<"Assignment"> | Date | string | null
     points?: IntFilter<"Assignment"> | number
+    published?: BoolFilter<"Assignment"> | boolean
     class?: XOR<ClassScalarRelationFilter, ClassWhereInput>
     submissions?: SubmissionListRelationFilter
   }
@@ -11015,6 +11044,7 @@ export namespace Prisma {
     name?: SortOrder
     dueDate?: SortOrderInput | SortOrder
     points?: SortOrder
+    published?: SortOrder
     class?: ClassOrderByWithRelationInput
     submissions?: SubmissionOrderByRelationAggregateInput
   }
@@ -11028,6 +11058,7 @@ export namespace Prisma {
     name?: StringFilter<"Assignment"> | string
     dueDate?: DateTimeNullableFilter<"Assignment"> | Date | string | null
     points?: IntFilter<"Assignment"> | number
+    published?: BoolFilter<"Assignment"> | boolean
     class?: XOR<ClassScalarRelationFilter, ClassWhereInput>
     submissions?: SubmissionListRelationFilter
   }, "id">
@@ -11038,6 +11069,7 @@ export namespace Prisma {
     name?: SortOrder
     dueDate?: SortOrderInput | SortOrder
     points?: SortOrder
+    published?: SortOrder
     _count?: AssignmentCountOrderByAggregateInput
     _avg?: AssignmentAvgOrderByAggregateInput
     _max?: AssignmentMaxOrderByAggregateInput
@@ -11054,6 +11086,7 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Assignment"> | string
     dueDate?: DateTimeNullableWithAggregatesFilter<"Assignment"> | Date | string | null
     points?: IntWithAggregatesFilter<"Assignment"> | number
+    published?: BoolWithAggregatesFilter<"Assignment"> | boolean
   }
 
   export type SubmissionWhereInput = {
@@ -11061,6 +11094,7 @@ export namespace Prisma {
     OR?: SubmissionWhereInput[]
     NOT?: SubmissionWhereInput | SubmissionWhereInput[]
     id?: StringFilter<"Submission"> | string
+    ref?: StringFilter<"Submission"> | string
     assignmentId?: IntFilter<"Submission"> | number
     studentId?: StringFilter<"Submission"> | string
     submittedAt?: DateTimeNullableFilter<"Submission"> | Date | string | null
@@ -11071,6 +11105,7 @@ export namespace Prisma {
 
   export type SubmissionOrderByWithRelationInput = {
     id?: SortOrder
+    ref?: SortOrder
     assignmentId?: SortOrder
     studentId?: SortOrder
     submittedAt?: SortOrderInput | SortOrder
@@ -11085,6 +11120,7 @@ export namespace Prisma {
     AND?: SubmissionWhereInput | SubmissionWhereInput[]
     OR?: SubmissionWhereInput[]
     NOT?: SubmissionWhereInput | SubmissionWhereInput[]
+    ref?: StringFilter<"Submission"> | string
     assignmentId?: IntFilter<"Submission"> | number
     studentId?: StringFilter<"Submission"> | string
     submittedAt?: DateTimeNullableFilter<"Submission"> | Date | string | null
@@ -11095,6 +11131,7 @@ export namespace Prisma {
 
   export type SubmissionOrderByWithAggregationInput = {
     id?: SortOrder
+    ref?: SortOrder
     assignmentId?: SortOrder
     studentId?: SortOrder
     submittedAt?: SortOrderInput | SortOrder
@@ -11111,6 +11148,7 @@ export namespace Prisma {
     OR?: SubmissionScalarWhereWithAggregatesInput[]
     NOT?: SubmissionScalarWhereWithAggregatesInput | SubmissionScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Submission"> | string
+    ref?: StringWithAggregatesFilter<"Submission"> | string
     assignmentId?: IntWithAggregatesFilter<"Submission"> | number
     studentId?: StringWithAggregatesFilter<"Submission"> | string
     submittedAt?: DateTimeNullableWithAggregatesFilter<"Submission"> | Date | string | null
@@ -11551,6 +11589,7 @@ export namespace Prisma {
     name: string
     dueDate?: Date | string | null
     points: number
+    published: boolean
     class: ClassCreateNestedOneWithoutAssignmentsInput
     submissions?: SubmissionCreateNestedManyWithoutAssignmentInput
   }
@@ -11561,6 +11600,7 @@ export namespace Prisma {
     name: string
     dueDate?: Date | string | null
     points: number
+    published: boolean
     submissions?: SubmissionUncheckedCreateNestedManyWithoutAssignmentInput
   }
 
@@ -11568,6 +11608,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     points?: IntFieldUpdateOperationsInput | number
+    published?: BoolFieldUpdateOperationsInput | boolean
     class?: ClassUpdateOneRequiredWithoutAssignmentsNestedInput
     submissions?: SubmissionUpdateManyWithoutAssignmentNestedInput
   }
@@ -11578,6 +11619,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     points?: IntFieldUpdateOperationsInput | number
+    published?: BoolFieldUpdateOperationsInput | boolean
     submissions?: SubmissionUncheckedUpdateManyWithoutAssignmentNestedInput
   }
 
@@ -11587,12 +11629,14 @@ export namespace Prisma {
     name: string
     dueDate?: Date | string | null
     points: number
+    published: boolean
   }
 
   export type AssignmentUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     points?: IntFieldUpdateOperationsInput | number
+    published?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type AssignmentUncheckedUpdateManyInput = {
@@ -11601,10 +11645,12 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     points?: IntFieldUpdateOperationsInput | number
+    published?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type SubmissionCreateInput = {
     id?: string
+    ref: string
     submittedAt?: Date | string | null
     grade?: number | null
     assignment: AssignmentCreateNestedOneWithoutSubmissionsInput
@@ -11613,6 +11659,7 @@ export namespace Prisma {
 
   export type SubmissionUncheckedCreateInput = {
     id?: string
+    ref: string
     assignmentId: number
     studentId: string
     submittedAt?: Date | string | null
@@ -11621,6 +11668,7 @@ export namespace Prisma {
 
   export type SubmissionUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    ref?: StringFieldUpdateOperationsInput | string
     submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     grade?: NullableFloatFieldUpdateOperationsInput | number | null
     assignment?: AssignmentUpdateOneRequiredWithoutSubmissionsNestedInput
@@ -11629,6 +11677,7 @@ export namespace Prisma {
 
   export type SubmissionUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    ref?: StringFieldUpdateOperationsInput | string
     assignmentId?: IntFieldUpdateOperationsInput | number
     studentId?: StringFieldUpdateOperationsInput | string
     submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -11637,6 +11686,7 @@ export namespace Prisma {
 
   export type SubmissionCreateManyInput = {
     id?: string
+    ref: string
     assignmentId: number
     studentId: string
     submittedAt?: Date | string | null
@@ -11645,12 +11695,14 @@ export namespace Prisma {
 
   export type SubmissionUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    ref?: StringFieldUpdateOperationsInput | string
     submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     grade?: NullableFloatFieldUpdateOperationsInput | number | null
   }
 
   export type SubmissionUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    ref?: StringFieldUpdateOperationsInput | string
     assignmentId?: IntFieldUpdateOperationsInput | number
     studentId?: StringFieldUpdateOperationsInput | string
     submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -12239,6 +12291,7 @@ export namespace Prisma {
     name?: SortOrder
     dueDate?: SortOrder
     points?: SortOrder
+    published?: SortOrder
   }
 
   export type AssignmentAvgOrderByAggregateInput = {
@@ -12253,6 +12306,7 @@ export namespace Prisma {
     name?: SortOrder
     dueDate?: SortOrder
     points?: SortOrder
+    published?: SortOrder
   }
 
   export type AssignmentMinOrderByAggregateInput = {
@@ -12261,6 +12315,7 @@ export namespace Prisma {
     name?: SortOrder
     dueDate?: SortOrder
     points?: SortOrder
+    published?: SortOrder
   }
 
   export type AssignmentSumOrderByAggregateInput = {
@@ -12306,6 +12361,7 @@ export namespace Prisma {
 
   export type SubmissionCountOrderByAggregateInput = {
     id?: SortOrder
+    ref?: SortOrder
     assignmentId?: SortOrder
     studentId?: SortOrder
     submittedAt?: SortOrder
@@ -12319,6 +12375,7 @@ export namespace Prisma {
 
   export type SubmissionMaxOrderByAggregateInput = {
     id?: SortOrder
+    ref?: SortOrder
     assignmentId?: SortOrder
     studentId?: SortOrder
     submittedAt?: SortOrder
@@ -12327,6 +12384,7 @@ export namespace Prisma {
 
   export type SubmissionMinOrderByAggregateInput = {
     id?: SortOrder
+    ref?: SortOrder
     assignmentId?: SortOrder
     studentId?: SortOrder
     submittedAt?: SortOrder
@@ -13206,6 +13264,7 @@ export namespace Prisma {
 
   export type SubmissionCreateWithoutStudentInput = {
     id?: string
+    ref: string
     submittedAt?: Date | string | null
     grade?: number | null
     assignment: AssignmentCreateNestedOneWithoutSubmissionsInput
@@ -13213,6 +13272,7 @@ export namespace Prisma {
 
   export type SubmissionUncheckedCreateWithoutStudentInput = {
     id?: string
+    ref: string
     assignmentId: number
     submittedAt?: Date | string | null
     grade?: number | null
@@ -13340,6 +13400,7 @@ export namespace Prisma {
     OR?: SubmissionScalarWhereInput[]
     NOT?: SubmissionScalarWhereInput | SubmissionScalarWhereInput[]
     id?: StringFilter<"Submission"> | string
+    ref?: StringFilter<"Submission"> | string
     assignmentId?: IntFilter<"Submission"> | number
     studentId?: StringFilter<"Submission"> | string
     submittedAt?: DateTimeNullableFilter<"Submission"> | Date | string | null
@@ -13498,6 +13559,7 @@ export namespace Prisma {
     name: string
     dueDate?: Date | string | null
     points: number
+    published: boolean
     submissions?: SubmissionCreateNestedManyWithoutAssignmentInput
   }
 
@@ -13506,6 +13568,7 @@ export namespace Prisma {
     name: string
     dueDate?: Date | string | null
     points: number
+    published: boolean
     submissions?: SubmissionUncheckedCreateNestedManyWithoutAssignmentInput
   }
 
@@ -13560,6 +13623,7 @@ export namespace Prisma {
     name?: StringFilter<"Assignment"> | string
     dueDate?: DateTimeNullableFilter<"Assignment"> | Date | string | null
     points?: IntFilter<"Assignment"> | number
+    published?: BoolFilter<"Assignment"> | boolean
   }
 
   export type ClassCreateWithoutAssignmentsInput = {
@@ -13588,6 +13652,7 @@ export namespace Prisma {
 
   export type SubmissionCreateWithoutAssignmentInput = {
     id?: string
+    ref: string
     submittedAt?: Date | string | null
     grade?: number | null
     student: UserCreateNestedOneWithoutSubmissionsInput
@@ -13595,6 +13660,7 @@ export namespace Prisma {
 
   export type SubmissionUncheckedCreateWithoutAssignmentInput = {
     id?: string
+    ref: string
     studentId: string
     submittedAt?: Date | string | null
     grade?: number | null
@@ -13660,6 +13726,7 @@ export namespace Prisma {
     name: string
     dueDate?: Date | string | null
     points: number
+    published: boolean
     class: ClassCreateNestedOneWithoutAssignmentsInput
   }
 
@@ -13669,6 +13736,7 @@ export namespace Prisma {
     name: string
     dueDate?: Date | string | null
     points: number
+    published: boolean
   }
 
   export type AssignmentCreateOrConnectWithoutSubmissionsInput = {
@@ -13724,6 +13792,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     points?: IntFieldUpdateOperationsInput | number
+    published?: BoolFieldUpdateOperationsInput | boolean
     class?: ClassUpdateOneRequiredWithoutAssignmentsNestedInput
   }
 
@@ -13733,6 +13802,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     points?: IntFieldUpdateOperationsInput | number
+    published?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserUpsertWithoutSubmissionsInput = {
@@ -13951,6 +14021,7 @@ export namespace Prisma {
 
   export type SubmissionCreateManyStudentInput = {
     id?: string
+    ref: string
     assignmentId: number
     submittedAt?: Date | string | null
     grade?: number | null
@@ -14051,6 +14122,7 @@ export namespace Prisma {
 
   export type SubmissionUpdateWithoutStudentInput = {
     id?: StringFieldUpdateOperationsInput | string
+    ref?: StringFieldUpdateOperationsInput | string
     submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     grade?: NullableFloatFieldUpdateOperationsInput | number | null
     assignment?: AssignmentUpdateOneRequiredWithoutSubmissionsNestedInput
@@ -14058,6 +14130,7 @@ export namespace Prisma {
 
   export type SubmissionUncheckedUpdateWithoutStudentInput = {
     id?: StringFieldUpdateOperationsInput | string
+    ref?: StringFieldUpdateOperationsInput | string
     assignmentId?: IntFieldUpdateOperationsInput | number
     submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     grade?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -14065,6 +14138,7 @@ export namespace Prisma {
 
   export type SubmissionUncheckedUpdateManyWithoutStudentInput = {
     id?: StringFieldUpdateOperationsInput | string
+    ref?: StringFieldUpdateOperationsInput | string
     assignmentId?: IntFieldUpdateOperationsInput | number
     submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     grade?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -14081,6 +14155,7 @@ export namespace Prisma {
     name: string
     dueDate?: Date | string | null
     points: number
+    published: boolean
   }
 
   export type ClassMembershipUpdateWithoutClassInput = {
@@ -14105,6 +14180,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     points?: IntFieldUpdateOperationsInput | number
+    published?: BoolFieldUpdateOperationsInput | boolean
     submissions?: SubmissionUpdateManyWithoutAssignmentNestedInput
   }
 
@@ -14113,6 +14189,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     points?: IntFieldUpdateOperationsInput | number
+    published?: BoolFieldUpdateOperationsInput | boolean
     submissions?: SubmissionUncheckedUpdateManyWithoutAssignmentNestedInput
   }
 
@@ -14121,10 +14198,12 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     points?: IntFieldUpdateOperationsInput | number
+    published?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type SubmissionCreateManyAssignmentInput = {
     id?: string
+    ref: string
     studentId: string
     submittedAt?: Date | string | null
     grade?: number | null
@@ -14132,6 +14211,7 @@ export namespace Prisma {
 
   export type SubmissionUpdateWithoutAssignmentInput = {
     id?: StringFieldUpdateOperationsInput | string
+    ref?: StringFieldUpdateOperationsInput | string
     submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     grade?: NullableFloatFieldUpdateOperationsInput | number | null
     student?: UserUpdateOneRequiredWithoutSubmissionsNestedInput
@@ -14139,6 +14219,7 @@ export namespace Prisma {
 
   export type SubmissionUncheckedUpdateWithoutAssignmentInput = {
     id?: StringFieldUpdateOperationsInput | string
+    ref?: StringFieldUpdateOperationsInput | string
     studentId?: StringFieldUpdateOperationsInput | string
     submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     grade?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -14146,6 +14227,7 @@ export namespace Prisma {
 
   export type SubmissionUncheckedUpdateManyWithoutAssignmentInput = {
     id?: StringFieldUpdateOperationsInput | string
+    ref?: StringFieldUpdateOperationsInput | string
     studentId?: StringFieldUpdateOperationsInput | string
     submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     grade?: NullableFloatFieldUpdateOperationsInput | number | null

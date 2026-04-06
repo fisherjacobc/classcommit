@@ -188,7 +188,7 @@ export const githubProtectedProcedure = protectedProcedure.use(
 	},
 );
 
-export const classProtectedProcedure = protectedProcedure
+export const classProtectedProcedure = githubProtectedProcedure
 	.input(z.object({ classId: z.number().int().positive() }))
 	.use(async ({ input, ctx, next }) => {
 		const classResult = await ctx.db.class.findUnique({

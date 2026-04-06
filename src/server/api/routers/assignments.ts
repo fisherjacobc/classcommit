@@ -60,10 +60,65 @@ export const assignmentsRouter = createTRPCRouter({
 			}),
 		)
 		.mutation(async ({ input, ctx }) => {
-			return await ctx.db.assignment.create({
+			const newAssignment = await ctx.db.assignment.create({
 				data: {
 					...input,
 					classId: ctx.class.id,
+					published: false,
+				},
+			});
+
+			const [owner, repo] = ctx.class.githubRepo.split("/");
+
+			if (!owner || !repo) {
+				throw new TRPCError({
+					code: "BAD_REQUEST",
+					message: "Invalid GitHub repository format. Expected owner/repo.",
+				});
+			}
+
+			// Create README.md in assignment folder
+			await ctx.github.request(
+				"PUT /repos/{owner}/{repo}/contents/{path}",
+				{
+					owner,
+					repo,
+					path: `assignments/${newAssignment.id}/README.md`,
+					message: `Initialize assignment "${input.name}" README`,
+					content: Buffer.from(
+						`# ${input.name}\nEdit this page on your GitHub repo`,
+					).toString("base64"),
+				},
+			);
+
+			// Create .gitkeep in sourcefiles folder
+			await ctx.github.request(
+				"PUT /repos/{owner}/{repo}/contents/{path}",
+				{
+					owner,
+					repo,
+					path: `assignments/${newAssignment.id}/sourcefiles/.gitkeep`,
+					message: `Initialize sourcefiles directory for assignment "${input.name}"`,
+					content: Buffer.from("").toString("base64"),
+				},
+			);
+
+			return newAssignment;
+		}),
+
+	publishAssignment: assignmentsProtectedProcedure
+		.input(
+			z.object({
+				isPublished: z.boolean(),
+			}),
+		)
+		.mutation(async ({ input, ctx }) => {
+			return await ctx.db.assignment.update({
+				where: {
+					id: input.assignmentId,
+				},
+				data: {
+					published: input.isPublished,
 				},
 			});
 		}),
