@@ -141,6 +141,7 @@ exports.Prisma.ClassMembershipScalarFieldEnum = {
 
 exports.Prisma.ClassScalarFieldEnum = {
   id: 'id',
+  joinCode: 'joinCode',
   name: 'name',
   term: 'term',
   createdAt: 'createdAt',

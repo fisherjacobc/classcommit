@@ -56,6 +56,8 @@ model ClassMembership {
 
 model Class {
     id        Int      @id @default(autoincrement())
+    joinCode  String   @default(nanoid(8))
+
     name      String
     term      String?
     createdAt DateTime @default(now())

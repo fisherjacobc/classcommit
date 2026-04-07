@@ -3946,6 +3946,7 @@ export namespace Prisma {
 
   export type ClassMinAggregateOutputType = {
     id: number | null
+    joinCode: string | null
     name: string | null
     term: string | null
     createdAt: Date | null
@@ -3955,6 +3956,7 @@ export namespace Prisma {
 
   export type ClassMaxAggregateOutputType = {
     id: number | null
+    joinCode: string | null
     name: string | null
     term: string | null
     createdAt: Date | null
@@ -3964,6 +3966,7 @@ export namespace Prisma {
 
   export type ClassCountAggregateOutputType = {
     id: number
+    joinCode: number
     name: number
     term: number
     createdAt: number
@@ -3983,6 +3986,7 @@ export namespace Prisma {
 
   export type ClassMinAggregateInputType = {
     id?: true
+    joinCode?: true
     name?: true
     term?: true
     createdAt?: true
@@ -3992,6 +3996,7 @@ export namespace Prisma {
 
   export type ClassMaxAggregateInputType = {
     id?: true
+    joinCode?: true
     name?: true
     term?: true
     createdAt?: true
@@ -4001,6 +4006,7 @@ export namespace Prisma {
 
   export type ClassCountAggregateInputType = {
     id?: true
+    joinCode?: true
     name?: true
     term?: true
     createdAt?: true
@@ -4097,6 +4103,7 @@ export namespace Prisma {
 
   export type ClassGroupByOutputType = {
     id: number
+    joinCode: string
     name: string
     term: string | null
     createdAt: Date
@@ -4125,6 +4132,7 @@ export namespace Prisma {
 
   export type ClassSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    joinCode?: boolean
     name?: boolean
     term?: boolean
     createdAt?: boolean
@@ -4137,6 +4145,7 @@ export namespace Prisma {
 
   export type ClassSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    joinCode?: boolean
     name?: boolean
     term?: boolean
     createdAt?: boolean
@@ -4146,6 +4155,7 @@ export namespace Prisma {
 
   export type ClassSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    joinCode?: boolean
     name?: boolean
     term?: boolean
     createdAt?: boolean
@@ -4155,6 +4165,7 @@ export namespace Prisma {
 
   export type ClassSelectScalar = {
     id?: boolean
+    joinCode?: boolean
     name?: boolean
     term?: boolean
     createdAt?: boolean
@@ -4162,7 +4173,7 @@ export namespace Prisma {
     githubRepo?: boolean
   }
 
-  export type ClassOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "term" | "createdAt" | "updatedAt" | "githubRepo", ExtArgs["result"]["class"]>
+  export type ClassOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "joinCode" | "name" | "term" | "createdAt" | "updatedAt" | "githubRepo", ExtArgs["result"]["class"]>
   export type ClassInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     members?: boolean | Class$membersArgs<ExtArgs>
     assignments?: boolean | Class$assignmentsArgs<ExtArgs>
@@ -4179,6 +4190,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
+      joinCode: string
       name: string
       term: string | null
       createdAt: Date
@@ -4610,6 +4622,7 @@ export namespace Prisma {
    */
   interface ClassFieldRefs {
     readonly id: FieldRef<"Class", 'Int'>
+    readonly joinCode: FieldRef<"Class", 'String'>
     readonly name: FieldRef<"Class", 'String'>
     readonly term: FieldRef<"Class", 'String'>
     readonly createdAt: FieldRef<"Class", 'DateTime'>
@@ -10636,6 +10649,7 @@ export namespace Prisma {
 
   export const ClassScalarFieldEnum: {
     id: 'id',
+    joinCode: 'joinCode',
     name: 'name',
     term: 'term',
     createdAt: 'createdAt',
@@ -10964,6 +10978,7 @@ export namespace Prisma {
     OR?: ClassWhereInput[]
     NOT?: ClassWhereInput | ClassWhereInput[]
     id?: IntFilter<"Class"> | number
+    joinCode?: StringFilter<"Class"> | string
     name?: StringFilter<"Class"> | string
     term?: StringNullableFilter<"Class"> | string | null
     createdAt?: DateTimeFilter<"Class"> | Date | string
@@ -10975,6 +10990,7 @@ export namespace Prisma {
 
   export type ClassOrderByWithRelationInput = {
     id?: SortOrder
+    joinCode?: SortOrder
     name?: SortOrder
     term?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -10989,6 +11005,7 @@ export namespace Prisma {
     AND?: ClassWhereInput | ClassWhereInput[]
     OR?: ClassWhereInput[]
     NOT?: ClassWhereInput | ClassWhereInput[]
+    joinCode?: StringFilter<"Class"> | string
     name?: StringFilter<"Class"> | string
     term?: StringNullableFilter<"Class"> | string | null
     createdAt?: DateTimeFilter<"Class"> | Date | string
@@ -11000,6 +11017,7 @@ export namespace Prisma {
 
   export type ClassOrderByWithAggregationInput = {
     id?: SortOrder
+    joinCode?: SortOrder
     name?: SortOrder
     term?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -11017,6 +11035,7 @@ export namespace Prisma {
     OR?: ClassScalarWhereWithAggregatesInput[]
     NOT?: ClassScalarWhereWithAggregatesInput | ClassScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Class"> | number
+    joinCode?: StringWithAggregatesFilter<"Class"> | string
     name?: StringWithAggregatesFilter<"Class"> | string
     term?: StringNullableWithAggregatesFilter<"Class"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Class"> | Date | string
@@ -11518,6 +11537,7 @@ export namespace Prisma {
   }
 
   export type ClassCreateInput = {
+    joinCode?: string
     name: string
     term?: string | null
     createdAt?: Date | string
@@ -11529,6 +11549,7 @@ export namespace Prisma {
 
   export type ClassUncheckedCreateInput = {
     id?: number
+    joinCode?: string
     name: string
     term?: string | null
     createdAt?: Date | string
@@ -11539,6 +11560,7 @@ export namespace Prisma {
   }
 
   export type ClassUpdateInput = {
+    joinCode?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     term?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11550,6 +11572,7 @@ export namespace Prisma {
 
   export type ClassUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
+    joinCode?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     term?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11561,6 +11584,7 @@ export namespace Prisma {
 
   export type ClassCreateManyInput = {
     id?: number
+    joinCode?: string
     name: string
     term?: string | null
     createdAt?: Date | string
@@ -11569,6 +11593,7 @@ export namespace Prisma {
   }
 
   export type ClassUpdateManyMutationInput = {
+    joinCode?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     term?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11578,6 +11603,7 @@ export namespace Prisma {
 
   export type ClassUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
+    joinCode?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     term?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12241,6 +12267,7 @@ export namespace Prisma {
 
   export type ClassCountOrderByAggregateInput = {
     id?: SortOrder
+    joinCode?: SortOrder
     name?: SortOrder
     term?: SortOrder
     createdAt?: SortOrder
@@ -12254,6 +12281,7 @@ export namespace Prisma {
 
   export type ClassMaxOrderByAggregateInput = {
     id?: SortOrder
+    joinCode?: SortOrder
     name?: SortOrder
     term?: SortOrder
     createdAt?: SortOrder
@@ -12263,6 +12291,7 @@ export namespace Prisma {
 
   export type ClassMinOrderByAggregateInput = {
     id?: SortOrder
+    joinCode?: SortOrder
     name?: SortOrder
     term?: SortOrder
     createdAt?: SortOrder
@@ -13441,6 +13470,7 @@ export namespace Prisma {
   }
 
   export type ClassCreateWithoutMembersInput = {
+    joinCode?: string
     name: string
     term?: string | null
     createdAt?: Date | string
@@ -13451,6 +13481,7 @@ export namespace Prisma {
 
   export type ClassUncheckedCreateWithoutMembersInput = {
     id?: number
+    joinCode?: string
     name: string
     term?: string | null
     createdAt?: Date | string
@@ -13515,6 +13546,7 @@ export namespace Prisma {
   }
 
   export type ClassUpdateWithoutMembersInput = {
+    joinCode?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     term?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13525,6 +13557,7 @@ export namespace Prisma {
 
   export type ClassUncheckedUpdateWithoutMembersInput = {
     id?: IntFieldUpdateOperationsInput | number
+    joinCode?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     term?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13627,6 +13660,7 @@ export namespace Prisma {
   }
 
   export type ClassCreateWithoutAssignmentsInput = {
+    joinCode?: string
     name: string
     term?: string | null
     createdAt?: Date | string
@@ -13637,6 +13671,7 @@ export namespace Prisma {
 
   export type ClassUncheckedCreateWithoutAssignmentsInput = {
     id?: number
+    joinCode?: string
     name: string
     term?: string | null
     createdAt?: Date | string
@@ -13688,6 +13723,7 @@ export namespace Prisma {
   }
 
   export type ClassUpdateWithoutAssignmentsInput = {
+    joinCode?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     term?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13698,6 +13734,7 @@ export namespace Prisma {
 
   export type ClassUncheckedUpdateWithoutAssignmentsInput = {
     id?: IntFieldUpdateOperationsInput | number
+    joinCode?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     term?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
