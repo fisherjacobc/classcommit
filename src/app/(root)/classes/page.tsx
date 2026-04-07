@@ -47,6 +47,23 @@ export default async function Classes() {
         redirect(`/classes/${res.id}`);
     }
 
+    async function joinClass(formData: FormData) {
+        "use server";
+
+        const joinCode = formData.get('code')?.toString().trim();
+
+        if (joinCode === undefined || joinCode === "") {
+            return redirect("/classes?join-error=Invalid class code");
+        }
+
+        try {
+            const res = await api.classes.joinClass({ joinCode });
+            return redirect(`/classes/${res.id}`);
+        } catch {
+            return redirect("/classes?join-error=Unable to join class");
+        }
+    }
+
     const classes = await api.classes.getClasses();
     const githubRepos = (await api.github.getRepos()).map((r) => r.full_name);
 
@@ -138,7 +155,7 @@ export default async function Classes() {
                             </CardContent>
                             <CardFooter>
                                 <Dialog>
-                                    <form className="w-full">
+                                    <form action={joinClass} className="w-full">
                                         <DialogTrigger asChild>
                                             <Button variant="outline" className="w-full">
                                                 Join a Class

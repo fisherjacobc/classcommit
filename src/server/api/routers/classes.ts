@@ -59,6 +59,53 @@ export const classesRouter = createTRPCRouter({
 		});
 	}),
 
+	joinClass: protectedProcedure
+		.input(
+			z.object({
+				joinCode: z.string().trim().min(1, "Join code is required."),
+			}),
+		)
+		.mutation(async ({ input, ctx }) => {
+			const classToJoin = await ctx.db.class.findFirst({
+				where: {
+					joinCode: input.joinCode,
+				},
+			});
+
+			if (!classToJoin) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message: "Invalid class join code.",
+				});
+			}
+
+			const existingMembership = await ctx.db.classMembership.findUnique({
+				where: {
+					userId_classId: {
+						userId: ctx.session.user.id,
+						classId: classToJoin.id,
+					},
+				},
+			});
+
+			if (existingMembership) {
+				throw new TRPCError({
+					code: "CONFLICT",
+					message: "You are already a member of this class.",
+				});
+			}
+
+			await ctx.db.classMembership.create({
+				data: {
+					userId: ctx.session.user.id,
+					classId: classToJoin.id,
+					role: "STUDENT",
+				},
+			});
+
+			return classToJoin;
+		}),
+
 	createClass: githubProtectedProcedure
 		.input(
 			z.object({
