@@ -1,5 +1,6 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
+import { env } from "~/env";
 
 import {
 	classProtectedProcedure,
@@ -44,10 +45,12 @@ export const classesRouter = createTRPCRouter({
 		);
 
 		const content = response.data;
-		if (typeof content === "object" && "content" in content && content.content) {
-			return Buffer.from(content.content as string, "base64").toString(
-				"utf-8",
-			);
+		if (
+			typeof content === "object" &&
+			"content" in content &&
+			content.content
+		) {
+			return Buffer.from(content.content as string, "base64").toString("utf-8");
 		}
 
 		throw new TRPCError({
@@ -99,18 +102,28 @@ export const classesRouter = createTRPCRouter({
 				},
 			});
 
-			await ctx.github.request(
-				"PUT /repos/{owner}/{repo}/contents/{path}",
-				{
-					owner,
-					repo,
-					path: "README.md",
-					message: "Initialize class README",
-					content: Buffer.from(
-						`# ${input.className}\nEdit this page on your GitHub repo`,
-					).toString("base64"),
+			const file = await ctx.github.rest.repos.getContent({
+				owner: owner,
+				repo: repo,
+				path: "README.md",
+			});
+			//@ts-expect-error sha may not be returned, but that's OK if the file doesn't exist
+			const { sha } = file.data;
+
+			await ctx.github.request("PUT /repos/{owner}/{repo}/contents/{path}", {
+				owner,
+				repo,
+				path: "README.md",
+				message: "Initialize class README",
+				content: Buffer.from(
+					`# ${input.className}\nEdit this page on your GitHub repo`,
+				).toString("base64"),
+				sha,
+				committer: {
+					name: env.GITHUB_APP_NAME,
+					email: `${env.GITHUB_APP_ID}+${env.GITHUB_APP_NAME}@users.noreply.github.com`,
 				},
-			);
+			});
 
 			return newClass;
 		}),
