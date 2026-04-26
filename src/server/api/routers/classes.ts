@@ -149,13 +149,20 @@ export const classesRouter = createTRPCRouter({
 				},
 			});
 
-			const file = await ctx.github.rest.repos.getContent({
-				owner: owner,
-				repo: repo,
-				path: "README.md",
-			});
-			//@ts-expect-error sha may not be returned, but that's OK if the file doesn't exist
-			const { sha } = file.data;
+			let sha: string | undefined;
+			try {
+				const file = await ctx.github.rest.repos.getContent({
+					owner: owner,
+					repo: repo,
+					path: "README.md",
+				});
+
+				if (!Array.isArray(file.data) && typeof file.data.sha === "string") {
+					sha = file.data.sha;
+				}
+			} catch {
+				// Missing file is expected on first write; continue without sha.
+			}
 
 			await ctx.github.request("PUT /repos/{owner}/{repo}/contents/{path}", {
 				owner,
@@ -165,7 +172,7 @@ export const classesRouter = createTRPCRouter({
 				content: Buffer.from(
 					`# ${input.className}\nEdit this page on your GitHub repo`,
 				).toString("base64"),
-				sha,
+				...(sha ? { sha } : {}),
 				committer: {
 					name: env.GITHUB_APP_NAME,
 					email: `${env.GITHUB_APP_ID}+${env.GITHUB_APP_NAME}@users.noreply.github.com`,

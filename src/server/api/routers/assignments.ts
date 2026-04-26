@@ -78,19 +78,50 @@ export const assignmentsRouter = createTRPCRouter({
 				});
 			}
 
+			const getFileSha = async (path: string) => {
+				try {
+					const existingFile = await ctx.github.request(
+						"GET /repos/{owner}/{repo}/contents/{path}",
+						{
+							owner,
+							repo,
+							path,
+						},
+					);
+
+					if (
+						!Array.isArray(existingFile.data) &&
+						typeof existingFile.data.sha === "string"
+					) {
+						return existingFile.data.sha;
+					}
+				} catch {
+					// Missing file is expected on first write; continue without sha.
+				}
+
+				return undefined;
+			};
+
+			const readmePath = `assignments/${newAssignment.id}/README.md`;
+			const readmeSha = await getFileSha(readmePath);
+
 			// Create README.md in assignment folder
 			await ctx.github.request(
 				"PUT /repos/{owner}/{repo}/contents/{path}",
 				{
 					owner,
 					repo,
-					path: `assignments/${newAssignment.id}/README.md`,
+					path: readmePath,
 					message: `Initialize assignment "${input.name}" README`,
 					content: Buffer.from(
 						`# ${input.name}\nEdit this page on your GitHub repo`,
 					).toString("base64"),
+					...(readmeSha ? { sha: readmeSha } : {}),
 				},
 			);
+
+			const gitkeepPath = `assignments/${newAssignment.id}/sourcefiles/.gitkeep`;
+			const gitkeepSha = await getFileSha(gitkeepPath);
 
 			// Create .gitkeep in sourcefiles folder
 			await ctx.github.request(
@@ -98,9 +129,10 @@ export const assignmentsRouter = createTRPCRouter({
 				{
 					owner,
 					repo,
-					path: `assignments/${newAssignment.id}/sourcefiles/.gitkeep`,
+					path: gitkeepPath,
 					message: `Initialize sourcefiles directory for assignment "${input.name}"`,
 					content: Buffer.from("").toString("base64"),
+					...(gitkeepSha ? { sha: gitkeepSha } : {}),
 				},
 			);
 
