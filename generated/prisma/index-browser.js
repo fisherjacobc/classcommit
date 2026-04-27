@@ -149,13 +149,37 @@ exports.Prisma.ClassScalarFieldEnum = {
   githubRepo: 'githubRepo'
 };
 
+exports.Prisma.GroupScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  classId: 'classId'
+};
+
+exports.Prisma.GroupMemberScalarFieldEnum = {
+  id: 'id',
+  assignedAt: 'assignedAt',
+  groupId: 'groupId',
+  classId: 'classId',
+  studentId: 'studentId'
+};
+
 exports.Prisma.AssignmentScalarFieldEnum = {
   id: 'id',
   classId: 'classId',
   name: 'name',
   dueDate: 'dueDate',
   points: 'points',
-  published: 'published'
+  published: 'published',
+  submissionMode: 'submissionMode'
+};
+
+exports.Prisma.AssignmentGroupScalarFieldEnum = {
+  id: 'id',
+  assignedAt: 'assignedAt',
+  assignmentId: 'assignmentId',
+  groupId: 'groupId'
 };
 
 exports.Prisma.SubmissionScalarFieldEnum = {
@@ -163,6 +187,15 @@ exports.Prisma.SubmissionScalarFieldEnum = {
   ref: 'ref',
   assignmentId: 'assignmentId',
   studentId: 'studentId',
+  submittedAt: 'submittedAt',
+  grade: 'grade'
+};
+
+exports.Prisma.GroupSubmissionScalarFieldEnum = {
+  id: 'id',
+  ref: 'ref',
+  assignmentId: 'assignmentId',
+  groupId: 'groupId',
   submittedAt: 'submittedAt',
   grade: 'grade'
 };
@@ -223,12 +256,21 @@ exports.ClassRole = exports.$Enums.ClassRole = {
   STUDENT: 'STUDENT'
 };
 
+exports.AssignmentSubmissionMode = exports.$Enums.AssignmentSubmissionMode = {
+  INDIVIDUAL: 'INDIVIDUAL',
+  GROUP: 'GROUP'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   ClassMembership: 'ClassMembership',
   Class: 'Class',
+  Group: 'Group',
+  GroupMember: 'GroupMember',
   Assignment: 'Assignment',
+  AssignmentGroup: 'AssignmentGroup',
   Submission: 'Submission',
+  GroupSubmission: 'GroupSubmission',
   Session: 'Session',
   Account: 'Account',
   Verification: 'Verification'
