@@ -149,23 +149,41 @@ export default async function Classes() {
                 <section>
                     <span className="border-b pb-2 font-semibold text-4xl tracking-tight first:mt-0">Enrolled</span>
                     <div className="mt-8 grid grid-cols-1 gap-4 rounded-md border p-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+                        {classes.filter(c => c.role === "STUDENT").map(({ class: studentClasses }) => {
+                            return <Card key={studentClasses.id} className="mx-auto aspect-video w-full max-w-sm justify-center">
+                                <CardHeader>
+                                    <CardTitle>{studentClasses.name}</CardTitle>
+                                    <CardDescription>
+                                        {studentClasses.term}
+                                    </CardDescription>
+                                </CardHeader>
+                                {/* <CardContent className="mx-auto">
+                                    {studentClasses.githubRepo ? <Link href={`https://github.com/${studentClasses.githubRepo}`} className="flex gap-x-0.5 hover:underline">{studentClasses.githubRepo} <ExternalLink className="size-4" /></Link> : "No Repository"}
+                                </CardContent> */}
+                                <CardFooter>
+                                    <Button variant="link" className="w-full hover:cursor-pointer">
+                                        <Link href={`/classes/${studentClasses.id}`}>Open</Link>
+                                    </Button>
+                                </CardFooter>
+                            </Card>
+                        })}
                         <Card className="mx-auto aspect-video w-full max-w-sm justify-center border-2 border-dashed ring-0">
                             <CardContent className="mx-auto">
                                 <Plus className="size-12" />
                             </CardContent>
                             <CardFooter>
                                 <Dialog>
-                                    <form action={joinClass} className="w-full">
-                                        <DialogTrigger asChild>
-                                            <Button variant="outline" className="w-full">
-                                                Join a Class
-                                            </Button>
-                                        </DialogTrigger>
-                                        <DialogContent className="sm:max-w-sm">
+                                    <DialogTrigger asChild>
+                                        <Button variant="outline" className="w-full">
+                                            Join a Class
+                                        </Button>
+                                    </DialogTrigger>
+                                    <DialogContent className="sm:max-w-sm">
+                                        <form action={joinClass} className="gap-6">
                                             <DialogHeader>
                                                 <DialogTitle>Join a Class</DialogTitle>
                                             </DialogHeader>
-                                            <FieldGroup>
+                                            <FieldGroup className="my-4">
                                                 <Field>
                                                     <Label htmlFor="code-1" className="gap-x-0">Class Code<Asterisk className="-mt-2 size-3.5 pl-0 text-red-500" /></Label>
                                                     <Input id="code-1" name="code" placeholder="XXXXXX" required />
@@ -177,8 +195,8 @@ export default async function Classes() {
                                                 </DialogClose>
                                                 <Button type="submit">Join</Button>
                                             </DialogFooter>
-                                        </DialogContent>
-                                    </form>
+                                        </form>
+                                    </DialogContent>
                                 </Dialog>
                             </CardFooter>
                         </Card>

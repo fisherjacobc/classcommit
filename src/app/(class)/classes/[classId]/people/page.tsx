@@ -5,15 +5,14 @@ export default async function ClassPeoplePage({
 }: { params: Promise<{ classId: string }> }) {
     const { classId } = await params;
     const data = await api.classes.getMembers({ classId: Number.parseInt(classId, 10) });
-    const classData = await api.classes.getClass({ classId: Number.parseInt(classId, 10) });
 
     const teachers = data.filter((person) => person.role !== "STUDENT");
     const students = data.filter((person) => person.role === "STUDENT");
 
     return (
         <HydrateClient>
-            <main className="mx-4 w-full max-w-3xl p-6">
-                <span className="pb-8 font-bold text-4xl">{classData.name}</span>
+            <main className="mx-4 flex flex-col gap-y-4">
+                <span className="font-bold text-4xl">People</span>
                 <div className="space-y-6">
                     <section>
                         <h2 className="mb-3 font-semibold text-2xl">

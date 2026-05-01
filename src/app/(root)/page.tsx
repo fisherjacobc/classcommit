@@ -1,101 +1,63 @@
 
 import Link from "next/link";
-// import { redirect } from "next/navigation";
-
-// import { LatestPost } from "~/app/_components/post";
-// import { auth } from "~/server/better-auth";
-// import { getSession } from "~/server/better-auth/server";
 import { HydrateClient } from "~/trpc/server";
 
 export default async function Home() {
-	// const hello = await api.post.hello({ text: "from tRPC" });
-	// const session = await getSession();
-
-	// if (session) {
-	// 	void api.post.getLatest.prefetch();
-	// }
-
 	return (
 		<HydrateClient>
-			<main className="flex min-h-screen flex-col items-center justify-center bg-linear-to-b from-[#2e026d] to-[#15162c] text-white">
-				<div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
-					<h1 className="font-extrabold text-5xl tracking-tight sm:text-[5rem]">
-						Create <span className="text-[hsl(280,100%,70%)]">T3</span> App
-					</h1>
-					<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
+			<main className="flex min-h-screen flex-col items-center justify-center bg-linear-to-b from-[#1f2a44] to-[#0f172a] text-white">
+				<div className="container mx-auto flex max-w-5xl flex-col items-center gap-y-10 px-6 py-20">
+					<div className="text-center">
+						<p className="mb-4 inline-flex rounded-full bg-white/10 px-4 py-1 font-medium text-blue-200 text-sm">
+							Built for programming classrooms
+						</p>
+						<h1 className="font-extrabold text-5xl tracking-tight sm:text-6xl">
+							Class<span className="text-[hsl(214,100%,70%)]">Commit</span>
+						</h1>
+						<p className="mx-auto mt-5 max-w-2xl text-lg text-slate-200">
+							A web platform that helps students write code, track progress with GitHub,
+							and get faster, clearer feedback from teachers.
+						</p>
+					</div>
+
+					<div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2">
+						<div className="rounded-md bg-white/10 p-6 backdrop-blur-sm">
+							<h2 className="mb-4 font-semibold text-2xl">What students can do</h2>
+							<ul className="list-disc space-y-2 pl-5 text-slate-100">
+								<li>Sign in with GitHub and join classes with a class code</li>
+								<li>Work in a built-in code editor with local auto-save</li>
+								<li>Submit assignment work through GitHub pull requests</li>
+								<li>Participate in peer reviews when enabled</li>
+							</ul>
+						</div>
+
+						<div className="rounded-md bg-white/10 p-6 backdrop-blur-sm">
+							<h2 className="mb-4 font-semibold text-2xl">What teachers can do</h2>
+							<ul className="list-disc space-y-2 pl-5 text-slate-100">
+								<li>Create classes, assignments, docs, and starter code</li>
+								<li>Review code inline and leave rubric-based feedback</li>
+								<li>Track commits, contribution history, and assignment progress</li>
+								<li>Support both individual and group assignments</li>
+							</ul>
+						</div>
+					</div>
+
+					<div className="flex flex-wrap items-center justify-center gap-4">
 						<Link
-							className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 hover:bg-white/20"
-							href="https://create.t3.gg/en/usage/first-steps"
+							className="rounded-full bg-white px-6 py-3 font-semibold text-slate-900 transition hover:bg-slate-200"
+							href="https://github.com/fisherjacobc/classcommit"
 							target="_blank"
 						>
-							<h3 className="font-bold text-2xl">First Steps →</h3>
-							<div className="text-lg">
-								Just the basics - Everything you need to know to set up your
-								database and authentication.
-							</div>
+							View on GitHub
 						</Link>
 						<Link
-							className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 hover:bg-white/20"
-							href="https://create.t3.gg/en/introduction"
+							className="rounded-full bg-white/10 px-6 py-3 font-semibold text-white transition hover:bg-white/20"
+							href="https://github.com/fisherjacobc/classcommit#readme"
 							target="_blank"
 						>
-							<h3 className="font-bold text-2xl">Documentation →</h3>
-							<div className="text-lg">
-								Learn more about Create T3 App, the libraries it uses, and how
-								to deploy it.
-							</div>
+							Read Project Proposal
 						</Link>
 					</div>
-					{/* <div className="flex flex-col items-center gap-2">
-						<p className="text-2xl text-white">
-							{hello ? hello.greeting : "Loading tRPC query..."}
-						</p>
-
-						<div className="flex flex-col items-center justify-center gap-4">
-							<p className="text-center text-2xl text-white">
-								{session && <span>Logged in as {session.user?.name}</span>}
-							</p>
-							{!session ? (
-								<form>
-									<button
-										className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20"
-										formAction={async () => {
-											"use server";
-											const res = await auth.api.signInSocial({
-												body: {
-													provider: "github",
-													callbackURL: "/",
-												},
-											});
-											if (!res.url) {
-												throw new Error("No URL returned from signInSocial");
-											}
-											redirect(res.url);
-										}}
-									>
-										Sign in with Github
-									</button>
-								</form>
-							) : (
-								<form>
-									<button
-										className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20"
-										formAction={async () => {
-											"use server";
-											await auth.api.signOut({
-												headers: await headers(),
-											});
-											redirect("/");
-										}}
-									>
-										Sign out
-									</button>
-								</form>
-							)}
-						</div>
-					</div> */}
-
-					{/* {session?.user && <LatestPost />} */}
 				</div>
 			</main>
 		</HydrateClient>
