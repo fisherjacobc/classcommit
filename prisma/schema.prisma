@@ -57,7 +57,7 @@ model ClassMembership {
 
 model Class {
     id        Int      @id @default(autoincrement())
-    joinCode  String   @default(nanoid(8))
+    joinCode  String   @default(dbgenerated("nanoid_alphanumeric()"))
 
     name      String
     term      String?
