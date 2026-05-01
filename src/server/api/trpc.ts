@@ -216,10 +216,52 @@ export const classProtectedProcedure = githubProtectedProcedure
 			});
 		}
 
+		const ownerMembership = await ctx.db.classMembership.findFirst({
+			where: {
+				classId: input.classId,
+				role: "OWNER",
+			},
+		});
+
+		if (!ownerMembership) {
+			throw new TRPCError({
+				code: "INTERNAL_SERVER_ERROR",
+				message: "Class has no owner",
+			});
+		}
+
+		const githubAccount = await ctx.db.account.findFirst({
+			where: {
+				providerId: "github",
+				userId: ownerMembership.userId,
+			},
+		});
+
+		if (!githubAccount) {
+			throw new TRPCError({ code: "UNAUTHORIZED" });
+		}
+
+		const octokitWithPlugin = Octokit.plugin(CreateOrUpdateFiles);
+
+		const octokit = new octokitWithPlugin({
+			authStrategy: createOAuthUserAuth,
+			auth: {
+				// clientType: githubAccount.type,
+				clientId: env.BETTER_AUTH_GITHUB_CLIENT_ID,
+				clientSecret: env.BETTER_AUTH_GITHUB_CLIENT_SECRET,
+				token: githubAccount.accessToken,
+				scopes: "read:user user:email repo",
+				refreshToken: githubAccount.refreshToken,
+				expiresAt: githubAccount.accessTokenExpiresAt,
+				refreshTokenExpiresAt: githubAccount.refreshTokenExpiresAt,
+			},
+		});
+
 		return next({
 			ctx: {
 				class: classResult,
 				membership: membership,
+				classOwnerGithub: octokit,
 			},
 		});
 	});

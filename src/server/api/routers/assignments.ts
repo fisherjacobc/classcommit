@@ -147,7 +147,7 @@ export const assignmentsRouter = createTRPCRouter({
 				});
 			}
 
-			const branchResponse = await ctx.github.request(
+			const branchResponse = await ctx.classOwnerGithub.request(
 				"GET /repos/{owner}/{repo}/branches/{branch}",
 				{
 					owner,
@@ -156,7 +156,7 @@ export const assignmentsRouter = createTRPCRouter({
 				},
 			);
 
-			const treeResponse = await ctx.github.request(
+			const treeResponse = await ctx.classOwnerGithub.request(
 				"GET /repos/{owner}/{repo}/git/trees/{tree_sha}",
 				{
 					owner,
@@ -178,7 +178,7 @@ export const assignmentsRouter = createTRPCRouter({
 
 			const files = await Promise.all(
 				submissionPaths.map(async (path) => {
-					const fileResponse = await ctx.github.request(
+					const fileResponse = await ctx.classOwnerGithub.request(
 						"GET /repos/{owner}/{repo}/contents/{path}",
 						{
 							owner,
@@ -288,7 +288,7 @@ export const assignmentsRouter = createTRPCRouter({
 				});
 			}
 
-			const branchResponse = await ctx.github.request(
+			const branchResponse = await ctx.classOwnerGithub.request(
 				"GET /repos/{owner}/{repo}/branches/{branch}",
 				{
 					owner,
@@ -297,7 +297,7 @@ export const assignmentsRouter = createTRPCRouter({
 				},
 			);
 
-			const treeResponse = await ctx.github.request(
+			const treeResponse = await ctx.classOwnerGithub.request(
 				"GET /repos/{owner}/{repo}/git/trees/{tree_sha}",
 				{
 					owner,
@@ -346,7 +346,8 @@ export const assignmentsRouter = createTRPCRouter({
 				};
 			});
 
-			const studentGitHubProfile = await ctx.github.request("GET /user");
+			const studentGitHubProfile =
+				await ctx.classOwnerGithub.request("GET /user");
 			const authorLogin = studentGitHubProfile.data.login;
 			const authorName =
 				studentGitHubProfile.data.name ?? authorLogin ?? ctx.session.user.name;
@@ -363,7 +364,7 @@ export const assignmentsRouter = createTRPCRouter({
 				]),
 			);
 
-			const commitResult = await ctx.github.createOrUpdateFiles({
+			const commitResult = await ctx.classOwnerGithub.createOrUpdateFiles({
 				owner,
 				repo,
 				branch: repoInfo.default_branch,
@@ -648,7 +649,7 @@ export const assignmentsRouter = createTRPCRouter({
 			const rubricPath = `assignments/${input.assignmentId}/rubric.json`;
 
 			try {
-				const response = await ctx.github.request(
+				const response = await ctx.classOwnerGithub.request(
 					"GET /repos/{owner}/{repo}/contents/{path}",
 					{
 						owner,
@@ -737,7 +738,7 @@ export const assignmentsRouter = createTRPCRouter({
 
 			let sha: string | undefined;
 			try {
-				const existingRubric = await ctx.github.request(
+				const existingRubric = await ctx.classOwnerGithub.request(
 					"GET /repos/{owner}/{repo}/contents/{path}",
 					{
 						owner,
@@ -764,7 +765,7 @@ export const assignmentsRouter = createTRPCRouter({
 				updatedAt: new Date().toISOString(),
 			};
 
-			const result = await ctx.github.request(
+			const result = await ctx.classOwnerGithub.request(
 				"PUT /repos/{owner}/{repo}/contents/{path}",
 				{
 					owner,
@@ -809,7 +810,7 @@ export const assignmentsRouter = createTRPCRouter({
 
 			const getFileSha = async (path: string) => {
 				try {
-					const existingFile = await ctx.github.request(
+					const existingFile = await ctx.classOwnerGithub.request(
 						"GET /repos/{owner}/{repo}/contents/{path}",
 						{
 							owner,
@@ -835,37 +836,43 @@ export const assignmentsRouter = createTRPCRouter({
 			const readmeSha = await getFileSha(readmePath);
 
 			// Create README.md in assignment folder
-			await ctx.github.request("PUT /repos/{owner}/{repo}/contents/{path}", {
-				owner,
-				repo,
-				path: readmePath,
-				message: `Initialize assignment "${input.name}" README`,
-				content: Buffer.from("Edit this page on your GitHub repo").toString(
-					"base64",
-				),
-				committer: {
-					name: env.GITHUB_APP_NAME,
-					email: `${env.GITHUB_APP_ID}+${env.GITHUB_APP_NAME}@users.noreply.github.com`,
+			await ctx.classOwnerGithub.request(
+				"PUT /repos/{owner}/{repo}/contents/{path}",
+				{
+					owner,
+					repo,
+					path: readmePath,
+					message: `Initialize assignment "${input.name}" README`,
+					content: Buffer.from("Edit this page on your GitHub repo").toString(
+						"base64",
+					),
+					committer: {
+						name: env.GITHUB_APP_NAME,
+						email: `${env.GITHUB_APP_ID}+${env.GITHUB_APP_NAME}@users.noreply.github.com`,
+					},
+					...(readmeSha ? { sha: readmeSha } : {}),
 				},
-				...(readmeSha ? { sha: readmeSha } : {}),
-			});
+			);
 
 			const gitkeepPath = `assignments/${newAssignment.id}/sourcefiles/.gitkeep`;
 			const gitkeepSha = await getFileSha(gitkeepPath);
 
 			// Create .gitkeep in sourcefiles folder
-			await ctx.github.request("PUT /repos/{owner}/{repo}/contents/{path}", {
-				owner,
-				repo,
-				path: gitkeepPath,
-				message: `Initialize sourcefiles directory for assignment "${input.name}"`,
-				content: Buffer.from("").toString("base64"),
-				committer: {
-					name: env.GITHUB_APP_NAME,
-					email: `${env.GITHUB_APP_ID}+${env.GITHUB_APP_NAME}@users.noreply.github.com`,
+			await ctx.classOwnerGithub.request(
+				"PUT /repos/{owner}/{repo}/contents/{path}",
+				{
+					owner,
+					repo,
+					path: gitkeepPath,
+					message: `Initialize sourcefiles directory for assignment "${input.name}"`,
+					content: Buffer.from("").toString("base64"),
+					committer: {
+						name: env.GITHUB_APP_NAME,
+						email: `${env.GITHUB_APP_ID}+${env.GITHUB_APP_NAME}@users.noreply.github.com`,
+					},
+					...(gitkeepSha ? { sha: gitkeepSha } : {}),
 				},
-				...(gitkeepSha ? { sha: gitkeepSha } : {}),
-			});
+			);
 
 			return newAssignment;
 		}),
@@ -880,7 +887,7 @@ export const assignmentsRouter = createTRPCRouter({
 			});
 		}
 
-		const response = await ctx.github.request(
+		const response = await ctx.classOwnerGithub.request(
 			"GET /repos/{owner}/{repo}/contents/{path}",
 			{
 				owner,
@@ -1004,7 +1011,7 @@ export const assignmentsRouter = createTRPCRouter({
 				});
 			}
 
-			const branchResponse = await ctx.github.request(
+			const branchResponse = await ctx.classOwnerGithub.request(
 				"GET /repos/{owner}/{repo}/branches/{branch}",
 				{
 					owner,
@@ -1013,7 +1020,7 @@ export const assignmentsRouter = createTRPCRouter({
 				},
 			);
 
-			const treeResponse = await ctx.github.request(
+			const treeResponse = await ctx.classOwnerGithub.request(
 				"GET /repos/{owner}/{repo}/git/trees/{tree_sha}",
 				{
 					owner,
@@ -1035,7 +1042,7 @@ export const assignmentsRouter = createTRPCRouter({
 
 			const sourceFileContents = await Promise.all(
 				sourceFiles.map(async (path) => {
-					const contentResponse = await ctx.github.request(
+					const contentResponse = await ctx.classOwnerGithub.request(
 						"GET /repos/{owner}/{repo}/contents/{path}",
 						{
 							owner,
@@ -1076,7 +1083,7 @@ export const assignmentsRouter = createTRPCRouter({
 				};
 			});
 
-			const commitResult = await ctx.github.createOrUpdateFiles({
+			const commitResult = await ctx.classOwnerGithub.createOrUpdateFiles({
 				owner,
 				repo,
 				branch: repoInfo.default_branch,
