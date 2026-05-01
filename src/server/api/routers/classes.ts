@@ -181,4 +181,15 @@ export const classesRouter = createTRPCRouter({
 
 			return newClass;
 		}),
+
+	getMembers: classProtectedProcedure.query(async ({ ctx }) => {
+		const memberships = await ctx.db.classMembership.findMany({
+			where: { classId: ctx.class.id },
+			include: {
+				user: true,
+			},
+		});
+
+		return memberships;
+	}),
 });
