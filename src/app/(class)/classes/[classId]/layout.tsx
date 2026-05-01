@@ -5,7 +5,7 @@ import { api } from "~/trpc/server";
 import ClassSidebar from "./sidebar";
 import "~/styles/globals.css";
 
-import type { Class } from "generated/prisma";
+import type { Assignment, Class } from "generated/prisma";
 import { Geist } from "next/font/google";
 import { ThemeProvider } from "~/components/theme-provider";
 import { Separator } from "~/components/ui/separator";
@@ -19,7 +19,7 @@ const geist = Geist({
     variable: "--font-geist-sans",
 });
 
-function Header({ classData }: { classData: Class }) {
+function Header({ classData, assignmentData }: { classData: Class; assignmentData?: Assignment }) {
     return (
         <header className="flex shrink-0 items-center gap-2 border-b p-2 transition-[width,height] ease-linear">
             <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
@@ -28,7 +28,7 @@ function Header({ classData }: { classData: Class }) {
                     orientation="vertical"
                     className="mx-2 data-[orientation=vertical]:h-4"
                 />
-                <Breadcrumbs classData={classData} />
+                <Breadcrumbs classData={classData} assignmentData={assignmentData} />
             </div>
         </header>
     )
@@ -37,13 +37,14 @@ function Header({ classData }: { classData: Class }) {
 export default async function RootLayout({
     children,
     params
-}: Readonly<{ children: React.ReactNode, params: Promise<{ classId: string }> }>) {
+}: Readonly<{ children: React.ReactNode, params: Promise<{ classId: string, assignmentId: string }> }>) {
     const session = await getSession();
 
     if (!session)
         unauthorized();
 
     const classId = Number.parseInt((await params).classId, 10)
+    const assignmentId = Number.parseInt((await params).assignmentId, 10)
 
     await api.classes.getClass.prefetch({ classId });
     await api.assignments.getAssignments.prefetch({ classId });
@@ -55,6 +56,12 @@ export default async function RootLayout({
     } catch {
         unauthorized();
     }
+
+    let assignmentData: Assignment | undefined;
+
+    try {
+        assignmentData = await api.assignments.getAssignment({ classId, assignmentId });
+    } catch { }
 
     const assignmentsData = await api.assignments.getAssignments({ classId })
 
@@ -71,7 +78,7 @@ export default async function RootLayout({
                             <SidebarProvider>
                                 <ClassSidebar session={session} classData={classData} assignmentsData={assignmentsData} />
                                 <SidebarInset className="gap-y-4">
-                                    <Header classData={classData} />
+                                    <Header classData={classData} assignmentData={assignmentData} />
                                     {children}
                                 </SidebarInset>
                             </SidebarProvider>

@@ -1,5 +1,5 @@
-import { TRPCError } from "@trpc/server";
 import { randomUUID } from "node:crypto";
+import { TRPCError } from "@trpc/server";
 import z from "zod";
 import { env } from "~/env";
 import {
@@ -774,6 +774,10 @@ export const assignmentsRouter = createTRPCRouter({
 					content: Buffer.from(JSON.stringify(rubricPayload, null, 2)).toString(
 						"base64",
 					),
+					committer: {
+						name: env.GITHUB_APP_NAME,
+						email: `${env.GITHUB_APP_ID}+${env.GITHUB_APP_NAME}@users.noreply.github.com`,
+					},
 					...(sha ? { sha } : {}),
 				},
 			);
@@ -836,9 +840,13 @@ export const assignmentsRouter = createTRPCRouter({
 				repo,
 				path: readmePath,
 				message: `Initialize assignment "${input.name}" README`,
-				content: Buffer.from(
-					`# ${input.name}\nEdit this page on your GitHub repo`,
-				).toString("base64"),
+				content: Buffer.from("Edit this page on your GitHub repo").toString(
+					"base64",
+				),
+				committer: {
+					name: env.GITHUB_APP_NAME,
+					email: `${env.GITHUB_APP_ID}+${env.GITHUB_APP_NAME}@users.noreply.github.com`,
+				},
 				...(readmeSha ? { sha: readmeSha } : {}),
 			});
 
@@ -852,6 +860,10 @@ export const assignmentsRouter = createTRPCRouter({
 				path: gitkeepPath,
 				message: `Initialize sourcefiles directory for assignment "${input.name}"`,
 				content: Buffer.from("").toString("base64"),
+				committer: {
+					name: env.GITHUB_APP_NAME,
+					email: `${env.GITHUB_APP_ID}+${env.GITHUB_APP_NAME}@users.noreply.github.com`,
+				},
 				...(gitkeepSha ? { sha: gitkeepSha } : {}),
 			});
 
@@ -892,21 +904,9 @@ export const assignmentsRouter = createTRPCRouter({
 		});
 	}),
 
-	publishAssignment: assignmentsProtectedProcedure
-		.input(
-			z.object({
-				isPublished: z.boolean(),
-			}),
-		)
-		.mutation(async ({ input, ctx }) => {
+	publishAssignment: assignmentsProtectedProcedure.mutation(
+		async ({ input, ctx }) => {
 			ensureTeacherRole(ctx.membership.role);
-
-			if (!input.isPublished) {
-				throw new TRPCError({
-					code: "BAD_REQUEST",
-					message: "Assignments cannot be unpublished.",
-				});
-			}
 
 			const assignment = await ctx.db.assignment.findUnique({
 				where: {
@@ -1066,10 +1066,12 @@ export const assignmentsRouter = createTRPCRouter({
 				return {
 					message: `Create submission for ${studentMember?.user.handle ?? studentMember?.user.name ?? submission.studentId}`,
 					files: Object.fromEntries(
-						sourceFileContents.map(({ relativePath, content }) => [
-							`assignments/${input.assignmentId}/submissions/${submission.id}/${relativePath}`,
-							content,
-						]),
+						sourceFileContents
+							.filter(({ content }) => content.length > 0)
+							.map(({ relativePath, content }) => [
+								`assignments/${input.assignmentId}/submissions/${submission.id}/${relativePath}`,
+								content,
+							]),
 					),
 				};
 			});
@@ -1080,6 +1082,10 @@ export const assignmentsRouter = createTRPCRouter({
 				branch: repoInfo.default_branch,
 				createBranch: false,
 				changes: submissionFiles,
+				committer: {
+					name: env.GITHUB_APP_NAME,
+					email: `${env.GITHUB_APP_ID}+${env.GITHUB_APP_NAME}@users.noreply.github.com`,
+				},
 			});
 
 			if (commitResult.commits.length !== submissions.length) {
@@ -1110,5 +1116,6 @@ export const assignmentsRouter = createTRPCRouter({
 					published: true,
 				},
 			});
-		}),
+		},
+	),
 });

@@ -192,4 +192,24 @@ export const classesRouter = createTRPCRouter({
 
 		return memberships;
 	}),
+
+	getMembership: classProtectedProcedure.query(async ({ ctx }) => {
+		const membership = await ctx.db.classMembership.findUnique({
+			where: {
+				userId_classId: {
+					userId: ctx.session.user.id,
+					classId: ctx.class.id,
+				},
+			},
+		});
+
+		if (!membership) {
+			throw new TRPCError({
+				code: "NOT_FOUND",
+				message: "Membership not found for user in this class.",
+			});
+		}
+
+		return membership;
+	}),
 });
