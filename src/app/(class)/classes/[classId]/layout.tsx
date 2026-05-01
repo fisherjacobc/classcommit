@@ -48,7 +48,14 @@ export default async function RootLayout({
     await api.classes.getClass.prefetch({ classId });
     await api.assignments.getAssignments.prefetch({ classId });
 
-    const classData = await api.classes.getClass({ classId });
+    let classData: Class;
+
+    try {
+        classData = await api.classes.getClass({ classId });
+    } catch {
+        unauthorized();
+    }
+
     const assignmentsData = await api.assignments.getAssignments({ classId })
 
     return (

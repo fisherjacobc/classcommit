@@ -84,134 +84,136 @@ export const assignmentsRouter = createTRPCRouter({
 		return assignment;
 	}),
 
-	getMyAssignmentFiles: assignmentsProtectedProcedure.query(async ({ input, ctx }) => {
-		ensureStudentRole(ctx.membership.role);
+	getMyAssignmentFiles: assignmentsProtectedProcedure.query(
+		async ({ input, ctx }) => {
+			ensureStudentRole(ctx.membership.role);
 
-		const assignment = await ctx.db.assignment.findFirst({
-			where: {
-				id: input.assignmentId,
-				classId: ctx.class.id,
-			},
-			select: {
-				id: true,
-				published: true,
-			},
-		});
-
-		if (!assignment) {
-			throw new TRPCError({
-				code: "NOT_FOUND",
-				message: "Assignment not found.",
-			});
-		}
-
-		if (!assignment.published) {
-			throw new TRPCError({
-				code: "FORBIDDEN",
-				message: "Assignment has not been published yet.",
-			});
-		}
-
-		const submission = await ctx.db.submission.findUnique({
-			where: {
-				assignmentId_studentId: {
-					assignmentId: input.assignmentId,
-					studentId: ctx.session.user.id,
+			const assignment = await ctx.db.assignment.findFirst({
+				where: {
+					id: input.assignmentId,
+					classId: ctx.class.id,
 				},
-			},
-			select: {
-				id: true,
-				submittedAt: true,
-				grade: true,
-				ref: true,
-			},
-		});
-
-		if (!submission) {
-			throw new TRPCError({
-				code: "NOT_FOUND",
-				message: "Submission workspace was not found for this assignment.",
+				select: {
+					id: true,
+					published: true,
+				},
 			});
-		}
 
-		const { owner, repo } = parseOwnerRepo(ctx.class.githubRepo);
-		const repoInfo = ctx.session.githubAccount.repos.find(
-			(repoResult) => repoResult.full_name === ctx.class.githubRepo,
-		);
+			if (!assignment) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message: "Assignment not found.",
+				});
+			}
 
-		if (!repoInfo) {
-			throw new TRPCError({
-				code: "BAD_REQUEST",
-				message: "GitHub repository metadata could not be found.",
-			});
-		}
+			if (!assignment.published) {
+				throw new TRPCError({
+					code: "FORBIDDEN",
+					message: "Assignment has not been published yet.",
+				});
+			}
 
-		const branchResponse = await ctx.github.request(
-			"GET /repos/{owner}/{repo}/branches/{branch}",
-			{
-				owner,
-				repo,
-				branch: repoInfo.default_branch,
-			},
-		);
-
-		const treeResponse = await ctx.github.request(
-			"GET /repos/{owner}/{repo}/git/trees/{tree_sha}",
-			{
-				owner,
-				repo,
-				tree_sha: branchResponse.data.commit.sha,
-				recursive: "1",
-			},
-		);
-
-		const submissionPrefix = `assignments/${input.assignmentId}/submissions/${submission.id}/`;
-		const submissionPaths = treeResponse.data.tree
-			.filter(
-				(treeItem) =>
-					treeItem.type === "blob" &&
-					typeof treeItem.path === "string" &&
-					treeItem.path.startsWith(submissionPrefix),
-			)
-			.map((treeItem) => treeItem.path);
-
-		const files = await Promise.all(
-			submissionPaths.map(async (path) => {
-				const fileResponse = await ctx.github.request(
-					"GET /repos/{owner}/{repo}/contents/{path}",
-					{
-						owner,
-						repo,
-						path,
+			const submission = await ctx.db.submission.findUnique({
+				where: {
+					assignmentId_studentId: {
+						assignmentId: input.assignmentId,
+						studentId: ctx.session.user.id,
 					},
-				);
+				},
+				select: {
+					id: true,
+					submittedAt: true,
+					grade: true,
+					ref: true,
+				},
+			});
 
-				if (
-					Array.isArray(fileResponse.data) ||
-					!("content" in fileResponse.data) ||
-					typeof fileResponse.data.content !== "string"
-				) {
-					throw new TRPCError({
-						code: "INTERNAL_SERVER_ERROR",
-						message: `Could not load ${path} from GitHub.`,
-					});
-				}
+			if (!submission) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message: "Submission workspace was not found for this assignment.",
+				});
+			}
 
-				return {
-					path: path.slice(submissionPrefix.length),
-					content: Buffer.from(
-						fileResponse.data.content.replace(/\n/g, ""),
-						"base64",
-					).toString("utf-8"),
-				};
-			}),
-		);
+			const { owner, repo } = parseOwnerRepo(ctx.class.githubRepo);
+			const repoInfo = ctx.session.githubAccount.repos.find(
+				(repoResult) => repoResult.full_name === ctx.class.githubRepo,
+			);
 
-		return {
-			submission,
-			files,
-		};
-	}),
+			if (!repoInfo) {
+				throw new TRPCError({
+					code: "BAD_REQUEST",
+					message: "GitHub repository metadata could not be found.",
+				});
+			}
+
+			const branchResponse = await ctx.github.request(
+				"GET /repos/{owner}/{repo}/branches/{branch}",
+				{
+					owner,
+					repo,
+					branch: repoInfo.default_branch,
+				},
+			);
+
+			const treeResponse = await ctx.github.request(
+				"GET /repos/{owner}/{repo}/git/trees/{tree_sha}",
+				{
+					owner,
+					repo,
+					tree_sha: branchResponse.data.commit.sha,
+					recursive: "1",
+				},
+			);
+
+			const submissionPrefix = `assignments/${input.assignmentId}/submissions/${submission.id}/`;
+			const submissionPaths = treeResponse.data.tree
+				.filter(
+					(treeItem) =>
+						treeItem.type === "blob" &&
+						typeof treeItem.path === "string" &&
+						treeItem.path.startsWith(submissionPrefix),
+				)
+				.map((treeItem) => treeItem.path);
+
+			const files = await Promise.all(
+				submissionPaths.map(async (path) => {
+					const fileResponse = await ctx.github.request(
+						"GET /repos/{owner}/{repo}/contents/{path}",
+						{
+							owner,
+							repo,
+							path,
+						},
+					);
+
+					if (
+						Array.isArray(fileResponse.data) ||
+						!("content" in fileResponse.data) ||
+						typeof fileResponse.data.content !== "string"
+					) {
+						throw new TRPCError({
+							code: "INTERNAL_SERVER_ERROR",
+							message: `Could not load ${path} from GitHub.`,
+						});
+					}
+
+					return {
+						path: path.slice(submissionPrefix.length),
+						content: Buffer.from(
+							fileResponse.data.content.replace(/\n/g, ""),
+							"base64",
+						).toString("utf-8"),
+					};
+				}),
+			);
+
+			return {
+				submission,
+				files,
+			};
+		},
+	),
 
 	updateMyAssignmentFiles: assignmentsProtectedProcedure
 		.input(
@@ -406,8 +408,8 @@ export const assignmentsRouter = createTRPCRouter({
 			};
 		}),
 
-	submitMyAssignment: assignmentsProtectedProcedure
-		.mutation(async ({ input, ctx }) => {
+	submitMyAssignment: assignmentsProtectedProcedure.mutation(
+		async ({ input, ctx }) => {
 			ensureStudentRole(ctx.membership.role);
 
 			const assignment = await ctx.db.assignment.findFirst({
@@ -462,48 +464,51 @@ export const assignmentsRouter = createTRPCRouter({
 					submittedAt: new Date(),
 				},
 			});
-		}),
+		},
+	),
 
-	getAssignmentSubmissions: assignmentsProtectedProcedure.query(async ({ input, ctx }) => {
-		ensureTeacherRole(ctx.membership.role);
+	getAssignmentSubmissions: assignmentsProtectedProcedure.query(
+		async ({ input, ctx }) => {
+			ensureTeacherRole(ctx.membership.role);
 
-		const assignment = await ctx.db.assignment.findFirst({
-			where: {
-				id: input.assignmentId,
-				classId: ctx.class.id,
-			},
-			select: {
-				id: true,
-			},
-		});
-
-		if (!assignment) {
-			throw new TRPCError({
-				code: "NOT_FOUND",
-				message: "Assignment not found.",
+			const assignment = await ctx.db.assignment.findFirst({
+				where: {
+					id: input.assignmentId,
+					classId: ctx.class.id,
+				},
+				select: {
+					id: true,
+				},
 			});
-		}
 
-		return await ctx.db.submission.findMany({
-			where: {
-				assignmentId: input.assignmentId,
-			},
-			include: {
-				student: {
-					select: {
-						id: true,
-						handle: true,
-						name: true,
-						email: true,
-						image: true,
+			if (!assignment) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message: "Assignment not found.",
+				});
+			}
+
+			return await ctx.db.submission.findMany({
+				where: {
+					assignmentId: input.assignmentId,
+				},
+				include: {
+					student: {
+						select: {
+							id: true,
+							handle: true,
+							name: true,
+							email: true,
+							image: true,
+						},
 					},
 				},
-			},
-			orderBy: {
-				submittedAt: "desc",
-			},
-		});
-	}),
+				orderBy: {
+					submittedAt: "desc",
+				},
+			});
+		},
+	),
 
 	getAssignmentSubmission: assignmentsProtectedProcedure
 		.input(
@@ -617,67 +622,69 @@ export const assignmentsRouter = createTRPCRouter({
 			});
 		}),
 
-	getAssignmentRubric: assignmentsProtectedProcedure.query(async ({ input, ctx }) => {
-		ensureTeacherRole(ctx.membership.role);
+	getAssignmentRubric: assignmentsProtectedProcedure.query(
+		async ({ input, ctx }) => {
+			ensureTeacherRole(ctx.membership.role);
 
-		const assignment = await ctx.db.assignment.findFirst({
-			where: {
-				id: input.assignmentId,
-				classId: ctx.class.id,
-			},
-			select: {
-				id: true,
-				points: true,
-			},
-		});
-
-		if (!assignment) {
-			throw new TRPCError({
-				code: "NOT_FOUND",
-				message: "Assignment not found.",
-			});
-		}
-
-		const { owner, repo } = parseOwnerRepo(ctx.class.githubRepo);
-		const rubricPath = `assignments/${input.assignmentId}/rubric.json`;
-
-		try {
-			const response = await ctx.github.request(
-				"GET /repos/{owner}/{repo}/contents/{path}",
-				{
-					owner,
-					repo,
-					path: rubricPath,
+			const assignment = await ctx.db.assignment.findFirst({
+				where: {
+					id: input.assignmentId,
+					classId: ctx.class.id,
 				},
-			);
+				select: {
+					id: true,
+					points: true,
+				},
+			});
 
-			if (
-				Array.isArray(response.data) ||
-				!("content" in response.data) ||
-				typeof response.data.content !== "string"
-			) {
+			if (!assignment) {
 				throw new TRPCError({
-					code: "INTERNAL_SERVER_ERROR",
-					message: "Rubric file format is invalid.",
+					code: "NOT_FOUND",
+					message: "Assignment not found.",
 				});
 			}
 
-			const decoded = Buffer.from(
-				response.data.content.replace(/\n/g, ""),
-				"base64",
-			).toString("utf-8");
+			const { owner, repo } = parseOwnerRepo(ctx.class.githubRepo);
+			const rubricPath = `assignments/${input.assignmentId}/rubric.json`;
 
-			return {
-				rubric: JSON.parse(decoded),
-				sha: response.data.sha,
-			};
-		} catch {
-			return {
-				rubric: null,
-				sha: undefined,
-			};
-		}
-	}),
+			try {
+				const response = await ctx.github.request(
+					"GET /repos/{owner}/{repo}/contents/{path}",
+					{
+						owner,
+						repo,
+						path: rubricPath,
+					},
+				);
+
+				if (
+					Array.isArray(response.data) ||
+					!("content" in response.data) ||
+					typeof response.data.content !== "string"
+				) {
+					throw new TRPCError({
+						code: "INTERNAL_SERVER_ERROR",
+						message: "Rubric file format is invalid.",
+					});
+				}
+
+				const decoded = Buffer.from(
+					response.data.content.replace(/\n/g, ""),
+					"base64",
+				).toString("utf-8");
+
+				return {
+					rubric: JSON.parse(decoded),
+					sha: response.data.sha,
+				};
+			} catch {
+				return {
+					rubric: null,
+					sha: undefined,
+				};
+			}
+		},
+	),
 
 	upsertAssignmentRubric: assignmentsProtectedProcedure
 		.input(
@@ -764,9 +771,9 @@ export const assignmentsRouter = createTRPCRouter({
 					repo,
 					path: rubricPath,
 					message: `Update rubric for assignment ${input.assignmentId}`,
-					content: Buffer.from(
-						JSON.stringify(rubricPayload, null, 2),
-					).toString("base64"),
+					content: Buffer.from(JSON.stringify(rubricPayload, null, 2)).toString(
+						"base64",
+					),
 					...(sha ? { sha } : {}),
 				},
 			);
@@ -782,7 +789,7 @@ export const assignmentsRouter = createTRPCRouter({
 			z.object({
 				name: z.string(),
 				points: z.number().int().positive(),
-				dueDate: z.date(),
+				dueDate: z.date().optional(),
 			}),
 		)
 		.mutation(async ({ input, ctx }) => {
@@ -824,38 +831,66 @@ export const assignmentsRouter = createTRPCRouter({
 			const readmeSha = await getFileSha(readmePath);
 
 			// Create README.md in assignment folder
-			await ctx.github.request(
-				"PUT /repos/{owner}/{repo}/contents/{path}",
-				{
-					owner,
-					repo,
-					path: readmePath,
-					message: `Initialize assignment "${input.name}" README`,
-					content: Buffer.from(
-						`# ${input.name}\nEdit this page on your GitHub repo`,
-					).toString("base64"),
-					...(readmeSha ? { sha: readmeSha } : {}),
-				},
-			);
+			await ctx.github.request("PUT /repos/{owner}/{repo}/contents/{path}", {
+				owner,
+				repo,
+				path: readmePath,
+				message: `Initialize assignment "${input.name}" README`,
+				content: Buffer.from(
+					`# ${input.name}\nEdit this page on your GitHub repo`,
+				).toString("base64"),
+				...(readmeSha ? { sha: readmeSha } : {}),
+			});
 
 			const gitkeepPath = `assignments/${newAssignment.id}/sourcefiles/.gitkeep`;
 			const gitkeepSha = await getFileSha(gitkeepPath);
 
 			// Create .gitkeep in sourcefiles folder
-			await ctx.github.request(
-				"PUT /repos/{owner}/{repo}/contents/{path}",
-				{
-					owner,
-					repo,
-					path: gitkeepPath,
-					message: `Initialize sourcefiles directory for assignment "${input.name}"`,
-					content: Buffer.from("").toString("base64"),
-					...(gitkeepSha ? { sha: gitkeepSha } : {}),
-				},
-			);
+			await ctx.github.request("PUT /repos/{owner}/{repo}/contents/{path}", {
+				owner,
+				repo,
+				path: gitkeepPath,
+				message: `Initialize sourcefiles directory for assignment "${input.name}"`,
+				content: Buffer.from("").toString("base64"),
+				...(gitkeepSha ? { sha: gitkeepSha } : {}),
+			});
 
 			return newAssignment;
 		}),
+
+	getReadme: assignmentsProtectedProcedure.query(async ({ ctx, input }) => {
+		const [owner, repo] = ctx.class.githubRepo.split("/");
+
+		if (!owner || !repo) {
+			throw new TRPCError({
+				code: "BAD_REQUEST",
+				message: "Invalid GitHub repository format. Expected owner/repo.",
+			});
+		}
+
+		const response = await ctx.github.request(
+			"GET /repos/{owner}/{repo}/contents/{path}",
+			{
+				owner,
+				repo,
+				path: `assignments/${input.assignmentId}/README.md`,
+			},
+		);
+
+		const content = response.data;
+		if (
+			typeof content === "object" &&
+			"content" in content &&
+			content.content
+		) {
+			return Buffer.from(content.content as string, "base64").toString("utf-8");
+		}
+
+		throw new TRPCError({
+			code: "NOT_FOUND",
+			message: "README.md not found in assignment folder",
+		});
+	}),
 
 	publishAssignment: assignmentsProtectedProcedure
 		.input(
@@ -930,11 +965,15 @@ export const assignmentsRouter = createTRPCRouter({
 			});
 
 			const existingSubmissionsByStudentId = new Map(
-				existingSubmissions.map((submission) => [submission.studentId, submission]),
+				existingSubmissions.map((submission) => [
+					submission.studentId,
+					submission,
+				]),
 			);
 
 			const submissionsToCreate = studentMembers.filter(
-				(studentMember) => !existingSubmissionsByStudentId.has(studentMember.userId),
+				(studentMember) =>
+					!existingSubmissionsByStudentId.has(studentMember.userId),
 			);
 
 			const createdSubmissions = await ctx.db.$transaction(
@@ -950,10 +989,9 @@ export const assignmentsRouter = createTRPCRouter({
 				),
 			);
 
-			const submissions = [
-				...existingSubmissions,
-				...createdSubmissions,
-			].sort((left, right) => left.studentId.localeCompare(right.studentId));
+			const submissions = [...existingSubmissions, ...createdSubmissions].sort(
+				(left, right) => left.studentId.localeCompare(right.studentId),
+			);
 
 			if (studentMembers.length === 0) {
 				return await ctx.db.assignment.update({
