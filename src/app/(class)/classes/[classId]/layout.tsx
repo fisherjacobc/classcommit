@@ -44,7 +44,7 @@ export default async function RootLayout({
         unauthorized();
 
     const classId = Number.parseInt((await params).classId, 10)
-    const assignmentId = Number.parseInt((await params).assignmentId, 10)
+    // const assignmentId = Number.parseInt((await params).assignmentId, 10)
 
     await api.classes.getClass.prefetch({ classId });
     await api.assignments.getAssignments.prefetch({ classId });
@@ -59,9 +59,9 @@ export default async function RootLayout({
 
     let assignmentData: Assignment | undefined;
 
-    try {
-        assignmentData = await api.assignments.getAssignment({ classId, assignmentId });
-    } catch { }
+    // try {
+    //     assignmentData = await api.assignments.getAssignment({ classId, assignmentId });
+    // } catch { }
 
     const assignmentsData = await api.assignments.getAssignments({ classId })
 
