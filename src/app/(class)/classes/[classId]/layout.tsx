@@ -37,7 +37,7 @@ function Header({ classData, assignmentData }: { classData: Class; assignmentDat
 export default async function RootLayout({
     children,
     params
-}: Readonly<{ children: React.ReactNode, params: Promise<{ classId: string, assignmentId: string }> }>) {
+}: Readonly<{ children: React.ReactNode, params: Promise<{ classId: string }> }>) {
     const session = await getSession();
 
     if (!session)
