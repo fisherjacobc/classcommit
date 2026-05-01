@@ -23,7 +23,7 @@ export const auth = betterAuth({
 		github: {
 			clientId: env.BETTER_AUTH_GITHUB_CLIENT_ID,
 			clientSecret: env.BETTER_AUTH_GITHUB_CLIENT_SECRET,
-			redirectURI: "http://localhost:3000/api/auth/callback/github",
+			redirectURI: `${env.BETTER_AUTH_URL}/api/auth/callback/github`,
 			scope: ["read:user", "user:email", "repo"],
 			mapProfileToUser: async (profile) => {
 				return {
