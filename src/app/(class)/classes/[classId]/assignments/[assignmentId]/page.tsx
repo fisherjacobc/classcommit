@@ -1,4 +1,5 @@
 import { CheckCircle, ExternalLinkIcon, XCircle } from 'lucide-react';
+import Link from 'next/link';
 import { redirect } from "next/navigation";
 import Markdown from 'react-markdown'
 import { Button } from '~/components/ui/button';
@@ -36,7 +37,12 @@ export default async function AssignmentPage({ params }: { params: Promise<{ cla
                         )
                     ) : (
                         assignmentData.published ? (
-                            <Button variant="outline"><ExternalLinkIcon /> Edit</Button>
+                            <Link href={`/classes/${classId}/assignments/${assignmentId}/edit`}>
+                                <Button variant="outline">
+                                    <ExternalLinkIcon />
+                                    Edit
+                                </Button>
+                            </Link>
                         ) : (
                             <span className="flex items-center gap-2 font-medium text-red-600">
                                 <XCircle className="h-5 w-5" />
