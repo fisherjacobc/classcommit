@@ -11,8 +11,10 @@ const config = {
 	},
 	output: "standalone",
 	outputFileTracingIncludes: {
-		"/api/**/*": ["./node_modules/.prisma/client/**/*"],
-		"/*": ["./node_modules/.prisma/client/**/*"],
+		"/**": [
+			"./node_modules/.prisma/client/*.js",
+			"./node_modules/.prisma/client/*.node",
+		],
 	},
 };
 
