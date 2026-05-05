@@ -9,10 +9,11 @@ const config = {
 	experimental: {
 		authInterrupts: true,
 	},
+	output: "standalone",
 	outputFileTracingIncludes: {
-		'/api/**/*': ['./node_modules/.prisma/client/**/*'],
-    	'/*': ['./node_modules/.prisma/client/**/*'],
-	}
+		"/api/**/*": ["./node_modules/.prisma/client/**/*"],
+		"/*": ["./node_modules/.prisma/client/**/*"],
+	},
 };
 
 export default config;
