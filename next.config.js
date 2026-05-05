@@ -4,7 +4,7 @@
  */
 import "./src/env.js";
 // @ts-expect-error
-const { PrismaPlugin } = require("@prisma/nextjs-monorepo-workaround-plugin");
+import { PrismaPlugin } from "@prisma/nextjs-monorepo-workaround-plugin";
 
 /** @type {import("next").NextConfig} */
 const config = {
