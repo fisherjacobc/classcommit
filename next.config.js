@@ -8,7 +8,7 @@ import "./src/env.js";
 const config = {
 	experimental: {
 		authInterrupts: true,
-		optimizePackageImports: ["@prisma/client"],
+		optimizePackageImports: [],
 	},
 	output: "standalone",
 	outputFileTracingIncludes: {
