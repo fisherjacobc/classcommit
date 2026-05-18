@@ -118,15 +118,43 @@ model Assignment {
   class   Class @relation(fields: [classId], references: [id])
   classId Int
 
-  name           String
-  dueDate        DateTime?
-  points         Int
-  published      Boolean
-  submissionMode AssignmentSubmissionMode @default(INDIVIDUAL)
+  name                String
+  dueDate             DateTime?
+  points              Int
+  published           Boolean
+  autogradeWithRubric Boolean                  @default(false)
+  submissionMode      AssignmentSubmissionMode @default(INDIVIDUAL)
 
   submissions      Submission[]
   groupAssignments AssignmentGroup[]
   groupSubmissions GroupSubmission[]
+  rubric           Rubric?
+}
+
+model Rubric {
+  id        Int      @id @default(autoincrement())
+  title     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  assignment   Assignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  assignmentId Int        @unique
+
+  criteria RubricCriterion[]
+}
+
+model RubricCriterion {
+  id                 Int     @id @default(autoincrement())
+  position           Int
+  name               String
+  description        String?
+  points             Int
+  expectedCodeOutput String?
+
+  rubric   Rubric @relation(fields: [rubricId], references: [id], onDelete: Cascade)
+  rubricId Int
+
+  @@unique([rubricId, position])
 }
 
 model AssignmentGroup {
