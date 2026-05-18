@@ -92,7 +92,7 @@ function SidebarUser({ session: { user } }: { session: NonNullable<SessionProp> 
                             size="lg"
                             className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                         >
-                            <Avatar className="h-8 w-8 rounded-lg grayscale">
+                            <Avatar className="h-8 w-8 rounded-lg">
                                 {/* @ts-ignore */}
                                 <AvatarImage src={user.image} alt={user.name} />
                                 <AvatarFallback className="rounded-lg">{user.name.charAt(0).toUpperCase()}</AvatarFallback>
