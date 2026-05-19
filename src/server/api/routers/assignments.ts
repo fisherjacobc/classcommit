@@ -39,6 +39,48 @@ const parseOwnerRepo = (githubRepo: string) => {
 
 	return { owner, repo };
 };
+
+const hasExpectedCodeOutput = (
+	criteria: Array<{ expectedCodeOutput?: string | null }>,
+) => criteria.every((criterion) => criterion.expectedCodeOutput?.length);
+
+const mapRubric = (
+	rubric: {
+		id: number;
+		title: string;
+		createdAt: Date;
+		updatedAt: Date;
+		criteria: Array<{
+			id: number;
+			position: number;
+			name: string;
+			description: string | null;
+			points: number;
+			expectedCodeOutput: string | null;
+		}>;
+	},
+	assignmentPoints: number,
+	autogradeWithRubric: boolean,
+) => ({
+	id: rubric.id,
+	title: rubric.title,
+	criteria: rubric.criteria.map((criterion) => ({
+		id: criterion.id,
+		position: criterion.position,
+		name: criterion.name,
+		description: criterion.description,
+		points: criterion.points,
+		expectedCodeOutput: criterion.expectedCodeOutput,
+	})),
+	totalPoints: rubric.criteria.reduce(
+		(total, criterion) => total + criterion.points,
+		0,
+	),
+	assignmentPoints,
+	autogradeWithRubric,
+	updatedAt: rubric.updatedAt.toISOString(),
+	createdAt: rubric.createdAt.toISOString(),
+});
 export const assignmentsRouter = createTRPCRouter({
 	getAssignments: classProtectedProcedure.query(async ({ ctx }) => {
 		const assignments = await ctx.db.assignment.findMany({
@@ -733,6 +775,7 @@ export const assignmentsRouter = createTRPCRouter({
 				select: {
 					id: true,
 					points: true,
+					autogradeWithRubric: true,
 				},
 			});
 
@@ -743,45 +786,24 @@ export const assignmentsRouter = createTRPCRouter({
 				});
 			}
 
-			const { owner, repo } = parseOwnerRepo(ctx.class.githubRepo);
-			const rubricPath = `assignments/${input.assignmentId}/rubric.json`;
-
-			try {
-				const response = await ctx.classOwnerGithub.request(
-					"GET /repos/{owner}/{repo}/contents/{path}",
-					{
-						owner,
-						repo,
-						path: rubricPath,
+			const rubric = await ctx.db.rubric.findUnique({
+				where: {
+					assignmentId: assignment.id,
+				},
+				include: {
+					criteria: {
+						orderBy: {
+							position: "asc",
+						},
 					},
-				);
+				},
+			});
 
-				if (
-					Array.isArray(response.data) ||
-					!("content" in response.data) ||
-					typeof response.data.content !== "string"
-				) {
-					throw new TRPCError({
-						code: "INTERNAL_SERVER_ERROR",
-						message: "Rubric file format is invalid.",
-					});
-				}
-
-				const decoded = Buffer.from(
-					response.data.content.replace(/\n/g, ""),
-					"base64",
-				).toString("utf-8");
-
-				return {
-					rubric: JSON.parse(decoded),
-					sha: response.data.sha,
-				};
-			} catch {
-				return {
-					rubric: null,
-					sha: undefined,
-				};
-			}
+			return {
+				rubric: rubric
+					? mapRubric(rubric, assignment.points, assignment.autogradeWithRubric)
+					: null,
+			};
 		},
 	),
 
@@ -789,11 +811,13 @@ export const assignmentsRouter = createTRPCRouter({
 		.input(
 			z.object({
 				title: z.string().trim().min(1, "Rubric title is required."),
+				autogradeWithRubric: z.boolean().optional(),
 				criteria: z.array(
 					z.object({
 						name: z.string().trim().min(1, "Criterion name is required."),
 						description: z.string().trim().optional(),
 						points: z.number().min(0, "Criterion points must be 0 or greater."),
+						expectedCodeOutput: z.string().trim().optional(),
 					}),
 				),
 			}),
@@ -809,6 +833,7 @@ export const assignmentsRouter = createTRPCRouter({
 				select: {
 					id: true,
 					points: true,
+					autogradeWithRubric: true,
 				},
 			});
 
@@ -831,59 +856,71 @@ export const assignmentsRouter = createTRPCRouter({
 				});
 			}
 
-			const { owner, repo } = parseOwnerRepo(ctx.class.githubRepo);
-			const rubricPath = `assignments/${input.assignmentId}/rubric.json`;
+			const autogradeWithRubric =
+				input.autogradeWithRubric ?? assignment.autogradeWithRubric;
 
-			let sha: string | undefined;
-			try {
-				const existingRubric = await ctx.classOwnerGithub.request(
-					"GET /repos/{owner}/{repo}/contents/{path}",
-					{
-						owner,
-						repo,
-						path: rubricPath,
-					},
-				);
-
-				if (
-					!Array.isArray(existingRubric.data) &&
-					typeof existingRubric.data.sha === "string"
-				) {
-					sha = existingRubric.data.sha;
-				}
-			} catch {
-				// Missing rubric file is expected for first-time creation.
+			if (autogradeWithRubric && !hasExpectedCodeOutput(input.criteria)) {
+				throw new TRPCError({
+					code: "BAD_REQUEST",
+					message:
+						"All rubric criteria must define expected code output before autograding can be enabled.",
+				});
 			}
 
-			const rubricPayload = {
-				title: input.title,
-				criteria: input.criteria,
-				totalPoints: rubricPointsTotal,
-				assignmentPoints: assignment.points,
-				updatedAt: new Date().toISOString(),
-			};
-
-			const result = await ctx.classOwnerGithub.request(
-				"PUT /repos/{owner}/{repo}/contents/{path}",
-				{
-					owner,
-					repo,
-					path: rubricPath,
-					message: `Update rubric for assignment ${input.assignmentId}`,
-					content: Buffer.from(JSON.stringify(rubricPayload, null, 2)).toString(
-						"base64",
-					),
-					committer: {
-						name: env.GITHUB_APP_NAME,
-						email: `${env.GITHUB_APP_ID}+${env.GITHUB_APP_NAME}@users.noreply.github.com`,
+			const rubric = await ctx.db.$transaction(async (tx) => {
+				const savedRubric = await tx.rubric.upsert({
+					where: {
+						assignmentId: assignment.id,
 					},
-					...(sha ? { sha } : {}),
-				},
-			);
+					create: {
+						assignmentId: assignment.id,
+						title: input.title,
+						criteria: {
+							create: input.criteria.map((criterion, position) => ({
+								position,
+								name: criterion.name,
+								description: criterion.description,
+								points: criterion.points,
+								expectedCodeOutput: criterion.expectedCodeOutput,
+							})),
+						},
+					},
+					update: {
+						title: input.title,
+						criteria: {
+							deleteMany: {},
+							create: input.criteria.map((criterion, position) => ({
+								position,
+								name: criterion.name,
+								description: criterion.description,
+								points: criterion.points,
+								expectedCodeOutput: criterion.expectedCodeOutput,
+							})),
+						},
+					},
+					include: {
+						criteria: {
+							orderBy: {
+								position: "asc",
+							},
+						},
+					},
+				});
+
+				await tx.assignment.update({
+					where: {
+						id: assignment.id,
+					},
+					data: {
+						autogradeWithRubric,
+					},
+				});
+
+				return savedRubric;
+			});
 
 			return {
-				rubric: rubricPayload,
-				sha: result.data.content?.sha,
+				rubric: mapRubric(rubric, assignment.points, autogradeWithRubric),
 			};
 		}),
 

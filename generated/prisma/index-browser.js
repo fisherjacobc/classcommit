@@ -172,7 +172,26 @@ exports.Prisma.AssignmentScalarFieldEnum = {
   dueDate: 'dueDate',
   points: 'points',
   published: 'published',
+  autogradeWithRubric: 'autogradeWithRubric',
   submissionMode: 'submissionMode'
+};
+
+exports.Prisma.RubricScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  assignmentId: 'assignmentId'
+};
+
+exports.Prisma.RubricCriterionScalarFieldEnum = {
+  id: 'id',
+  position: 'position',
+  name: 'name',
+  description: 'description',
+  points: 'points',
+  expectedCodeOutput: 'expectedCodeOutput',
+  rubricId: 'rubricId'
 };
 
 exports.Prisma.AssignmentGroupScalarFieldEnum = {
@@ -278,6 +297,8 @@ exports.Prisma.ModelName = {
   Group: 'Group',
   GroupMember: 'GroupMember',
   Assignment: 'Assignment',
+  Rubric: 'Rubric',
+  RubricCriterion: 'RubricCriterion',
   AssignmentGroup: 'AssignmentGroup',
   Submission: 'Submission',
   GroupSubmission: 'GroupSubmission',
