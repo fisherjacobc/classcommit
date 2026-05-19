@@ -9,7 +9,6 @@ import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Sidebar, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider } from "~/components/ui/sidebar";
 import { api as trpc } from "~/trpc/react";
-import type { api } from "~/trpc/server";
 import darkTheme from './darkTheme';
 
 type FeedbackItem = {
@@ -20,10 +19,16 @@ type FeedbackItem = {
     comment: string;
 };
 
-type FileItemType = Awaited<ReturnType<typeof api.assignments.getMyAssignmentFiles>>["files"][number];
+type FileItemType = {
+    path: string;
+    content: string;
+};
 
-type SubmissionFilesEditor = {
+type FileBundle = {
     files: FileItemType[];
+};
+
+type SubmissionFilesEditor = FileBundle & {
     submission?: {
         id: string;
         ref?: string;
@@ -94,7 +99,7 @@ function FileItem({ index, name, path }: { index: number, name: string, path: st
     )
 }
 
-export function Editor({ files, submissionId, classId, assignmentId, teacherMode }: { files: Awaited<ReturnType<typeof api.assignments.getMyAssignmentFiles>>, submissionId?: string, classId?: number, assignmentId?: number, teacherMode?: boolean }) {
+export function Editor({ files, submissionId, classId, assignmentId, teacherMode }: { files: FileBundle, submissionId?: string, classId?: number, assignmentId?: number, teacherMode?: boolean }) {
     const { activeFile } = useEditorContext();
     const monaco = useMonaco();
     const router = useRouter();
@@ -367,7 +372,7 @@ function FeedbackPanel({ files, submissionId, feedbacks, onCreate, onDelete }: {
     )
 }
 
-export default function EditorWrapper({ files, submissionId, classId, assignmentId, teacherMode }: { files: Awaited<ReturnType<typeof api.assignments.getMyAssignmentFiles>>, submissionId?: string, classId?: number, assignmentId?: number, teacherMode?: boolean }) {
+export default function EditorWrapper({ files, submissionId, classId, assignmentId, teacherMode }: { files: FileBundle, submissionId?: string, classId?: number, assignmentId?: number, teacherMode?: boolean }) {
     return (
         <EditorProvider initialActiveFile={files.files[0]?.path ?? ""}>
             <Editor files={files} submissionId={submissionId} classId={classId} assignmentId={assignmentId} teacherMode={teacherMode} />

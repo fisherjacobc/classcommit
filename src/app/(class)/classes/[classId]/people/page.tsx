@@ -1,10 +1,12 @@
 import { api, HydrateClient } from "~/trpc/server";
+import Groups from "./groups";
 
 export default async function ClassPeoplePage({
     params,
 }: { params: Promise<{ classId: string }> }) {
     const { classId } = await params;
     const data = await api.classes.getMembers({ classId: Number.parseInt(classId, 10) });
+    const membership = await api.classes.getMembership({ classId: Number.parseInt(classId, 10) });
 
     const teachers = data.filter((person) => person.role !== "STUDENT");
     const students = data.filter((person) => person.role === "STUDENT");
@@ -53,6 +55,15 @@ export default async function ClassPeoplePage({
                             ))}
                         </ul>
                     </section>
+
+                    {membership && membership.role !== "STUDENT" ? (
+                        <section>
+                            <h2 className="mb-3 font-semibold text-2xl">Groups</h2>
+                            <div>
+                                <Groups classId={Number.parseInt(classId, 10)} students={students.map((s) => ({ userId: s.userId, name: s.user.name, handle: s.user.handle }))} />
+                            </div>
+                        </section>
+                    ) : null}
                 </div>
             </main>
         </HydrateClient>

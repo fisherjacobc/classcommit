@@ -146,6 +146,15 @@ const scoreRubricOutput = (
 	return score;
 };
 
+type SubmissionKind = "individual" | "group";
+
+const getSubmissionPathPrefix = (
+	kind: SubmissionKind,
+	assignmentId: number,
+	submissionId: string,
+) =>
+	`assignments/${assignmentId}/${kind === "group" ? "group-submissions" : "submissions"}/${submissionId}/`;
+
 async function loadSubmissionFilesById(
 	ctx: {
 		class: { githubRepo: string };
@@ -155,6 +164,7 @@ async function loadSubmissionFilesById(
 	},
 	assignmentId: number,
 	submissionId: string,
+	kind: SubmissionKind = "individual",
 ) {
 	const { owner, repo, defaultBranch } = await getClassOwnerRepoInfo(ctx);
 	const branchResponse = (await ctx.classOwnerGithub.request(
@@ -174,7 +184,11 @@ async function loadSubmissionFilesById(
 		data: { tree: Array<{ type?: string | null; path?: string | null }> };
 	};
 
-	const submissionPrefix = `assignments/${assignmentId}/submissions/${submissionId}/`;
+	const submissionPrefix = getSubmissionPathPrefix(
+		kind,
+		assignmentId,
+		submissionId,
+	);
 	const treeItems = treeResponse.data.tree as Array<{
 		type?: string | null;
 		path?: string | null;
@@ -278,6 +292,7 @@ export const assignmentsRouter = createTRPCRouter({
 				select: {
 					id: true,
 					published: true,
+					submissionMode: true,
 				},
 			});
 
@@ -295,11 +310,55 @@ export const assignmentsRouter = createTRPCRouter({
 				});
 			}
 
-			const submission = await ctx.db.submission.findUnique({
+			const submissionKind: SubmissionKind =
+				assignment.submissionMode === "GROUP" ? "group" : "individual";
+
+			if (submissionKind === "individual") {
+				const individualSubmission = await ctx.db.submission.findUnique({
+					where: {
+						assignmentId_studentId: {
+							assignmentId: input.assignmentId,
+							studentId: ctx.session.user.id,
+						},
+					},
+					select: { id: true, submittedAt: true, grade: true, ref: true },
+				});
+
+				if (!individualSubmission) {
+					throw new TRPCError({
+						code: "NOT_FOUND",
+						message: "Submission workspace was not found for this assignment.",
+					});
+				}
+
+				const files = await loadSubmissionFilesById(
+					ctx,
+					input.assignmentId,
+					individualSubmission.id,
+					submissionKind,
+				);
+
+				return { submissionKind, submission: individualSubmission, files };
+			}
+
+			const groupMembership = await ctx.db.groupMember.findFirst({
+				where: { classId: ctx.class.id, studentId: ctx.session.user.id },
+				select: { groupId: true, group: { select: { id: true, name: true } } },
+			});
+
+			if (!groupMembership) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message:
+						"You need to be assigned to a group before accessing this assignment.",
+				});
+			}
+
+			const groupSubmission = await ctx.db.groupSubmission.findUnique({
 				where: {
-					assignmentId_studentId: {
+					assignmentId_groupId: {
 						assignmentId: input.assignmentId,
-						studentId: ctx.session.user.id,
+						groupId: groupMembership.groupId,
 					},
 				},
 				select: {
@@ -307,91 +366,29 @@ export const assignmentsRouter = createTRPCRouter({
 					submittedAt: true,
 					grade: true,
 					ref: true,
+					groupId: true,
 				},
 			});
 
-			if (!submission) {
+			if (!groupSubmission) {
 				throw new TRPCError({
 					code: "NOT_FOUND",
-					message: "Submission workspace was not found for this assignment.",
+					message:
+						"Group submission workspace was not found for this assignment.",
 				});
 			}
 
-			const { owner, repo } = parseOwnerRepo(ctx.class.githubRepo);
-			// const repoInfo = ctx.session.githubAccount.repos.find(
-			// 	(repoResult) => repoResult.full_name === ctx.class.githubRepo,
-			// );
-
-			// if (!repoInfo) {
-			// 	throw new TRPCError({
-			// 		code: "BAD_REQUEST",
-			// 		message: "GitHub repository metadata could not be found.",
-			// 	});
-			// }
-
-			const branchResponse = await ctx.classOwnerGithub.request(
-				"GET /repos/{owner}/{repo}/branches/{branch}",
-				{
-					owner,
-					repo,
-					branch: "master",
-				},
-			);
-
-			const treeResponse = await ctx.classOwnerGithub.request(
-				"GET /repos/{owner}/{repo}/git/trees/{tree_sha}",
-				{
-					owner,
-					repo,
-					tree_sha: branchResponse.data.commit.sha,
-					recursive: "1",
-				},
-			);
-
-			const submissionPrefix = `assignments/${input.assignmentId}/submissions/${submission.id}/`;
-			const submissionPaths = treeResponse.data.tree
-				.filter(
-					(treeItem) =>
-						treeItem.type === "blob" &&
-						typeof treeItem.path === "string" &&
-						treeItem.path.startsWith(submissionPrefix),
-				)
-				.map((treeItem) => treeItem.path);
-
-			const files = await Promise.all(
-				submissionPaths.map(async (path) => {
-					const fileResponse = await ctx.classOwnerGithub.request(
-						"GET /repos/{owner}/{repo}/contents/{path}",
-						{
-							owner,
-							repo,
-							path,
-						},
-					);
-
-					if (
-						Array.isArray(fileResponse.data) ||
-						!("content" in fileResponse.data) ||
-						typeof fileResponse.data.content !== "string"
-					) {
-						throw new TRPCError({
-							code: "INTERNAL_SERVER_ERROR",
-							message: `Could not load ${path} from GitHub.`,
-						});
-					}
-
-					return {
-						path: path.slice(submissionPrefix.length),
-						content: Buffer.from(
-							fileResponse.data.content.replace(/\n/g, ""),
-							"base64",
-						).toString("utf-8"),
-					};
-				}),
+			const files = await loadSubmissionFilesById(
+				ctx,
+				input.assignmentId,
+				groupSubmission.id,
+				submissionKind,
 			);
 
 			return {
-				submission,
+				submissionKind,
+				submission: groupSubmission,
+				group: groupMembership.group,
 				files,
 			};
 		},
@@ -422,6 +419,7 @@ export const assignmentsRouter = createTRPCRouter({
 				select: {
 					id: true,
 					published: true,
+					submissionMode: true,
 				},
 			});
 
@@ -439,34 +437,14 @@ export const assignmentsRouter = createTRPCRouter({
 				});
 			}
 
-			const submission = await ctx.db.submission.findUnique({
-				where: {
-					assignmentId_studentId: {
-						assignmentId: input.assignmentId,
-						studentId: ctx.session.user.id,
-					},
-				},
-				select: {
-					id: true,
-				},
-			});
-
-			if (!submission) {
-				throw new TRPCError({
-					code: "NOT_FOUND",
-					message: "Submission workspace was not found for this assignment.",
-				});
-			}
+			const submissionKind: SubmissionKind =
+				assignment.submissionMode === "GROUP" ? "group" : "individual";
 
 			const { owner, repo, defaultBranch } = await getClassOwnerRepoInfo(ctx);
 
 			const branchResponse = await ctx.classOwnerGithub.request(
 				"GET /repos/{owner}/{repo}/branches/{branch}",
-				{
-					owner,
-					repo,
-					branch: defaultBranch,
-				},
+				{ owner, repo, branch: defaultBranch },
 			);
 
 			const treeResponse = await ctx.classOwnerGithub.request(
@@ -529,9 +507,120 @@ export const assignmentsRouter = createTRPCRouter({
 					? `${authorLogin}@users.noreply.github.com`
 					: `${ctx.session.user.id}@users.noreply.github.com`);
 
+			if (submissionKind === "individual") {
+				const submission = await ctx.db.submission.findUnique({
+					where: {
+						assignmentId_studentId: {
+							assignmentId: input.assignmentId,
+							studentId: ctx.session.user.id,
+						},
+					},
+					select: {
+						id: true,
+					},
+				});
+
+				if (!submission) {
+					throw new TRPCError({
+						code: "NOT_FOUND",
+						message: "Submission workspace was not found for this assignment.",
+					});
+				}
+
+				const files = Object.fromEntries(
+					sanitizedFiles.map((file) => [
+						`${getSubmissionPathPrefix(submissionKind, input.assignmentId, submission.id)}${file.path}`,
+						file.content,
+					]),
+				);
+
+				const commitResult = await ctx.classOwnerGithub.createOrUpdateFiles({
+					owner,
+					repo,
+					branch: defaultBranch,
+					createBranch: false,
+					committer: {
+						name: env.GITHUB_APP_NAME,
+						email: `${env.GITHUB_APP_ID}+${env.GITHUB_APP_NAME}@users.noreply.github.com`,
+					},
+					author: {
+						name: authorName,
+						email: authorEmail,
+					},
+					changes: [
+						{
+							message: input.message,
+							files,
+						},
+					],
+				});
+
+				const latestCommitSha = commitResult.commits.at(-1)?.sha;
+
+				if (!latestCommitSha) {
+					throw new TRPCError({
+						code: "INTERNAL_SERVER_ERROR",
+						message: "No commit was returned after updating submission files.",
+					});
+				}
+
+				const updatedSubmission = await ctx.db.submission.update({
+					where: {
+						id: submission.id,
+					},
+					data: {
+						ref: latestCommitSha,
+					},
+				});
+
+				return {
+					submission: updatedSubmission,
+					commitSha: latestCommitSha,
+					submissionKind,
+				};
+			}
+
+			const groupMembership = await ctx.db.groupMember.findFirst({
+				where: {
+					classId: ctx.class.id,
+					studentId: ctx.session.user.id,
+				},
+				select: {
+					groupId: true,
+				},
+			});
+
+			if (!groupMembership) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message:
+						"You need to be assigned to a group before updating this assignment.",
+				});
+			}
+
+			const groupSubmission = await ctx.db.groupSubmission.findUnique({
+				where: {
+					assignmentId_groupId: {
+						assignmentId: input.assignmentId,
+						groupId: groupMembership.groupId,
+					},
+				},
+				select: {
+					id: true,
+				},
+			});
+
+			if (!groupSubmission) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message:
+						"Group submission workspace was not found for this assignment.",
+				});
+			}
+
 			const files = Object.fromEntries(
 				sanitizedFiles.map((file) => [
-					`assignments/${input.assignmentId}/submissions/${submission.id}/${file.path}`,
+					`${getSubmissionPathPrefix(submissionKind, input.assignmentId, groupSubmission.id)}${file.path}`,
 					file.content,
 				]),
 			);
@@ -566,9 +655,9 @@ export const assignmentsRouter = createTRPCRouter({
 				});
 			}
 
-			const updatedSubmission = await ctx.db.submission.update({
+			const updatedSubmission = await ctx.db.groupSubmission.update({
 				where: {
-					id: submission.id,
+					id: groupSubmission.id,
 				},
 				data: {
 					ref: latestCommitSha,
@@ -578,6 +667,7 @@ export const assignmentsRouter = createTRPCRouter({
 			return {
 				submission: updatedSubmission,
 				commitSha: latestCommitSha,
+				submissionKind,
 			};
 		}),
 
@@ -586,22 +676,55 @@ export const assignmentsRouter = createTRPCRouter({
 		.query(async ({ input, ctx }) => {
 			ensureTeacherRole(ctx.membership.role);
 
+			const assignment = await ctx.db.assignment.findFirst({
+				where: { id: input.assignmentId, classId: ctx.class.id },
+				select: { id: true, submissionMode: true },
+			});
+
+			if (!assignment) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message: "Assignment not found.",
+				});
+			}
+
+			if (assignment.submissionMode === "GROUP") {
+				const groupSubs = await ctx.db.groupSubmission.findMany({
+					where: {
+						assignmentId: input.assignmentId,
+						assignment: { classId: ctx.class.id },
+					},
+					include: {
+						group: { include: { members: { include: { student: true } } } },
+					},
+					orderBy: { submittedAt: "desc" },
+				});
+
+				return groupSubs.map((s) => ({
+					id: s.id,
+					ref: s.ref,
+					submittedAt: s.submittedAt,
+					grade: s.grade,
+					student: { name: s.group.name },
+					studentId: s.group.id,
+					group: s.group,
+					submissionKind: "group" as const,
+				}));
+			}
+
 			const submissions = await ctx.db.submission.findMany({
 				where: {
 					assignmentId: input.assignmentId,
-					assignment: {
-						classId: ctx.class.id,
-					},
+					assignment: { classId: ctx.class.id },
 				},
-				include: {
-					student: true,
-				},
-				orderBy: {
-					submittedAt: "desc",
-				},
+				include: { student: true },
+				orderBy: { submittedAt: "desc" },
 			});
 
-			return submissions;
+			return submissions.map((s) => ({
+				...s,
+				submissionKind: "individual" as const,
+			}));
 		}),
 
 	getSubmissionFiles: assignmentsProtectedProcedure
@@ -609,73 +732,57 @@ export const assignmentsRouter = createTRPCRouter({
 		.query(async ({ input, ctx }) => {
 			ensureTeacherRole(ctx.membership.role);
 
+			// Try individual submission first
 			const submission = await ctx.db.submission.findFirst({
 				where: { id: input.submissionId },
-				select: { id: true, ref: true, submittedAt: true, grade: true },
+				select: {
+					id: true,
+					ref: true,
+					submittedAt: true,
+					grade: true,
+					assignmentId: true,
+				},
 			});
 
-			if (!submission) {
+			if (submission) {
+				const files = await loadSubmissionFilesById(
+					ctx,
+					submission.assignmentId,
+					submission.id,
+					"individual",
+				);
+
+				return { submission, files };
+			}
+
+			// Try group submission
+			const groupSubmission = await ctx.db.groupSubmission.findFirst({
+				where: { id: input.submissionId },
+				select: {
+					id: true,
+					ref: true,
+					submittedAt: true,
+					grade: true,
+					assignmentId: true,
+					groupId: true,
+				},
+			});
+
+			if (!groupSubmission) {
 				throw new TRPCError({
 					code: "NOT_FOUND",
 					message: "Submission not found.",
 				});
 			}
 
-			const { owner, repo, defaultBranch } = await getClassOwnerRepoInfo(ctx);
-			const branchResponse = await ctx.classOwnerGithub.request(
-				"GET /repos/{owner}/{repo}/branches/{branch}",
-				{ owner, repo, branch: defaultBranch },
+			const files = await loadSubmissionFilesById(
+				ctx,
+				groupSubmission.assignmentId,
+				groupSubmission.id,
+				"group",
 			);
 
-			const treeResponse = await ctx.classOwnerGithub.request(
-				"GET /repos/{owner}/{repo}/git/trees/{tree_sha}",
-				{
-					owner,
-					repo,
-					tree_sha: branchResponse.data.commit.sha,
-					recursive: "1",
-				},
-			);
-
-			// reuse same logic as getMyAssignmentFiles but filter by submission id
-			const submissionPaths = treeResponse.data.tree
-				.filter(
-					(treeItem) =>
-						treeItem.type === "blob" &&
-						typeof treeItem.path === "string" &&
-						treeItem.path.includes(`/submissions/${submission.id}/`),
-				)
-				.map((treeItem) => treeItem.path as string);
-
-			const files = await Promise.all(
-				submissionPaths.map(async (path: string) => {
-					const fileResponse = await ctx.classOwnerGithub.request(
-						"GET /repos/{owner}/{repo}/contents/{path}",
-						{ owner, repo, path },
-					);
-
-					if (
-						Array.isArray(fileResponse.data) ||
-						!("content" in fileResponse.data) ||
-						typeof fileResponse.data.content !== "string"
-					) {
-						throw new TRPCError({
-							code: "INTERNAL_SERVER_ERROR",
-							message: `Could not load ${path} from GitHub.`,
-						});
-					}
-
-					return {
-						path: path.split(`/submissions/${submission.id}/`).at(-1) ?? path,
-						content: Buffer.from(
-							fileResponse.data.content.replace(/\n/g, ""),
-							"base64",
-						).toString("utf-8"),
-					};
-				}),
-			);
-
-			return { submission, files };
+			return { submission: groupSubmission, files };
 		}),
 
 	getMyAssignmentSubmission: assignmentsProtectedProcedure.query(
@@ -691,6 +798,7 @@ export const assignmentsRouter = createTRPCRouter({
 					id: true,
 					points: true,
 					published: true,
+					submissionMode: true,
 				},
 			});
 
@@ -701,11 +809,37 @@ export const assignmentsRouter = createTRPCRouter({
 				});
 			}
 
-			const submission = await ctx.db.submission.findUnique({
+			const submissionKind: SubmissionKind =
+				assignment.submissionMode === "GROUP" ? "group" : "individual";
+
+			if (submissionKind === "individual") {
+				const individualSubmission = await ctx.db.submission.findUnique({
+					where: {
+						assignmentId_studentId: {
+							assignmentId: input.assignmentId,
+							studentId: ctx.session.user.id,
+						},
+					},
+					select: { id: true, ref: true, submittedAt: true, grade: true },
+				});
+
+				return { assignment, submission: individualSubmission, submissionKind };
+			}
+
+			const groupMembership = await ctx.db.groupMember.findFirst({
+				where: { classId: ctx.class.id, studentId: ctx.session.user.id },
+				select: { groupId: true, group: { select: { id: true, name: true } } },
+			});
+
+			if (!groupMembership) {
+				return { assignment, submission: null, submissionKind };
+			}
+
+			const groupSubmission = await ctx.db.groupSubmission.findUnique({
 				where: {
-					assignmentId_studentId: {
+					assignmentId_groupId: {
 						assignmentId: input.assignmentId,
-						studentId: ctx.session.user.id,
+						groupId: groupMembership.groupId,
 					},
 				},
 				select: {
@@ -713,13 +847,11 @@ export const assignmentsRouter = createTRPCRouter({
 					ref: true,
 					submittedAt: true,
 					grade: true,
+					groupId: true,
 				},
 			});
 
-			return {
-				assignment,
-				submission,
-			};
+			return { assignment, submission: groupSubmission, submissionKind };
 		},
 	),
 
@@ -735,6 +867,7 @@ export const assignmentsRouter = createTRPCRouter({
 				select: {
 					id: true,
 					published: true,
+					submissionMode: true,
 				},
 			});
 
@@ -752,24 +885,49 @@ export const assignmentsRouter = createTRPCRouter({
 				});
 			}
 
-			const submission = await ctx.db.submission.findUnique({
-				where: {
-					assignmentId_studentId: {
-						assignmentId: input.assignmentId,
-						studentId: ctx.session.user.id,
-					},
-				},
-				select: {
-					id: true,
-				},
-			});
+			const submissionKind: SubmissionKind =
+				assignment.submissionMode === "GROUP" ? "group" : "individual";
 
-			if (!submission) {
-				throw new TRPCError({
-					code: "NOT_FOUND",
-					message: "Submission workspace was not found for this assignment.",
+			let individualSubmissionId: string | null = null;
+			let groupId: string | null = null;
+
+			if (submissionKind === "individual") {
+				const individualSubmission = await ctx.db.submission.findUnique({
+					where: {
+						assignmentId_studentId: {
+							assignmentId: input.assignmentId,
+							studentId: ctx.session.user.id,
+						},
+					},
+					select: { id: true },
 				});
+
+				if (!individualSubmission) {
+					throw new TRPCError({
+						code: "NOT_FOUND",
+						message: "Submission workspace was not found for this assignment.",
+					});
+				}
+
+				individualSubmissionId = individualSubmission.id;
+			} else {
+				const groupMember = await ctx.db.groupMember.findFirst({
+					where: { classId: ctx.class.id, studentId: ctx.session.user.id },
+					select: { groupId: true },
+				});
+
+				if (!groupMember) {
+					throw new TRPCError({
+						code: "NOT_FOUND",
+						message: "Submission workspace was not found for this assignment.",
+					});
+				}
+
+				groupId = groupMember.groupId;
 			}
+
+			const submissionId =
+				submissionKind === "individual" ? individualSubmissionId! : groupId!;
 
 			const autogradeAssignment = await ctx.db.assignment.findFirst({
 				where: {
@@ -809,7 +967,8 @@ export const assignmentsRouter = createTRPCRouter({
 				const files = await loadSubmissionFilesById(
 					ctx,
 					input.assignmentId,
-					submission.id,
+					submissionId,
+					submissionKind,
 				);
 
 				const executionResult = await runJavaCode(
@@ -826,9 +985,22 @@ export const assignmentsRouter = createTRPCRouter({
 				};
 			}
 
-			return await ctx.db.submission.update({
+			if (submissionKind === "individual") {
+				return await ctx.db.submission.update({
+					where: { id: individualSubmissionId! },
+					data: {
+						submittedAt: new Date(),
+						grade: autogradeResult?.grade ?? undefined,
+					},
+				});
+			}
+
+			return await ctx.db.groupSubmission.update({
 				where: {
-					id: submission.id,
+					assignmentId_groupId: {
+						assignmentId: input.assignmentId,
+						groupId: groupId!,
+					},
 				},
 				data: {
 					submittedAt: new Date(),
@@ -891,13 +1063,12 @@ export const assignmentsRouter = createTRPCRouter({
 		.query(async ({ input, ctx }) => {
 			ensureTeacherRole(ctx.membership.role);
 
+			// Try individual submission
 			const submission = await ctx.db.submission.findFirst({
 				where: {
 					id: input.submissionId,
 					assignmentId: input.assignmentId,
-					assignment: {
-						classId: ctx.class.id,
-					},
+					assignment: { classId: ctx.class.id },
 				},
 				include: {
 					student: {
@@ -909,24 +1080,49 @@ export const assignmentsRouter = createTRPCRouter({
 							image: true,
 						},
 					},
-					assignment: {
-						select: {
-							id: true,
-							name: true,
-							points: true,
-						},
-					},
+					assignment: { select: { id: true, name: true, points: true } },
 				},
 			});
 
-			if (!submission) {
+			if (submission) return submission;
+
+			// Try group submission
+			const groupSubmission = await ctx.db.groupSubmission.findFirst({
+				where: {
+					id: input.submissionId,
+					assignmentId: input.assignmentId,
+					assignment: { classId: ctx.class.id },
+				},
+				include: {
+					group: {
+						include: {
+							members: {
+								include: {
+									student: {
+										select: {
+											id: true,
+											handle: true,
+											name: true,
+											email: true,
+											image: true,
+										},
+									},
+								},
+							},
+						},
+					},
+					assignment: { select: { id: true, name: true, points: true } },
+				},
+			});
+
+			if (!groupSubmission) {
 				throw new TRPCError({
 					code: "NOT_FOUND",
 					message: "Submission not found for this assignment.",
 				});
 			}
 
-			return submission;
+			return groupSubmission;
 		}),
 
 	gradeAssignmentSubmission: assignmentsProtectedProcedure
@@ -965,33 +1161,43 @@ export const assignmentsRouter = createTRPCRouter({
 				});
 			}
 
+			// Try updating individual submission first
 			const existingSubmission = await ctx.db.submission.findFirst({
 				where: {
 					id: input.submissionId,
 					assignmentId: input.assignmentId,
-					assignment: {
-						classId: ctx.class.id,
-					},
+					assignment: { classId: ctx.class.id },
 				},
-				select: {
-					id: true,
-				},
+				select: { id: true },
 			});
 
-			if (!existingSubmission) {
+			if (existingSubmission) {
+				return await ctx.db.submission.update({
+					where: { id: input.submissionId },
+					data: { grade: input.grade },
+				});
+			}
+
+			// Try group submission
+			const existingGroupSubmission = await ctx.db.groupSubmission.findFirst({
+				where: {
+					id: input.submissionId,
+					assignmentId: input.assignmentId,
+					assignment: { classId: ctx.class.id },
+				},
+				select: { id: true },
+			});
+
+			if (!existingGroupSubmission) {
 				throw new TRPCError({
 					code: "NOT_FOUND",
 					message: "Submission not found for this assignment.",
 				});
 			}
 
-			return await ctx.db.submission.update({
-				where: {
-					id: input.submissionId,
-				},
-				data: {
-					grade: input.grade,
-				},
+			return await ctx.db.groupSubmission.update({
+				where: { id: input.submissionId },
+				data: { grade: input.grade },
 			});
 		}),
 

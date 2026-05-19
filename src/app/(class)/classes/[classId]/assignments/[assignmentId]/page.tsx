@@ -98,10 +98,10 @@ export default async function AssignmentPage({
                     <section className="rounded-md border p-4">
                         <h2 className="font-semibold text-2xl">Submission</h2>
                         <div className="mt-2 text-muted-foreground text-sm">
-                            {mySubmission?.submission?.submittedAt ? (
+                            {mySubmission?.submission && "submittedAt" in mySubmission.submission && mySubmission.submission.submittedAt ? (
                                 <>
                                     Submitted on {new Date(mySubmission.submission.submittedAt).toLocaleString()}
-                                    {mySubmission.submission.grade !== null ? (
+                                    {"grade" in mySubmission.submission && mySubmission.submission.grade !== null ? (
                                         <span className="ml-2 font-medium text-foreground">
                                             Score: {mySubmission.submission.grade} / {mySubmission.assignment.points}
                                         </span>
