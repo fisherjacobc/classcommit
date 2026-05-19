@@ -2,7 +2,7 @@
 ALTER TABLE "Assignment" ADD COLUMN     "autogradeWithRubric" BOOLEAN NOT NULL DEFAULT false;
 
 -- AlterTable
-ALTER TABLE "Class" ALTER COLUMN "joinCode" SET DEFAULT nanoid_alphanumeric();
+-- ALTER TABLE "Class" ALTER COLUMN "joinCode" SET DEFAULT nanoid_alphanumeric();
 
 -- CreateTable
 CREATE TABLE "Rubric" (
