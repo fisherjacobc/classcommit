@@ -38,3 +38,14 @@ Our solution is to make a web-based application that brings the power of GitHub 
 10. A [teacher] client can leave rubric-based feedback and grades per assignment
     a. This can include a final score, comments, and they can reference specific files and/or lines of code.
     b. Grades can be optionally synced to the Canvas LMS via an IMS.
+
+## LTI / Canvas support
+
+There is now an LTI setup guide in [docs/lti-setup.md](docs/lti-setup.md). The runnable sidecar is [scripts/lti-provider.mjs](scripts/lti-provider.mjs), and you can start it with `pnpm lti:dev`.
+
+The important launch targets are:
+
+- Class page: `/classes/:classId`
+- Assignment page: `/classes/:classId/assignments/:assignmentId`
+
+The helper module in [src/server/lti.ts](src/server/lti.ts) builds those URLs and the deep-link payloads for Canvas or another LTI 1.3 platform.

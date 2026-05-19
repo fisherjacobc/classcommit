@@ -32,6 +32,8 @@ model User {
   submissions Submission[]
   groupMemberships GroupMember[]
 
+  ltiIdentities LtiIdentity[]
+
   @@unique([email])
   @@map("user")
 }
@@ -129,6 +131,8 @@ model Assignment {
     groupAssignments AssignmentGroup[]
     groupSubmissions GroupSubmission[]
     rubric Rubric?
+
+    ltiResourceLinks LtiResourceLink[]
 }
 
 model Rubric {
@@ -264,4 +268,60 @@ model Verification {
   updatedAt  DateTime @default(now()) @updatedAt
 
   @@map("verification")
+}
+
+model LtiPlatform {
+  id String @id @default(cuid())
+
+  issuer String @unique
+  clientId String
+
+  authLoginUrl String
+  authTokenUrl String
+  keySetUrl String
+
+  name String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  resourceLinks LtiResourceLink[]
+}
+
+model LtiIdentity {
+  id String @id @default(cuid())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  issuer  String
+  subject String
+
+  email String?
+  name  String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([issuer, subject])
+}
+
+model LtiResourceLink {
+  id String @id @default(cuid())
+
+  platformId String
+  platform   LtiPlatform @relation(fields: [platformId], references: [id])
+
+  deploymentId String
+  contextId String
+  resourceLinkId String
+
+  assignmentId Int
+  assignment   Assignment @relation(fields: [assignmentId], references: [id])
+
+  lineitemUrl String?
+
+  createdAt DateTime @default(now())
+
+  @@unique([platformId, deploymentId, resourceLinkId])
 }
