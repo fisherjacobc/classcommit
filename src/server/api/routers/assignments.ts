@@ -7,6 +7,7 @@ import {
 	classProtectedProcedure,
 	createTRPCRouter,
 } from "../trpc";
+import feedbackRouter from "./feedback";
 
 const ensureTeacherRole = (role: "OWNER" | "TEACHER" | "STUDENT") => {
 	if (role === "STUDENT") {
@@ -38,7 +39,6 @@ const parseOwnerRepo = (githubRepo: string) => {
 
 	return { owner, repo };
 };
-
 export const assignmentsRouter = createTRPCRouter({
 	getAssignments: classProtectedProcedure.query(async ({ ctx }) => {
 		const assignments = await ctx.db.assignment.findMany({
@@ -136,23 +136,23 @@ export const assignmentsRouter = createTRPCRouter({
 			}
 
 			const { owner, repo } = parseOwnerRepo(ctx.class.githubRepo);
-			const repoInfo = ctx.session.githubAccount.repos.find(
-				(repoResult) => repoResult.full_name === ctx.class.githubRepo,
-			);
+			// const repoInfo = ctx.session.githubAccount.repos.find(
+			// 	(repoResult) => repoResult.full_name === ctx.class.githubRepo,
+			// );
 
-			if (!repoInfo) {
-				throw new TRPCError({
-					code: "BAD_REQUEST",
-					message: "GitHub repository metadata could not be found.",
-				});
-			}
+			// if (!repoInfo) {
+			// 	throw new TRPCError({
+			// 		code: "BAD_REQUEST",
+			// 		message: "GitHub repository metadata could not be found.",
+			// 	});
+			// }
 
 			const branchResponse = await ctx.classOwnerGithub.request(
 				"GET /repos/{owner}/{repo}/branches/{branch}",
 				{
 					owner,
 					repo,
-					branch: repoInfo.default_branch,
+					branch: "master",
 				},
 			);
 
@@ -409,6 +409,103 @@ export const assignmentsRouter = createTRPCRouter({
 			};
 		}),
 
+	getSubmissionsForAssignment: assignmentsProtectedProcedure
+		.input(z.object({ assignmentId: z.number().int().positive() }))
+		.query(async ({ input, ctx }) => {
+			ensureTeacherRole(ctx.membership.role);
+
+			const submissions = await ctx.db.submission.findMany({
+				where: {
+					assignmentId: input.assignmentId,
+					assignment: {
+						classId: ctx.class.id,
+					},
+				},
+				include: {
+					student: true,
+				},
+				orderBy: {
+					submittedAt: "desc",
+				},
+			});
+
+			return submissions;
+		}),
+
+	getSubmissionFiles: assignmentsProtectedProcedure
+		.input(z.object({ submissionId: z.string().trim().min(1) }))
+		.query(async ({ input, ctx }) => {
+			ensureTeacherRole(ctx.membership.role);
+
+			const submission = await ctx.db.submission.findFirst({
+				where: { id: input.submissionId },
+				select: { id: true, ref: true, submittedAt: true, grade: true },
+			});
+
+			if (!submission) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message: "Submission not found.",
+				});
+			}
+
+			const { owner, repo } = parseOwnerRepo(ctx.class.githubRepo);
+			const branchResponse = await ctx.classOwnerGithub.request(
+				"GET /repos/{owner}/{repo}/branches/{branch}",
+				{ owner, repo, branch: "master" },
+			);
+
+			const treeResponse = await ctx.classOwnerGithub.request(
+				"GET /repos/{owner}/{repo}/git/trees/{tree_sha}",
+				{
+					owner,
+					repo,
+					tree_sha: branchResponse.data.commit.sha,
+					recursive: "1",
+				},
+			);
+
+			// reuse same logic as getMyAssignmentFiles but filter by submission id
+			const submissionPaths = treeResponse.data.tree
+				.filter(
+					(treeItem) =>
+						treeItem.type === "blob" &&
+						typeof treeItem.path === "string" &&
+						treeItem.path.includes(`/submissions/${submission.id}/`),
+				)
+				.map((treeItem) => treeItem.path as string);
+
+			const files = await Promise.all(
+				submissionPaths.map(async (path: string) => {
+					const fileResponse = await ctx.classOwnerGithub.request(
+						"GET /repos/{owner}/{repo}/contents/{path}",
+						{ owner, repo, path },
+					);
+
+					if (
+						Array.isArray(fileResponse.data) ||
+						!("content" in fileResponse.data) ||
+						typeof fileResponse.data.content !== "string"
+					) {
+						throw new TRPCError({
+							code: "INTERNAL_SERVER_ERROR",
+							message: `Could not load ${path} from GitHub.`,
+						});
+					}
+
+					return {
+						path: path.split(`/submissions/${submission.id}/`).at(-1) ?? path,
+						content: Buffer.from(
+							fileResponse.data.content.replace(/\n/g, ""),
+							"base64",
+						).toString("utf-8"),
+					};
+				}),
+			);
+
+			return { submission, files };
+		}),
+
 	submitMyAssignment: assignmentsProtectedProcedure.mutation(
 		async ({ input, ctx }) => {
 			ensureStudentRole(ctx.membership.role);
@@ -514,6 +611,7 @@ export const assignmentsRouter = createTRPCRouter({
 	getAssignmentSubmission: assignmentsProtectedProcedure
 		.input(
 			z.object({
+				assignmentId: z.number().int().positive(),
 				submissionId: z.string().trim().min(1, "Submission ID is required."),
 			}),
 		)
@@ -1125,4 +1223,6 @@ export const assignmentsRouter = createTRPCRouter({
 			});
 		},
 	),
+
+	feedback: feedbackRouter,
 });
