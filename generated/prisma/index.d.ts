@@ -860,11 +860,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-<<<<<<< HEAD
-      modelProps: "user" | "classMembership" | "class" | "group" | "groupMember" | "assignment" | "assignmentGroup" | "submission" | "groupSubmission" | "feedback" | "session" | "account" | "verification"
-=======
-      modelProps: "user" | "classMembership" | "class" | "group" | "groupMember" | "assignment" | "rubric" | "rubricCriterion" | "assignmentGroup" | "submission" | "groupSubmission" | "session" | "account" | "verification"
->>>>>>> d16d5ed44489a21e61479b9933ff924f8a10e762
+      modelProps: "user" | "classMembership" | "class" | "group" | "groupMember" | "assignment" | "rubric" | "rubricCriterion" | "assignmentGroup" | "submission" | "groupSubmission" | "feedback" | "session" | "account" | "verification"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2388,17 +2384,6 @@ export namespace Prisma {
 
 
   /**
-<<<<<<< HEAD
-   * Count Type SubmissionCountOutputType
-   */
-
-  export type SubmissionCountOutputType = {
-    feedbacks: number
-  }
-
-  export type SubmissionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    feedbacks?: boolean | SubmissionCountOutputTypeCountFeedbacksArgs
-=======
    * Count Type RubricCountOutputType
    */
 
@@ -2408,12 +2393,41 @@ export namespace Prisma {
 
   export type RubricCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     criteria?: boolean | RubricCountOutputTypeCountCriteriaArgs
->>>>>>> d16d5ed44489a21e61479b9933ff924f8a10e762
   }
 
   // Custom InputTypes
   /**
-<<<<<<< HEAD
+   * RubricCountOutputType without action
+   */
+  export type RubricCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RubricCountOutputType
+     */
+    select?: RubricCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * RubricCountOutputType without action
+   */
+  export type RubricCountOutputTypeCountCriteriaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RubricCriterionWhereInput
+  }
+
+
+  /**
+   * Count Type SubmissionCountOutputType
+   */
+
+  export type SubmissionCountOutputType = {
+    feedbacks: number
+  }
+
+  export type SubmissionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    feedbacks?: boolean | SubmissionCountOutputTypeCountFeedbacksArgs
+  }
+
+  // Custom InputTypes
+  /**
    * SubmissionCountOutputType without action
    */
   export type SubmissionCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2459,22 +2473,6 @@ export namespace Prisma {
    */
   export type GroupSubmissionCountOutputTypeCountFeedbacksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: FeedbackWhereInput
-=======
-   * RubricCountOutputType without action
-   */
-  export type RubricCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RubricCountOutputType
-     */
-    select?: RubricCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * RubricCountOutputType without action
-   */
-  export type RubricCountOutputTypeCountCriteriaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: RubricCriterionWhereInput
->>>>>>> d16d5ed44489a21e61479b9933ff924f8a10e762
   }
 
 
@@ -27024,7 +27022,41 @@ export namespace Prisma {
     grade?: NullableFloatFieldUpdateOperationsInput | number | null
   }
 
-<<<<<<< HEAD
+  export type RubricCriterionCreateManyRubricInput = {
+    id?: number
+    position: number
+    name: string
+    description?: string | null
+    points: number
+    expectedCodeOutput?: string | null
+  }
+
+  export type RubricCriterionUpdateWithoutRubricInput = {
+    position?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    points?: IntFieldUpdateOperationsInput | number
+    expectedCodeOutput?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type RubricCriterionUncheckedUpdateWithoutRubricInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    position?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    points?: IntFieldUpdateOperationsInput | number
+    expectedCodeOutput?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type RubricCriterionUncheckedUpdateManyWithoutRubricInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    position?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    points?: IntFieldUpdateOperationsInput | number
+    expectedCodeOutput?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type FeedbackCreateManySubmissionInput = {
     id?: string
     groupSubmissionId?: string | null
@@ -27095,41 +27127,6 @@ export namespace Prisma {
     startLine?: IntFieldUpdateOperationsInput | number
     endLine?: IntFieldUpdateOperationsInput | number
     comment?: StringFieldUpdateOperationsInput | string
-=======
-  export type RubricCriterionCreateManyRubricInput = {
-    id?: number
-    position: number
-    name: string
-    description?: string | null
-    points: number
-    expectedCodeOutput?: string | null
-  }
-
-  export type RubricCriterionUpdateWithoutRubricInput = {
-    position?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    points?: IntFieldUpdateOperationsInput | number
-    expectedCodeOutput?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type RubricCriterionUncheckedUpdateWithoutRubricInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    position?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    points?: IntFieldUpdateOperationsInput | number
-    expectedCodeOutput?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type RubricCriterionUncheckedUpdateManyWithoutRubricInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    position?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    points?: IntFieldUpdateOperationsInput | number
-    expectedCodeOutput?: NullableStringFieldUpdateOperationsInput | string | null
->>>>>>> d16d5ed44489a21e61479b9933ff924f8a10e762
   }
 
 

@@ -1,6 +1,7 @@
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 import { assignmentsRouter } from "./routers/assignments";
 import { classesRouter } from "./routers/classes";
+import { compilerRouter } from "./routers/compiler";
 import { githubRouter } from "./routers/github";
 import { groupsRouter } from "./routers/groups";
 
@@ -12,6 +13,7 @@ import { groupsRouter } from "./routers/groups";
 export const appRouter = createTRPCRouter({
 	classes: classesRouter,
 	assignments: assignmentsRouter,
+	compiler: compilerRouter,
 	github: githubRouter,
 	groups: groupsRouter,
 });

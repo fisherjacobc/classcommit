@@ -7,6 +7,7 @@ import {
 	classProtectedProcedure,
 	createTRPCRouter,
 } from "../trpc";
+import { runJavaCode } from "./compiler";
 import feedbackRouter from "./feedback";
 
 const ensureTeacherRole = (role: "OWNER" | "TEACHER" | "STUDENT") => {
@@ -38,6 +39,25 @@ const parseOwnerRepo = (githubRepo: string) => {
 	}
 
 	return { owner, repo };
+};
+
+const getClassOwnerRepoInfo = async (ctx: {
+	class: { githubRepo: string };
+	classOwnerGithub: {
+		request: (...args: Array<unknown>) => Promise<{ data: unknown }>;
+	};
+}) => {
+	const { owner, repo } = parseOwnerRepo(ctx.class.githubRepo);
+	const response = (await ctx.classOwnerGithub.request(
+		"GET /repos/{owner}/{repo}",
+		{ owner, repo },
+	)) as { data: { default_branch: string } };
+
+	return {
+		owner,
+		repo,
+		defaultBranch: response.data.default_branch,
+	};
 };
 
 const hasExpectedCodeOutput = (
@@ -81,6 +101,126 @@ const mapRubric = (
 	updatedAt: rubric.updatedAt.toISOString(),
 	createdAt: rubric.createdAt.toISOString(),
 });
+
+const normalizeOutputLines = (output: string) => {
+	const lines = output.replace(/\r/g, "").split("\n");
+
+	if (lines.at(-1) === "") {
+		lines.pop();
+	}
+
+	return lines;
+};
+
+const scoreRubricOutput = (
+	criteria: Array<{ points: number; expectedCodeOutput: string | null }>,
+	stdout: string,
+) => {
+	const actualLines = normalizeOutputLines(stdout);
+	let cursor = 0;
+	let score = 0;
+
+	for (const criterion of criteria) {
+		const expectedLines = normalizeOutputLines(
+			criterion.expectedCodeOutput ?? "",
+		);
+		const actualSlice = actualLines.slice(
+			cursor,
+			cursor + expectedLines.length,
+		);
+
+		const matches =
+			actualSlice.length === expectedLines.length &&
+			expectedLines.every(
+				(expectedLine, index) =>
+					expectedLine.trimEnd() === (actualSlice[index] ?? "").trimEnd(),
+			);
+
+		if (matches) {
+			score += criterion.points;
+		}
+
+		cursor += expectedLines.length;
+	}
+
+	return score;
+};
+
+async function loadSubmissionFilesById(
+	ctx: {
+		class: { githubRepo: string };
+		classOwnerGithub: {
+			request: (...args: Array<unknown>) => Promise<{ data: unknown }>;
+		};
+	},
+	assignmentId: number,
+	submissionId: string,
+) {
+	const { owner, repo, defaultBranch } = await getClassOwnerRepoInfo(ctx);
+	const branchResponse = (await ctx.classOwnerGithub.request(
+		"GET /repos/{owner}/{repo}/branches/{branch}",
+		{ owner, repo, branch: defaultBranch },
+	)) as { data: { commit: { sha: string } } };
+
+	const treeResponse = (await ctx.classOwnerGithub.request(
+		"GET /repos/{owner}/{repo}/git/trees/{tree_sha}",
+		{
+			owner,
+			repo,
+			tree_sha: branchResponse.data.commit.sha,
+			recursive: "1",
+		},
+	)) as {
+		data: { tree: Array<{ type?: string | null; path?: string | null }> };
+	};
+
+	const submissionPrefix = `assignments/${assignmentId}/submissions/${submissionId}/`;
+	const treeItems = treeResponse.data.tree as Array<{
+		type?: string | null;
+		path?: string | null;
+	}>;
+
+	const submissionPaths = treeItems
+		.filter(
+			(treeItem) =>
+				treeItem.type === "blob" &&
+				typeof treeItem.path === "string" &&
+				treeItem.path.startsWith(submissionPrefix),
+		)
+		.map((treeItem) => treeItem.path as string);
+
+	const files = await Promise.all(
+		submissionPaths.map(async (path) => {
+			const fileResponse = (await ctx.classOwnerGithub.request(
+				"GET /repos/{owner}/{repo}/contents/{path}",
+				{ owner, repo, path },
+			)) as {
+				data: { content: string } | Array<unknown>;
+			};
+
+			if (
+				Array.isArray(fileResponse.data) ||
+				!("content" in fileResponse.data) ||
+				typeof fileResponse.data.content !== "string"
+			) {
+				throw new TRPCError({
+					code: "INTERNAL_SERVER_ERROR",
+					message: `Could not load ${path} from GitHub.`,
+				});
+			}
+
+			return {
+				path: path.slice(submissionPrefix.length),
+				content: Buffer.from(
+					fileResponse.data.content.replace(/\n/g, ""),
+					"base64",
+				).toString("utf-8"),
+			};
+		}),
+	);
+
+	return files;
+}
 export const assignmentsRouter = createTRPCRouter({
 	getAssignments: classProtectedProcedure.query(async ({ ctx }) => {
 		const assignments = await ctx.db.assignment.findMany({
@@ -318,24 +458,14 @@ export const assignmentsRouter = createTRPCRouter({
 				});
 			}
 
-			const { owner, repo } = parseOwnerRepo(ctx.class.githubRepo);
-			const repoInfo = ctx.session.githubAccount.repos.find(
-				(repoResult) => repoResult.full_name === ctx.class.githubRepo,
-			);
-
-			if (!repoInfo) {
-				throw new TRPCError({
-					code: "BAD_REQUEST",
-					message: "GitHub repository metadata could not be found.",
-				});
-			}
+			const { owner, repo, defaultBranch } = await getClassOwnerRepoInfo(ctx);
 
 			const branchResponse = await ctx.classOwnerGithub.request(
 				"GET /repos/{owner}/{repo}/branches/{branch}",
 				{
 					owner,
 					repo,
-					branch: repoInfo.default_branch,
+					branch: defaultBranch,
 				},
 			);
 
@@ -409,7 +539,7 @@ export const assignmentsRouter = createTRPCRouter({
 			const commitResult = await ctx.classOwnerGithub.createOrUpdateFiles({
 				owner,
 				repo,
-				branch: repoInfo.default_branch,
+				branch: defaultBranch,
 				createBranch: false,
 				committer: {
 					name: env.GITHUB_APP_NAME,
@@ -491,10 +621,10 @@ export const assignmentsRouter = createTRPCRouter({
 				});
 			}
 
-			const { owner, repo } = parseOwnerRepo(ctx.class.githubRepo);
+			const { owner, repo, defaultBranch } = await getClassOwnerRepoInfo(ctx);
 			const branchResponse = await ctx.classOwnerGithub.request(
 				"GET /repos/{owner}/{repo}/branches/{branch}",
-				{ owner, repo, branch: "master" },
+				{ owner, repo, branch: defaultBranch },
 			);
 
 			const treeResponse = await ctx.classOwnerGithub.request(
@@ -548,6 +678,51 @@ export const assignmentsRouter = createTRPCRouter({
 			return { submission, files };
 		}),
 
+	getMyAssignmentSubmission: assignmentsProtectedProcedure.query(
+		async ({ input, ctx }) => {
+			ensureStudentRole(ctx.membership.role);
+
+			const assignment = await ctx.db.assignment.findFirst({
+				where: {
+					id: input.assignmentId,
+					classId: ctx.class.id,
+				},
+				select: {
+					id: true,
+					points: true,
+					published: true,
+				},
+			});
+
+			if (!assignment) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message: "Assignment not found.",
+				});
+			}
+
+			const submission = await ctx.db.submission.findUnique({
+				where: {
+					assignmentId_studentId: {
+						assignmentId: input.assignmentId,
+						studentId: ctx.session.user.id,
+					},
+				},
+				select: {
+					id: true,
+					ref: true,
+					submittedAt: true,
+					grade: true,
+				},
+			});
+
+			return {
+				assignment,
+				submission,
+			};
+		},
+	),
+
 	submitMyAssignment: assignmentsProtectedProcedure.mutation(
 		async ({ input, ctx }) => {
 			ensureStudentRole(ctx.membership.role);
@@ -596,12 +771,68 @@ export const assignmentsRouter = createTRPCRouter({
 				});
 			}
 
+			const autogradeAssignment = await ctx.db.assignment.findFirst({
+				where: {
+					id: input.assignmentId,
+					classId: ctx.class.id,
+				},
+				select: {
+					id: true,
+					points: true,
+					autogradeWithRubric: true,
+					rubric: {
+						include: {
+							criteria: {
+								orderBy: {
+									position: "asc",
+								},
+							},
+						},
+					},
+				},
+			});
+
+			if (!autogradeAssignment) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message: "Assignment not found.",
+				});
+			}
+
+			let autogradeResult: { grade?: number } | null = null;
+
+			if (
+				autogradeAssignment.autogradeWithRubric &&
+				autogradeAssignment.rubric &&
+				hasExpectedCodeOutput(autogradeAssignment.rubric.criteria)
+			) {
+				const files = await loadSubmissionFilesById(
+					ctx,
+					input.assignmentId,
+					submission.id,
+				);
+
+				const executionResult = await runJavaCode(
+					files.map((file) => ({
+						name: file.path,
+						content: file.content,
+					})),
+				);
+
+				const stdout =
+					executionResult.run?.stdout ?? executionResult.run?.output ?? "";
+				autogradeResult = {
+					grade: scoreRubricOutput(autogradeAssignment.rubric.criteria, stdout),
+				};
+			}
+
 			return await ctx.db.submission.update({
 				where: {
 					id: submission.id,
 				},
 				data: {
 					submittedAt: new Date(),
+					grade: autogradeResult?.grade ?? undefined,
 				},
 			});
 		},
@@ -701,6 +932,7 @@ export const assignmentsRouter = createTRPCRouter({
 	gradeAssignmentSubmission: assignmentsProtectedProcedure
 		.input(
 			z.object({
+				assignmentId: z.number().int().positive(),
 				submissionId: z.string().trim().min(1, "Submission ID is required."),
 				grade: z.number().min(0, "Grade must be 0 or greater."),
 			}),
@@ -765,8 +997,6 @@ export const assignmentsRouter = createTRPCRouter({
 
 	getAssignmentRubric: assignmentsProtectedProcedure.query(
 		async ({ input, ctx }) => {
-			ensureTeacherRole(ctx.membership.role);
-
 			const assignment = await ctx.db.assignment.findFirst({
 				where: {
 					id: input.assignmentId,
@@ -1066,18 +1296,7 @@ export const assignmentsRouter = createTRPCRouter({
 				return assignment;
 			}
 
-			const { owner, repo } = parseOwnerRepo(ctx.class.githubRepo);
-
-			const repoInfo = ctx.session.githubAccount.repos.find(
-				(repoResult) => repoResult.full_name === ctx.class.githubRepo,
-			);
-
-			if (!repoInfo) {
-				throw new TRPCError({
-					code: "BAD_REQUEST",
-					message: "GitHub repository metadata could not be found.",
-				});
-			}
+			const { owner, repo, defaultBranch } = await getClassOwnerRepoInfo(ctx);
 
 			const studentMembers = await ctx.db.classMembership.findMany({
 				where: {
@@ -1151,7 +1370,7 @@ export const assignmentsRouter = createTRPCRouter({
 				{
 					owner,
 					repo,
-					branch: repoInfo.default_branch,
+					branch: defaultBranch,
 				},
 			);
 
@@ -1221,7 +1440,7 @@ export const assignmentsRouter = createTRPCRouter({
 			const commitResult = await ctx.classOwnerGithub.createOrUpdateFiles({
 				owner,
 				repo,
-				branch: repoInfo.default_branch,
+				branch: defaultBranch,
 				createBranch: false,
 				changes: submissionFiles,
 				committer: {

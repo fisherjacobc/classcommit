@@ -9,7 +9,11 @@ export default async function EditAssignment({ params }: { params: Promise<{ cla
     return (
         <HydrateClient>
             <main className="flex">
-                <Editor files={files} />
+                <Editor
+                    files={files}
+                    classId={Number.parseInt(classId, 10)}
+                    assignmentId={Number.parseInt(assignmentId, 10)}
+                />
             </main>
         </HydrateClient>
     )

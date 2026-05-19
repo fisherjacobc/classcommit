@@ -35,7 +35,7 @@ export const classesRouter = createTRPCRouter({
 			});
 		}
 
-		const response = await ctx.github.request(
+		const response = await ctx.classOwnerGithub.request(
 			"GET /repos/{owner}/{repo}/contents/{path}",
 			{
 				owner,
