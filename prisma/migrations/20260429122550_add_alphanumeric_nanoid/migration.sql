@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION nanoid_alphanumeric(size int DEFAULT 21)
+CREATE OR REPLACE FUNCTION nanoid_alphanumeric(size int DEFAULT 8)
 RETURNS text AS $$
 DECLARE
   id text := '';

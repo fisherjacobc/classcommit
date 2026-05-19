@@ -265,6 +265,40 @@ exports.Prisma.VerificationScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.LtiPlatformScalarFieldEnum = {
+  id: 'id',
+  issuer: 'issuer',
+  clientId: 'clientId',
+  authLoginUrl: 'authLoginUrl',
+  authTokenUrl: 'authTokenUrl',
+  keySetUrl: 'keySetUrl',
+  name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.LtiIdentityScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  issuer: 'issuer',
+  subject: 'subject',
+  email: 'email',
+  name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.LtiResourceLinkScalarFieldEnum = {
+  id: 'id',
+  platformId: 'platformId',
+  deploymentId: 'deploymentId',
+  contextId: 'contextId',
+  resourceLinkId: 'resourceLinkId',
+  assignmentId: 'assignmentId',
+  lineitemUrl: 'lineitemUrl',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -305,7 +339,10 @@ exports.Prisma.ModelName = {
   Feedback: 'Feedback',
   Session: 'Session',
   Account: 'Account',
-  Verification: 'Verification'
+  Verification: 'Verification',
+  LtiPlatform: 'LtiPlatform',
+  LtiIdentity: 'LtiIdentity',
+  LtiResourceLink: 'LtiResourceLink'
 };
 
 /**

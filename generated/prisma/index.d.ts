@@ -88,6 +88,21 @@ export type Account = $Result.DefaultSelection<Prisma.$AccountPayload>
  * 
  */
 export type Verification = $Result.DefaultSelection<Prisma.$VerificationPayload>
+/**
+ * Model LtiPlatform
+ * 
+ */
+export type LtiPlatform = $Result.DefaultSelection<Prisma.$LtiPlatformPayload>
+/**
+ * Model LtiIdentity
+ * 
+ */
+export type LtiIdentity = $Result.DefaultSelection<Prisma.$LtiIdentityPayload>
+/**
+ * Model LtiResourceLink
+ * 
+ */
+export type LtiResourceLink = $Result.DefaultSelection<Prisma.$LtiResourceLinkPayload>
 
 /**
  * Enums
@@ -386,6 +401,36 @@ export class PrismaClient<
     * ```
     */
   get verification(): Prisma.VerificationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.ltiPlatform`: Exposes CRUD operations for the **LtiPlatform** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LtiPlatforms
+    * const ltiPlatforms = await prisma.ltiPlatform.findMany()
+    * ```
+    */
+  get ltiPlatform(): Prisma.LtiPlatformDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.ltiIdentity`: Exposes CRUD operations for the **LtiIdentity** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LtiIdentities
+    * const ltiIdentities = await prisma.ltiIdentity.findMany()
+    * ```
+    */
+  get ltiIdentity(): Prisma.LtiIdentityDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.ltiResourceLink`: Exposes CRUD operations for the **LtiResourceLink** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LtiResourceLinks
+    * const ltiResourceLinks = await prisma.ltiResourceLink.findMany()
+    * ```
+    */
+  get ltiResourceLink(): Prisma.LtiResourceLinkDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -841,7 +886,10 @@ export namespace Prisma {
     Feedback: 'Feedback',
     Session: 'Session',
     Account: 'Account',
-    Verification: 'Verification'
+    Verification: 'Verification',
+    LtiPlatform: 'LtiPlatform',
+    LtiIdentity: 'LtiIdentity',
+    LtiResourceLink: 'LtiResourceLink'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -860,7 +908,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "classMembership" | "class" | "group" | "groupMember" | "assignment" | "rubric" | "rubricCriterion" | "assignmentGroup" | "submission" | "groupSubmission" | "feedback" | "session" | "account" | "verification"
+      modelProps: "user" | "classMembership" | "class" | "group" | "groupMember" | "assignment" | "rubric" | "rubricCriterion" | "assignmentGroup" | "submission" | "groupSubmission" | "feedback" | "session" | "account" | "verification" | "ltiPlatform" | "ltiIdentity" | "ltiResourceLink"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1974,6 +2022,228 @@ export namespace Prisma {
           }
         }
       }
+      LtiPlatform: {
+        payload: Prisma.$LtiPlatformPayload<ExtArgs>
+        fields: Prisma.LtiPlatformFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LtiPlatformFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LtiPlatformPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LtiPlatformFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LtiPlatformPayload>
+          }
+          findFirst: {
+            args: Prisma.LtiPlatformFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LtiPlatformPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LtiPlatformFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LtiPlatformPayload>
+          }
+          findMany: {
+            args: Prisma.LtiPlatformFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LtiPlatformPayload>[]
+          }
+          create: {
+            args: Prisma.LtiPlatformCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LtiPlatformPayload>
+          }
+          createMany: {
+            args: Prisma.LtiPlatformCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LtiPlatformCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LtiPlatformPayload>[]
+          }
+          delete: {
+            args: Prisma.LtiPlatformDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LtiPlatformPayload>
+          }
+          update: {
+            args: Prisma.LtiPlatformUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LtiPlatformPayload>
+          }
+          deleteMany: {
+            args: Prisma.LtiPlatformDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LtiPlatformUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.LtiPlatformUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LtiPlatformPayload>[]
+          }
+          upsert: {
+            args: Prisma.LtiPlatformUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LtiPlatformPayload>
+          }
+          aggregate: {
+            args: Prisma.LtiPlatformAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLtiPlatform>
+          }
+          groupBy: {
+            args: Prisma.LtiPlatformGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LtiPlatformGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LtiPlatformCountArgs<ExtArgs>
+            result: $Utils.Optional<LtiPlatformCountAggregateOutputType> | number
+          }
+        }
+      }
+      LtiIdentity: {
+        payload: Prisma.$LtiIdentityPayload<ExtArgs>
+        fields: Prisma.LtiIdentityFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LtiIdentityFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LtiIdentityPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LtiIdentityFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LtiIdentityPayload>
+          }
+          findFirst: {
+            args: Prisma.LtiIdentityFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LtiIdentityPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LtiIdentityFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LtiIdentityPayload>
+          }
+          findMany: {
+            args: Prisma.LtiIdentityFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LtiIdentityPayload>[]
+          }
+          create: {
+            args: Prisma.LtiIdentityCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LtiIdentityPayload>
+          }
+          createMany: {
+            args: Prisma.LtiIdentityCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LtiIdentityCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LtiIdentityPayload>[]
+          }
+          delete: {
+            args: Prisma.LtiIdentityDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LtiIdentityPayload>
+          }
+          update: {
+            args: Prisma.LtiIdentityUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LtiIdentityPayload>
+          }
+          deleteMany: {
+            args: Prisma.LtiIdentityDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LtiIdentityUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.LtiIdentityUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LtiIdentityPayload>[]
+          }
+          upsert: {
+            args: Prisma.LtiIdentityUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LtiIdentityPayload>
+          }
+          aggregate: {
+            args: Prisma.LtiIdentityAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLtiIdentity>
+          }
+          groupBy: {
+            args: Prisma.LtiIdentityGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LtiIdentityGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LtiIdentityCountArgs<ExtArgs>
+            result: $Utils.Optional<LtiIdentityCountAggregateOutputType> | number
+          }
+        }
+      }
+      LtiResourceLink: {
+        payload: Prisma.$LtiResourceLinkPayload<ExtArgs>
+        fields: Prisma.LtiResourceLinkFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LtiResourceLinkFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LtiResourceLinkPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LtiResourceLinkFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LtiResourceLinkPayload>
+          }
+          findFirst: {
+            args: Prisma.LtiResourceLinkFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LtiResourceLinkPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LtiResourceLinkFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LtiResourceLinkPayload>
+          }
+          findMany: {
+            args: Prisma.LtiResourceLinkFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LtiResourceLinkPayload>[]
+          }
+          create: {
+            args: Prisma.LtiResourceLinkCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LtiResourceLinkPayload>
+          }
+          createMany: {
+            args: Prisma.LtiResourceLinkCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LtiResourceLinkCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LtiResourceLinkPayload>[]
+          }
+          delete: {
+            args: Prisma.LtiResourceLinkDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LtiResourceLinkPayload>
+          }
+          update: {
+            args: Prisma.LtiResourceLinkUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LtiResourceLinkPayload>
+          }
+          deleteMany: {
+            args: Prisma.LtiResourceLinkDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LtiResourceLinkUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.LtiResourceLinkUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LtiResourceLinkPayload>[]
+          }
+          upsert: {
+            args: Prisma.LtiResourceLinkUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LtiResourceLinkPayload>
+          }
+          aggregate: {
+            args: Prisma.LtiResourceLinkAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLtiResourceLink>
+          }
+          groupBy: {
+            args: Prisma.LtiResourceLinkGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LtiResourceLinkGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LtiResourceLinkCountArgs<ExtArgs>
+            result: $Utils.Optional<LtiResourceLinkCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2085,6 +2355,9 @@ export namespace Prisma {
     session?: SessionOmit
     account?: AccountOmit
     verification?: VerificationOmit
+    ltiPlatform?: LtiPlatformOmit
+    ltiIdentity?: LtiIdentityOmit
+    ltiResourceLink?: LtiResourceLinkOmit
   }
 
   /* Types for Logging */
@@ -2170,6 +2443,7 @@ export namespace Prisma {
     classes: number
     submissions: number
     groupMemberships: number
+    ltiIdentities: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2178,6 +2452,7 @@ export namespace Prisma {
     classes?: boolean | UserCountOutputTypeCountClassesArgs
     submissions?: boolean | UserCountOutputTypeCountSubmissionsArgs
     groupMemberships?: boolean | UserCountOutputTypeCountGroupMembershipsArgs
+    ltiIdentities?: boolean | UserCountOutputTypeCountLtiIdentitiesArgs
   }
 
   // Custom InputTypes
@@ -2224,6 +2499,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountGroupMembershipsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: GroupMemberWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountLtiIdentitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LtiIdentityWhereInput
   }
 
 
@@ -2342,12 +2624,14 @@ export namespace Prisma {
     submissions: number
     groupAssignments: number
     groupSubmissions: number
+    ltiResourceLinks: number
   }
 
   export type AssignmentCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     submissions?: boolean | AssignmentCountOutputTypeCountSubmissionsArgs
     groupAssignments?: boolean | AssignmentCountOutputTypeCountGroupAssignmentsArgs
     groupSubmissions?: boolean | AssignmentCountOutputTypeCountGroupSubmissionsArgs
+    ltiResourceLinks?: boolean | AssignmentCountOutputTypeCountLtiResourceLinksArgs
   }
 
   // Custom InputTypes
@@ -2380,6 +2664,13 @@ export namespace Prisma {
    */
   export type AssignmentCountOutputTypeCountGroupSubmissionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: GroupSubmissionWhereInput
+  }
+
+  /**
+   * AssignmentCountOutputType without action
+   */
+  export type AssignmentCountOutputTypeCountLtiResourceLinksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LtiResourceLinkWhereInput
   }
 
 
@@ -2473,6 +2764,37 @@ export namespace Prisma {
    */
   export type GroupSubmissionCountOutputTypeCountFeedbacksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: FeedbackWhereInput
+  }
+
+
+  /**
+   * Count Type LtiPlatformCountOutputType
+   */
+
+  export type LtiPlatformCountOutputType = {
+    resourceLinks: number
+  }
+
+  export type LtiPlatformCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    resourceLinks?: boolean | LtiPlatformCountOutputTypeCountResourceLinksArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * LtiPlatformCountOutputType without action
+   */
+  export type LtiPlatformCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiPlatformCountOutputType
+     */
+    select?: LtiPlatformCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * LtiPlatformCountOutputType without action
+   */
+  export type LtiPlatformCountOutputTypeCountResourceLinksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LtiResourceLinkWhereInput
   }
 
 
@@ -2673,6 +2995,7 @@ export namespace Prisma {
     classes?: boolean | User$classesArgs<ExtArgs>
     submissions?: boolean | User$submissionsArgs<ExtArgs>
     groupMemberships?: boolean | User$groupMembershipsArgs<ExtArgs>
+    ltiIdentities?: boolean | User$ltiIdentitiesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2716,6 +3039,7 @@ export namespace Prisma {
     classes?: boolean | User$classesArgs<ExtArgs>
     submissions?: boolean | User$submissionsArgs<ExtArgs>
     groupMemberships?: boolean | User$groupMembershipsArgs<ExtArgs>
+    ltiIdentities?: boolean | User$ltiIdentitiesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2729,6 +3053,7 @@ export namespace Prisma {
       classes: Prisma.$ClassMembershipPayload<ExtArgs>[]
       submissions: Prisma.$SubmissionPayload<ExtArgs>[]
       groupMemberships: Prisma.$GroupMemberPayload<ExtArgs>[]
+      ltiIdentities: Prisma.$LtiIdentityPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3138,6 +3463,7 @@ export namespace Prisma {
     classes<T extends User$classesArgs<ExtArgs> = {}>(args?: Subset<T, User$classesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClassMembershipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     submissions<T extends User$submissionsArgs<ExtArgs> = {}>(args?: Subset<T, User$submissionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     groupMemberships<T extends User$groupMembershipsArgs<ExtArgs> = {}>(args?: Subset<T, User$groupMembershipsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GroupMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    ltiIdentities<T extends User$ltiIdentitiesArgs<ExtArgs> = {}>(args?: Subset<T, User$ltiIdentitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LtiIdentityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3680,6 +4006,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: GroupMemberScalarFieldEnum | GroupMemberScalarFieldEnum[]
+  }
+
+  /**
+   * User.ltiIdentities
+   */
+  export type User$ltiIdentitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiIdentity
+     */
+    select?: LtiIdentitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LtiIdentity
+     */
+    omit?: LtiIdentityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LtiIdentityInclude<ExtArgs> | null
+    where?: LtiIdentityWhereInput
+    orderBy?: LtiIdentityOrderByWithRelationInput | LtiIdentityOrderByWithRelationInput[]
+    cursor?: LtiIdentityWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LtiIdentityScalarFieldEnum | LtiIdentityScalarFieldEnum[]
   }
 
   /**
@@ -8523,6 +8873,7 @@ export namespace Prisma {
     groupAssignments?: boolean | Assignment$groupAssignmentsArgs<ExtArgs>
     groupSubmissions?: boolean | Assignment$groupSubmissionsArgs<ExtArgs>
     rubric?: boolean | Assignment$rubricArgs<ExtArgs>
+    ltiResourceLinks?: boolean | Assignment$ltiResourceLinksArgs<ExtArgs>
     _count?: boolean | AssignmentCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["assignment"]>
 
@@ -8568,6 +8919,7 @@ export namespace Prisma {
     groupAssignments?: boolean | Assignment$groupAssignmentsArgs<ExtArgs>
     groupSubmissions?: boolean | Assignment$groupSubmissionsArgs<ExtArgs>
     rubric?: boolean | Assignment$rubricArgs<ExtArgs>
+    ltiResourceLinks?: boolean | Assignment$ltiResourceLinksArgs<ExtArgs>
     _count?: boolean | AssignmentCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type AssignmentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8585,6 +8937,7 @@ export namespace Prisma {
       groupAssignments: Prisma.$AssignmentGroupPayload<ExtArgs>[]
       groupSubmissions: Prisma.$GroupSubmissionPayload<ExtArgs>[]
       rubric: Prisma.$RubricPayload<ExtArgs> | null
+      ltiResourceLinks: Prisma.$LtiResourceLinkPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -8994,6 +9347,7 @@ export namespace Prisma {
     groupAssignments<T extends Assignment$groupAssignmentsArgs<ExtArgs> = {}>(args?: Subset<T, Assignment$groupAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssignmentGroupPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     groupSubmissions<T extends Assignment$groupSubmissionsArgs<ExtArgs> = {}>(args?: Subset<T, Assignment$groupSubmissionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GroupSubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     rubric<T extends Assignment$rubricArgs<ExtArgs> = {}>(args?: Subset<T, Assignment$rubricArgs<ExtArgs>>): Prisma__RubricClient<$Result.GetResult<Prisma.$RubricPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    ltiResourceLinks<T extends Assignment$ltiResourceLinksArgs<ExtArgs> = {}>(args?: Subset<T, Assignment$ltiResourceLinksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LtiResourceLinkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9515,6 +9869,30 @@ export namespace Prisma {
      */
     include?: RubricInclude<ExtArgs> | null
     where?: RubricWhereInput
+  }
+
+  /**
+   * Assignment.ltiResourceLinks
+   */
+  export type Assignment$ltiResourceLinksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiResourceLink
+     */
+    select?: LtiResourceLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LtiResourceLink
+     */
+    omit?: LtiResourceLinkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LtiResourceLinkInclude<ExtArgs> | null
+    where?: LtiResourceLinkWhereInput
+    orderBy?: LtiResourceLinkOrderByWithRelationInput | LtiResourceLinkOrderByWithRelationInput[]
+    cursor?: LtiResourceLinkWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LtiResourceLinkScalarFieldEnum | LtiResourceLinkScalarFieldEnum[]
   }
 
   /**
@@ -19609,6 +19987,3364 @@ export namespace Prisma {
 
 
   /**
+   * Model LtiPlatform
+   */
+
+  export type AggregateLtiPlatform = {
+    _count: LtiPlatformCountAggregateOutputType | null
+    _min: LtiPlatformMinAggregateOutputType | null
+    _max: LtiPlatformMaxAggregateOutputType | null
+  }
+
+  export type LtiPlatformMinAggregateOutputType = {
+    id: string | null
+    issuer: string | null
+    clientId: string | null
+    authLoginUrl: string | null
+    authTokenUrl: string | null
+    keySetUrl: string | null
+    name: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LtiPlatformMaxAggregateOutputType = {
+    id: string | null
+    issuer: string | null
+    clientId: string | null
+    authLoginUrl: string | null
+    authTokenUrl: string | null
+    keySetUrl: string | null
+    name: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LtiPlatformCountAggregateOutputType = {
+    id: number
+    issuer: number
+    clientId: number
+    authLoginUrl: number
+    authTokenUrl: number
+    keySetUrl: number
+    name: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type LtiPlatformMinAggregateInputType = {
+    id?: true
+    issuer?: true
+    clientId?: true
+    authLoginUrl?: true
+    authTokenUrl?: true
+    keySetUrl?: true
+    name?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LtiPlatformMaxAggregateInputType = {
+    id?: true
+    issuer?: true
+    clientId?: true
+    authLoginUrl?: true
+    authTokenUrl?: true
+    keySetUrl?: true
+    name?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LtiPlatformCountAggregateInputType = {
+    id?: true
+    issuer?: true
+    clientId?: true
+    authLoginUrl?: true
+    authTokenUrl?: true
+    keySetUrl?: true
+    name?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type LtiPlatformAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LtiPlatform to aggregate.
+     */
+    where?: LtiPlatformWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LtiPlatforms to fetch.
+     */
+    orderBy?: LtiPlatformOrderByWithRelationInput | LtiPlatformOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LtiPlatformWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LtiPlatforms from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LtiPlatforms.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LtiPlatforms
+    **/
+    _count?: true | LtiPlatformCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LtiPlatformMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LtiPlatformMaxAggregateInputType
+  }
+
+  export type GetLtiPlatformAggregateType<T extends LtiPlatformAggregateArgs> = {
+        [P in keyof T & keyof AggregateLtiPlatform]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLtiPlatform[P]>
+      : GetScalarType<T[P], AggregateLtiPlatform[P]>
+  }
+
+
+
+
+  export type LtiPlatformGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LtiPlatformWhereInput
+    orderBy?: LtiPlatformOrderByWithAggregationInput | LtiPlatformOrderByWithAggregationInput[]
+    by: LtiPlatformScalarFieldEnum[] | LtiPlatformScalarFieldEnum
+    having?: LtiPlatformScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LtiPlatformCountAggregateInputType | true
+    _min?: LtiPlatformMinAggregateInputType
+    _max?: LtiPlatformMaxAggregateInputType
+  }
+
+  export type LtiPlatformGroupByOutputType = {
+    id: string
+    issuer: string
+    clientId: string
+    authLoginUrl: string
+    authTokenUrl: string
+    keySetUrl: string
+    name: string
+    createdAt: Date
+    updatedAt: Date
+    _count: LtiPlatformCountAggregateOutputType | null
+    _min: LtiPlatformMinAggregateOutputType | null
+    _max: LtiPlatformMaxAggregateOutputType | null
+  }
+
+  type GetLtiPlatformGroupByPayload<T extends LtiPlatformGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LtiPlatformGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LtiPlatformGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LtiPlatformGroupByOutputType[P]>
+            : GetScalarType<T[P], LtiPlatformGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LtiPlatformSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    issuer?: boolean
+    clientId?: boolean
+    authLoginUrl?: boolean
+    authTokenUrl?: boolean
+    keySetUrl?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    resourceLinks?: boolean | LtiPlatform$resourceLinksArgs<ExtArgs>
+    _count?: boolean | LtiPlatformCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ltiPlatform"]>
+
+  export type LtiPlatformSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    issuer?: boolean
+    clientId?: boolean
+    authLoginUrl?: boolean
+    authTokenUrl?: boolean
+    keySetUrl?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["ltiPlatform"]>
+
+  export type LtiPlatformSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    issuer?: boolean
+    clientId?: boolean
+    authLoginUrl?: boolean
+    authTokenUrl?: boolean
+    keySetUrl?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["ltiPlatform"]>
+
+  export type LtiPlatformSelectScalar = {
+    id?: boolean
+    issuer?: boolean
+    clientId?: boolean
+    authLoginUrl?: boolean
+    authTokenUrl?: boolean
+    keySetUrl?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type LtiPlatformOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "issuer" | "clientId" | "authLoginUrl" | "authTokenUrl" | "keySetUrl" | "name" | "createdAt" | "updatedAt", ExtArgs["result"]["ltiPlatform"]>
+  export type LtiPlatformInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    resourceLinks?: boolean | LtiPlatform$resourceLinksArgs<ExtArgs>
+    _count?: boolean | LtiPlatformCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type LtiPlatformIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type LtiPlatformIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $LtiPlatformPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LtiPlatform"
+    objects: {
+      resourceLinks: Prisma.$LtiResourceLinkPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      issuer: string
+      clientId: string
+      authLoginUrl: string
+      authTokenUrl: string
+      keySetUrl: string
+      name: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["ltiPlatform"]>
+    composites: {}
+  }
+
+  type LtiPlatformGetPayload<S extends boolean | null | undefined | LtiPlatformDefaultArgs> = $Result.GetResult<Prisma.$LtiPlatformPayload, S>
+
+  type LtiPlatformCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LtiPlatformFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LtiPlatformCountAggregateInputType | true
+    }
+
+  export interface LtiPlatformDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LtiPlatform'], meta: { name: 'LtiPlatform' } }
+    /**
+     * Find zero or one LtiPlatform that matches the filter.
+     * @param {LtiPlatformFindUniqueArgs} args - Arguments to find a LtiPlatform
+     * @example
+     * // Get one LtiPlatform
+     * const ltiPlatform = await prisma.ltiPlatform.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LtiPlatformFindUniqueArgs>(args: SelectSubset<T, LtiPlatformFindUniqueArgs<ExtArgs>>): Prisma__LtiPlatformClient<$Result.GetResult<Prisma.$LtiPlatformPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one LtiPlatform that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LtiPlatformFindUniqueOrThrowArgs} args - Arguments to find a LtiPlatform
+     * @example
+     * // Get one LtiPlatform
+     * const ltiPlatform = await prisma.ltiPlatform.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LtiPlatformFindUniqueOrThrowArgs>(args: SelectSubset<T, LtiPlatformFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LtiPlatformClient<$Result.GetResult<Prisma.$LtiPlatformPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LtiPlatform that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LtiPlatformFindFirstArgs} args - Arguments to find a LtiPlatform
+     * @example
+     * // Get one LtiPlatform
+     * const ltiPlatform = await prisma.ltiPlatform.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LtiPlatformFindFirstArgs>(args?: SelectSubset<T, LtiPlatformFindFirstArgs<ExtArgs>>): Prisma__LtiPlatformClient<$Result.GetResult<Prisma.$LtiPlatformPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LtiPlatform that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LtiPlatformFindFirstOrThrowArgs} args - Arguments to find a LtiPlatform
+     * @example
+     * // Get one LtiPlatform
+     * const ltiPlatform = await prisma.ltiPlatform.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LtiPlatformFindFirstOrThrowArgs>(args?: SelectSubset<T, LtiPlatformFindFirstOrThrowArgs<ExtArgs>>): Prisma__LtiPlatformClient<$Result.GetResult<Prisma.$LtiPlatformPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LtiPlatforms that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LtiPlatformFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LtiPlatforms
+     * const ltiPlatforms = await prisma.ltiPlatform.findMany()
+     * 
+     * // Get first 10 LtiPlatforms
+     * const ltiPlatforms = await prisma.ltiPlatform.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const ltiPlatformWithIdOnly = await prisma.ltiPlatform.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LtiPlatformFindManyArgs>(args?: SelectSubset<T, LtiPlatformFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LtiPlatformPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a LtiPlatform.
+     * @param {LtiPlatformCreateArgs} args - Arguments to create a LtiPlatform.
+     * @example
+     * // Create one LtiPlatform
+     * const LtiPlatform = await prisma.ltiPlatform.create({
+     *   data: {
+     *     // ... data to create a LtiPlatform
+     *   }
+     * })
+     * 
+     */
+    create<T extends LtiPlatformCreateArgs>(args: SelectSubset<T, LtiPlatformCreateArgs<ExtArgs>>): Prisma__LtiPlatformClient<$Result.GetResult<Prisma.$LtiPlatformPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many LtiPlatforms.
+     * @param {LtiPlatformCreateManyArgs} args - Arguments to create many LtiPlatforms.
+     * @example
+     * // Create many LtiPlatforms
+     * const ltiPlatform = await prisma.ltiPlatform.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LtiPlatformCreateManyArgs>(args?: SelectSubset<T, LtiPlatformCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LtiPlatforms and returns the data saved in the database.
+     * @param {LtiPlatformCreateManyAndReturnArgs} args - Arguments to create many LtiPlatforms.
+     * @example
+     * // Create many LtiPlatforms
+     * const ltiPlatform = await prisma.ltiPlatform.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LtiPlatforms and only return the `id`
+     * const ltiPlatformWithIdOnly = await prisma.ltiPlatform.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LtiPlatformCreateManyAndReturnArgs>(args?: SelectSubset<T, LtiPlatformCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LtiPlatformPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a LtiPlatform.
+     * @param {LtiPlatformDeleteArgs} args - Arguments to delete one LtiPlatform.
+     * @example
+     * // Delete one LtiPlatform
+     * const LtiPlatform = await prisma.ltiPlatform.delete({
+     *   where: {
+     *     // ... filter to delete one LtiPlatform
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LtiPlatformDeleteArgs>(args: SelectSubset<T, LtiPlatformDeleteArgs<ExtArgs>>): Prisma__LtiPlatformClient<$Result.GetResult<Prisma.$LtiPlatformPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one LtiPlatform.
+     * @param {LtiPlatformUpdateArgs} args - Arguments to update one LtiPlatform.
+     * @example
+     * // Update one LtiPlatform
+     * const ltiPlatform = await prisma.ltiPlatform.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LtiPlatformUpdateArgs>(args: SelectSubset<T, LtiPlatformUpdateArgs<ExtArgs>>): Prisma__LtiPlatformClient<$Result.GetResult<Prisma.$LtiPlatformPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more LtiPlatforms.
+     * @param {LtiPlatformDeleteManyArgs} args - Arguments to filter LtiPlatforms to delete.
+     * @example
+     * // Delete a few LtiPlatforms
+     * const { count } = await prisma.ltiPlatform.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LtiPlatformDeleteManyArgs>(args?: SelectSubset<T, LtiPlatformDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LtiPlatforms.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LtiPlatformUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LtiPlatforms
+     * const ltiPlatform = await prisma.ltiPlatform.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LtiPlatformUpdateManyArgs>(args: SelectSubset<T, LtiPlatformUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LtiPlatforms and returns the data updated in the database.
+     * @param {LtiPlatformUpdateManyAndReturnArgs} args - Arguments to update many LtiPlatforms.
+     * @example
+     * // Update many LtiPlatforms
+     * const ltiPlatform = await prisma.ltiPlatform.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more LtiPlatforms and only return the `id`
+     * const ltiPlatformWithIdOnly = await prisma.ltiPlatform.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends LtiPlatformUpdateManyAndReturnArgs>(args: SelectSubset<T, LtiPlatformUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LtiPlatformPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one LtiPlatform.
+     * @param {LtiPlatformUpsertArgs} args - Arguments to update or create a LtiPlatform.
+     * @example
+     * // Update or create a LtiPlatform
+     * const ltiPlatform = await prisma.ltiPlatform.upsert({
+     *   create: {
+     *     // ... data to create a LtiPlatform
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LtiPlatform we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LtiPlatformUpsertArgs>(args: SelectSubset<T, LtiPlatformUpsertArgs<ExtArgs>>): Prisma__LtiPlatformClient<$Result.GetResult<Prisma.$LtiPlatformPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of LtiPlatforms.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LtiPlatformCountArgs} args - Arguments to filter LtiPlatforms to count.
+     * @example
+     * // Count the number of LtiPlatforms
+     * const count = await prisma.ltiPlatform.count({
+     *   where: {
+     *     // ... the filter for the LtiPlatforms we want to count
+     *   }
+     * })
+    **/
+    count<T extends LtiPlatformCountArgs>(
+      args?: Subset<T, LtiPlatformCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LtiPlatformCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LtiPlatform.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LtiPlatformAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LtiPlatformAggregateArgs>(args: Subset<T, LtiPlatformAggregateArgs>): Prisma.PrismaPromise<GetLtiPlatformAggregateType<T>>
+
+    /**
+     * Group by LtiPlatform.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LtiPlatformGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LtiPlatformGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LtiPlatformGroupByArgs['orderBy'] }
+        : { orderBy?: LtiPlatformGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LtiPlatformGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLtiPlatformGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LtiPlatform model
+   */
+  readonly fields: LtiPlatformFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LtiPlatform.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LtiPlatformClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    resourceLinks<T extends LtiPlatform$resourceLinksArgs<ExtArgs> = {}>(args?: Subset<T, LtiPlatform$resourceLinksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LtiResourceLinkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LtiPlatform model
+   */
+  interface LtiPlatformFieldRefs {
+    readonly id: FieldRef<"LtiPlatform", 'String'>
+    readonly issuer: FieldRef<"LtiPlatform", 'String'>
+    readonly clientId: FieldRef<"LtiPlatform", 'String'>
+    readonly authLoginUrl: FieldRef<"LtiPlatform", 'String'>
+    readonly authTokenUrl: FieldRef<"LtiPlatform", 'String'>
+    readonly keySetUrl: FieldRef<"LtiPlatform", 'String'>
+    readonly name: FieldRef<"LtiPlatform", 'String'>
+    readonly createdAt: FieldRef<"LtiPlatform", 'DateTime'>
+    readonly updatedAt: FieldRef<"LtiPlatform", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LtiPlatform findUnique
+   */
+  export type LtiPlatformFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiPlatform
+     */
+    select?: LtiPlatformSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LtiPlatform
+     */
+    omit?: LtiPlatformOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LtiPlatformInclude<ExtArgs> | null
+    /**
+     * Filter, which LtiPlatform to fetch.
+     */
+    where: LtiPlatformWhereUniqueInput
+  }
+
+  /**
+   * LtiPlatform findUniqueOrThrow
+   */
+  export type LtiPlatformFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiPlatform
+     */
+    select?: LtiPlatformSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LtiPlatform
+     */
+    omit?: LtiPlatformOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LtiPlatformInclude<ExtArgs> | null
+    /**
+     * Filter, which LtiPlatform to fetch.
+     */
+    where: LtiPlatformWhereUniqueInput
+  }
+
+  /**
+   * LtiPlatform findFirst
+   */
+  export type LtiPlatformFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiPlatform
+     */
+    select?: LtiPlatformSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LtiPlatform
+     */
+    omit?: LtiPlatformOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LtiPlatformInclude<ExtArgs> | null
+    /**
+     * Filter, which LtiPlatform to fetch.
+     */
+    where?: LtiPlatformWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LtiPlatforms to fetch.
+     */
+    orderBy?: LtiPlatformOrderByWithRelationInput | LtiPlatformOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LtiPlatforms.
+     */
+    cursor?: LtiPlatformWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LtiPlatforms from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LtiPlatforms.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LtiPlatforms.
+     */
+    distinct?: LtiPlatformScalarFieldEnum | LtiPlatformScalarFieldEnum[]
+  }
+
+  /**
+   * LtiPlatform findFirstOrThrow
+   */
+  export type LtiPlatformFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiPlatform
+     */
+    select?: LtiPlatformSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LtiPlatform
+     */
+    omit?: LtiPlatformOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LtiPlatformInclude<ExtArgs> | null
+    /**
+     * Filter, which LtiPlatform to fetch.
+     */
+    where?: LtiPlatformWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LtiPlatforms to fetch.
+     */
+    orderBy?: LtiPlatformOrderByWithRelationInput | LtiPlatformOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LtiPlatforms.
+     */
+    cursor?: LtiPlatformWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LtiPlatforms from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LtiPlatforms.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LtiPlatforms.
+     */
+    distinct?: LtiPlatformScalarFieldEnum | LtiPlatformScalarFieldEnum[]
+  }
+
+  /**
+   * LtiPlatform findMany
+   */
+  export type LtiPlatformFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiPlatform
+     */
+    select?: LtiPlatformSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LtiPlatform
+     */
+    omit?: LtiPlatformOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LtiPlatformInclude<ExtArgs> | null
+    /**
+     * Filter, which LtiPlatforms to fetch.
+     */
+    where?: LtiPlatformWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LtiPlatforms to fetch.
+     */
+    orderBy?: LtiPlatformOrderByWithRelationInput | LtiPlatformOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LtiPlatforms.
+     */
+    cursor?: LtiPlatformWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LtiPlatforms from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LtiPlatforms.
+     */
+    skip?: number
+    distinct?: LtiPlatformScalarFieldEnum | LtiPlatformScalarFieldEnum[]
+  }
+
+  /**
+   * LtiPlatform create
+   */
+  export type LtiPlatformCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiPlatform
+     */
+    select?: LtiPlatformSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LtiPlatform
+     */
+    omit?: LtiPlatformOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LtiPlatformInclude<ExtArgs> | null
+    /**
+     * The data needed to create a LtiPlatform.
+     */
+    data: XOR<LtiPlatformCreateInput, LtiPlatformUncheckedCreateInput>
+  }
+
+  /**
+   * LtiPlatform createMany
+   */
+  export type LtiPlatformCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LtiPlatforms.
+     */
+    data: LtiPlatformCreateManyInput | LtiPlatformCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LtiPlatform createManyAndReturn
+   */
+  export type LtiPlatformCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiPlatform
+     */
+    select?: LtiPlatformSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LtiPlatform
+     */
+    omit?: LtiPlatformOmit<ExtArgs> | null
+    /**
+     * The data used to create many LtiPlatforms.
+     */
+    data: LtiPlatformCreateManyInput | LtiPlatformCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LtiPlatform update
+   */
+  export type LtiPlatformUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiPlatform
+     */
+    select?: LtiPlatformSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LtiPlatform
+     */
+    omit?: LtiPlatformOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LtiPlatformInclude<ExtArgs> | null
+    /**
+     * The data needed to update a LtiPlatform.
+     */
+    data: XOR<LtiPlatformUpdateInput, LtiPlatformUncheckedUpdateInput>
+    /**
+     * Choose, which LtiPlatform to update.
+     */
+    where: LtiPlatformWhereUniqueInput
+  }
+
+  /**
+   * LtiPlatform updateMany
+   */
+  export type LtiPlatformUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LtiPlatforms.
+     */
+    data: XOR<LtiPlatformUpdateManyMutationInput, LtiPlatformUncheckedUpdateManyInput>
+    /**
+     * Filter which LtiPlatforms to update
+     */
+    where?: LtiPlatformWhereInput
+    /**
+     * Limit how many LtiPlatforms to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LtiPlatform updateManyAndReturn
+   */
+  export type LtiPlatformUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiPlatform
+     */
+    select?: LtiPlatformSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LtiPlatform
+     */
+    omit?: LtiPlatformOmit<ExtArgs> | null
+    /**
+     * The data used to update LtiPlatforms.
+     */
+    data: XOR<LtiPlatformUpdateManyMutationInput, LtiPlatformUncheckedUpdateManyInput>
+    /**
+     * Filter which LtiPlatforms to update
+     */
+    where?: LtiPlatformWhereInput
+    /**
+     * Limit how many LtiPlatforms to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LtiPlatform upsert
+   */
+  export type LtiPlatformUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiPlatform
+     */
+    select?: LtiPlatformSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LtiPlatform
+     */
+    omit?: LtiPlatformOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LtiPlatformInclude<ExtArgs> | null
+    /**
+     * The filter to search for the LtiPlatform to update in case it exists.
+     */
+    where: LtiPlatformWhereUniqueInput
+    /**
+     * In case the LtiPlatform found by the `where` argument doesn't exist, create a new LtiPlatform with this data.
+     */
+    create: XOR<LtiPlatformCreateInput, LtiPlatformUncheckedCreateInput>
+    /**
+     * In case the LtiPlatform was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LtiPlatformUpdateInput, LtiPlatformUncheckedUpdateInput>
+  }
+
+  /**
+   * LtiPlatform delete
+   */
+  export type LtiPlatformDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiPlatform
+     */
+    select?: LtiPlatformSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LtiPlatform
+     */
+    omit?: LtiPlatformOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LtiPlatformInclude<ExtArgs> | null
+    /**
+     * Filter which LtiPlatform to delete.
+     */
+    where: LtiPlatformWhereUniqueInput
+  }
+
+  /**
+   * LtiPlatform deleteMany
+   */
+  export type LtiPlatformDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LtiPlatforms to delete
+     */
+    where?: LtiPlatformWhereInput
+    /**
+     * Limit how many LtiPlatforms to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * LtiPlatform.resourceLinks
+   */
+  export type LtiPlatform$resourceLinksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiResourceLink
+     */
+    select?: LtiResourceLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LtiResourceLink
+     */
+    omit?: LtiResourceLinkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LtiResourceLinkInclude<ExtArgs> | null
+    where?: LtiResourceLinkWhereInput
+    orderBy?: LtiResourceLinkOrderByWithRelationInput | LtiResourceLinkOrderByWithRelationInput[]
+    cursor?: LtiResourceLinkWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LtiResourceLinkScalarFieldEnum | LtiResourceLinkScalarFieldEnum[]
+  }
+
+  /**
+   * LtiPlatform without action
+   */
+  export type LtiPlatformDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiPlatform
+     */
+    select?: LtiPlatformSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LtiPlatform
+     */
+    omit?: LtiPlatformOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LtiPlatformInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model LtiIdentity
+   */
+
+  export type AggregateLtiIdentity = {
+    _count: LtiIdentityCountAggregateOutputType | null
+    _min: LtiIdentityMinAggregateOutputType | null
+    _max: LtiIdentityMaxAggregateOutputType | null
+  }
+
+  export type LtiIdentityMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    issuer: string | null
+    subject: string | null
+    email: string | null
+    name: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LtiIdentityMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    issuer: string | null
+    subject: string | null
+    email: string | null
+    name: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LtiIdentityCountAggregateOutputType = {
+    id: number
+    userId: number
+    issuer: number
+    subject: number
+    email: number
+    name: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type LtiIdentityMinAggregateInputType = {
+    id?: true
+    userId?: true
+    issuer?: true
+    subject?: true
+    email?: true
+    name?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LtiIdentityMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    issuer?: true
+    subject?: true
+    email?: true
+    name?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LtiIdentityCountAggregateInputType = {
+    id?: true
+    userId?: true
+    issuer?: true
+    subject?: true
+    email?: true
+    name?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type LtiIdentityAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LtiIdentity to aggregate.
+     */
+    where?: LtiIdentityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LtiIdentities to fetch.
+     */
+    orderBy?: LtiIdentityOrderByWithRelationInput | LtiIdentityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LtiIdentityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LtiIdentities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LtiIdentities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LtiIdentities
+    **/
+    _count?: true | LtiIdentityCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LtiIdentityMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LtiIdentityMaxAggregateInputType
+  }
+
+  export type GetLtiIdentityAggregateType<T extends LtiIdentityAggregateArgs> = {
+        [P in keyof T & keyof AggregateLtiIdentity]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLtiIdentity[P]>
+      : GetScalarType<T[P], AggregateLtiIdentity[P]>
+  }
+
+
+
+
+  export type LtiIdentityGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LtiIdentityWhereInput
+    orderBy?: LtiIdentityOrderByWithAggregationInput | LtiIdentityOrderByWithAggregationInput[]
+    by: LtiIdentityScalarFieldEnum[] | LtiIdentityScalarFieldEnum
+    having?: LtiIdentityScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LtiIdentityCountAggregateInputType | true
+    _min?: LtiIdentityMinAggregateInputType
+    _max?: LtiIdentityMaxAggregateInputType
+  }
+
+  export type LtiIdentityGroupByOutputType = {
+    id: string
+    userId: string
+    issuer: string
+    subject: string
+    email: string | null
+    name: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: LtiIdentityCountAggregateOutputType | null
+    _min: LtiIdentityMinAggregateOutputType | null
+    _max: LtiIdentityMaxAggregateOutputType | null
+  }
+
+  type GetLtiIdentityGroupByPayload<T extends LtiIdentityGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LtiIdentityGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LtiIdentityGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LtiIdentityGroupByOutputType[P]>
+            : GetScalarType<T[P], LtiIdentityGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LtiIdentitySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    issuer?: boolean
+    subject?: boolean
+    email?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ltiIdentity"]>
+
+  export type LtiIdentitySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    issuer?: boolean
+    subject?: boolean
+    email?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ltiIdentity"]>
+
+  export type LtiIdentitySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    issuer?: boolean
+    subject?: boolean
+    email?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ltiIdentity"]>
+
+  export type LtiIdentitySelectScalar = {
+    id?: boolean
+    userId?: boolean
+    issuer?: boolean
+    subject?: boolean
+    email?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type LtiIdentityOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "issuer" | "subject" | "email" | "name" | "createdAt" | "updatedAt", ExtArgs["result"]["ltiIdentity"]>
+  export type LtiIdentityInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type LtiIdentityIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type LtiIdentityIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $LtiIdentityPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LtiIdentity"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      issuer: string
+      subject: string
+      email: string | null
+      name: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["ltiIdentity"]>
+    composites: {}
+  }
+
+  type LtiIdentityGetPayload<S extends boolean | null | undefined | LtiIdentityDefaultArgs> = $Result.GetResult<Prisma.$LtiIdentityPayload, S>
+
+  type LtiIdentityCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LtiIdentityFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LtiIdentityCountAggregateInputType | true
+    }
+
+  export interface LtiIdentityDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LtiIdentity'], meta: { name: 'LtiIdentity' } }
+    /**
+     * Find zero or one LtiIdentity that matches the filter.
+     * @param {LtiIdentityFindUniqueArgs} args - Arguments to find a LtiIdentity
+     * @example
+     * // Get one LtiIdentity
+     * const ltiIdentity = await prisma.ltiIdentity.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LtiIdentityFindUniqueArgs>(args: SelectSubset<T, LtiIdentityFindUniqueArgs<ExtArgs>>): Prisma__LtiIdentityClient<$Result.GetResult<Prisma.$LtiIdentityPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one LtiIdentity that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LtiIdentityFindUniqueOrThrowArgs} args - Arguments to find a LtiIdentity
+     * @example
+     * // Get one LtiIdentity
+     * const ltiIdentity = await prisma.ltiIdentity.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LtiIdentityFindUniqueOrThrowArgs>(args: SelectSubset<T, LtiIdentityFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LtiIdentityClient<$Result.GetResult<Prisma.$LtiIdentityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LtiIdentity that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LtiIdentityFindFirstArgs} args - Arguments to find a LtiIdentity
+     * @example
+     * // Get one LtiIdentity
+     * const ltiIdentity = await prisma.ltiIdentity.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LtiIdentityFindFirstArgs>(args?: SelectSubset<T, LtiIdentityFindFirstArgs<ExtArgs>>): Prisma__LtiIdentityClient<$Result.GetResult<Prisma.$LtiIdentityPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LtiIdentity that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LtiIdentityFindFirstOrThrowArgs} args - Arguments to find a LtiIdentity
+     * @example
+     * // Get one LtiIdentity
+     * const ltiIdentity = await prisma.ltiIdentity.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LtiIdentityFindFirstOrThrowArgs>(args?: SelectSubset<T, LtiIdentityFindFirstOrThrowArgs<ExtArgs>>): Prisma__LtiIdentityClient<$Result.GetResult<Prisma.$LtiIdentityPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LtiIdentities that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LtiIdentityFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LtiIdentities
+     * const ltiIdentities = await prisma.ltiIdentity.findMany()
+     * 
+     * // Get first 10 LtiIdentities
+     * const ltiIdentities = await prisma.ltiIdentity.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const ltiIdentityWithIdOnly = await prisma.ltiIdentity.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LtiIdentityFindManyArgs>(args?: SelectSubset<T, LtiIdentityFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LtiIdentityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a LtiIdentity.
+     * @param {LtiIdentityCreateArgs} args - Arguments to create a LtiIdentity.
+     * @example
+     * // Create one LtiIdentity
+     * const LtiIdentity = await prisma.ltiIdentity.create({
+     *   data: {
+     *     // ... data to create a LtiIdentity
+     *   }
+     * })
+     * 
+     */
+    create<T extends LtiIdentityCreateArgs>(args: SelectSubset<T, LtiIdentityCreateArgs<ExtArgs>>): Prisma__LtiIdentityClient<$Result.GetResult<Prisma.$LtiIdentityPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many LtiIdentities.
+     * @param {LtiIdentityCreateManyArgs} args - Arguments to create many LtiIdentities.
+     * @example
+     * // Create many LtiIdentities
+     * const ltiIdentity = await prisma.ltiIdentity.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LtiIdentityCreateManyArgs>(args?: SelectSubset<T, LtiIdentityCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LtiIdentities and returns the data saved in the database.
+     * @param {LtiIdentityCreateManyAndReturnArgs} args - Arguments to create many LtiIdentities.
+     * @example
+     * // Create many LtiIdentities
+     * const ltiIdentity = await prisma.ltiIdentity.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LtiIdentities and only return the `id`
+     * const ltiIdentityWithIdOnly = await prisma.ltiIdentity.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LtiIdentityCreateManyAndReturnArgs>(args?: SelectSubset<T, LtiIdentityCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LtiIdentityPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a LtiIdentity.
+     * @param {LtiIdentityDeleteArgs} args - Arguments to delete one LtiIdentity.
+     * @example
+     * // Delete one LtiIdentity
+     * const LtiIdentity = await prisma.ltiIdentity.delete({
+     *   where: {
+     *     // ... filter to delete one LtiIdentity
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LtiIdentityDeleteArgs>(args: SelectSubset<T, LtiIdentityDeleteArgs<ExtArgs>>): Prisma__LtiIdentityClient<$Result.GetResult<Prisma.$LtiIdentityPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one LtiIdentity.
+     * @param {LtiIdentityUpdateArgs} args - Arguments to update one LtiIdentity.
+     * @example
+     * // Update one LtiIdentity
+     * const ltiIdentity = await prisma.ltiIdentity.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LtiIdentityUpdateArgs>(args: SelectSubset<T, LtiIdentityUpdateArgs<ExtArgs>>): Prisma__LtiIdentityClient<$Result.GetResult<Prisma.$LtiIdentityPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more LtiIdentities.
+     * @param {LtiIdentityDeleteManyArgs} args - Arguments to filter LtiIdentities to delete.
+     * @example
+     * // Delete a few LtiIdentities
+     * const { count } = await prisma.ltiIdentity.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LtiIdentityDeleteManyArgs>(args?: SelectSubset<T, LtiIdentityDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LtiIdentities.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LtiIdentityUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LtiIdentities
+     * const ltiIdentity = await prisma.ltiIdentity.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LtiIdentityUpdateManyArgs>(args: SelectSubset<T, LtiIdentityUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LtiIdentities and returns the data updated in the database.
+     * @param {LtiIdentityUpdateManyAndReturnArgs} args - Arguments to update many LtiIdentities.
+     * @example
+     * // Update many LtiIdentities
+     * const ltiIdentity = await prisma.ltiIdentity.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more LtiIdentities and only return the `id`
+     * const ltiIdentityWithIdOnly = await prisma.ltiIdentity.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends LtiIdentityUpdateManyAndReturnArgs>(args: SelectSubset<T, LtiIdentityUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LtiIdentityPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one LtiIdentity.
+     * @param {LtiIdentityUpsertArgs} args - Arguments to update or create a LtiIdentity.
+     * @example
+     * // Update or create a LtiIdentity
+     * const ltiIdentity = await prisma.ltiIdentity.upsert({
+     *   create: {
+     *     // ... data to create a LtiIdentity
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LtiIdentity we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LtiIdentityUpsertArgs>(args: SelectSubset<T, LtiIdentityUpsertArgs<ExtArgs>>): Prisma__LtiIdentityClient<$Result.GetResult<Prisma.$LtiIdentityPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of LtiIdentities.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LtiIdentityCountArgs} args - Arguments to filter LtiIdentities to count.
+     * @example
+     * // Count the number of LtiIdentities
+     * const count = await prisma.ltiIdentity.count({
+     *   where: {
+     *     // ... the filter for the LtiIdentities we want to count
+     *   }
+     * })
+    **/
+    count<T extends LtiIdentityCountArgs>(
+      args?: Subset<T, LtiIdentityCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LtiIdentityCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LtiIdentity.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LtiIdentityAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LtiIdentityAggregateArgs>(args: Subset<T, LtiIdentityAggregateArgs>): Prisma.PrismaPromise<GetLtiIdentityAggregateType<T>>
+
+    /**
+     * Group by LtiIdentity.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LtiIdentityGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LtiIdentityGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LtiIdentityGroupByArgs['orderBy'] }
+        : { orderBy?: LtiIdentityGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LtiIdentityGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLtiIdentityGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LtiIdentity model
+   */
+  readonly fields: LtiIdentityFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LtiIdentity.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LtiIdentityClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LtiIdentity model
+   */
+  interface LtiIdentityFieldRefs {
+    readonly id: FieldRef<"LtiIdentity", 'String'>
+    readonly userId: FieldRef<"LtiIdentity", 'String'>
+    readonly issuer: FieldRef<"LtiIdentity", 'String'>
+    readonly subject: FieldRef<"LtiIdentity", 'String'>
+    readonly email: FieldRef<"LtiIdentity", 'String'>
+    readonly name: FieldRef<"LtiIdentity", 'String'>
+    readonly createdAt: FieldRef<"LtiIdentity", 'DateTime'>
+    readonly updatedAt: FieldRef<"LtiIdentity", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LtiIdentity findUnique
+   */
+  export type LtiIdentityFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiIdentity
+     */
+    select?: LtiIdentitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LtiIdentity
+     */
+    omit?: LtiIdentityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LtiIdentityInclude<ExtArgs> | null
+    /**
+     * Filter, which LtiIdentity to fetch.
+     */
+    where: LtiIdentityWhereUniqueInput
+  }
+
+  /**
+   * LtiIdentity findUniqueOrThrow
+   */
+  export type LtiIdentityFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiIdentity
+     */
+    select?: LtiIdentitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LtiIdentity
+     */
+    omit?: LtiIdentityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LtiIdentityInclude<ExtArgs> | null
+    /**
+     * Filter, which LtiIdentity to fetch.
+     */
+    where: LtiIdentityWhereUniqueInput
+  }
+
+  /**
+   * LtiIdentity findFirst
+   */
+  export type LtiIdentityFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiIdentity
+     */
+    select?: LtiIdentitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LtiIdentity
+     */
+    omit?: LtiIdentityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LtiIdentityInclude<ExtArgs> | null
+    /**
+     * Filter, which LtiIdentity to fetch.
+     */
+    where?: LtiIdentityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LtiIdentities to fetch.
+     */
+    orderBy?: LtiIdentityOrderByWithRelationInput | LtiIdentityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LtiIdentities.
+     */
+    cursor?: LtiIdentityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LtiIdentities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LtiIdentities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LtiIdentities.
+     */
+    distinct?: LtiIdentityScalarFieldEnum | LtiIdentityScalarFieldEnum[]
+  }
+
+  /**
+   * LtiIdentity findFirstOrThrow
+   */
+  export type LtiIdentityFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiIdentity
+     */
+    select?: LtiIdentitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LtiIdentity
+     */
+    omit?: LtiIdentityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LtiIdentityInclude<ExtArgs> | null
+    /**
+     * Filter, which LtiIdentity to fetch.
+     */
+    where?: LtiIdentityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LtiIdentities to fetch.
+     */
+    orderBy?: LtiIdentityOrderByWithRelationInput | LtiIdentityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LtiIdentities.
+     */
+    cursor?: LtiIdentityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LtiIdentities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LtiIdentities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LtiIdentities.
+     */
+    distinct?: LtiIdentityScalarFieldEnum | LtiIdentityScalarFieldEnum[]
+  }
+
+  /**
+   * LtiIdentity findMany
+   */
+  export type LtiIdentityFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiIdentity
+     */
+    select?: LtiIdentitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LtiIdentity
+     */
+    omit?: LtiIdentityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LtiIdentityInclude<ExtArgs> | null
+    /**
+     * Filter, which LtiIdentities to fetch.
+     */
+    where?: LtiIdentityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LtiIdentities to fetch.
+     */
+    orderBy?: LtiIdentityOrderByWithRelationInput | LtiIdentityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LtiIdentities.
+     */
+    cursor?: LtiIdentityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LtiIdentities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LtiIdentities.
+     */
+    skip?: number
+    distinct?: LtiIdentityScalarFieldEnum | LtiIdentityScalarFieldEnum[]
+  }
+
+  /**
+   * LtiIdentity create
+   */
+  export type LtiIdentityCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiIdentity
+     */
+    select?: LtiIdentitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LtiIdentity
+     */
+    omit?: LtiIdentityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LtiIdentityInclude<ExtArgs> | null
+    /**
+     * The data needed to create a LtiIdentity.
+     */
+    data: XOR<LtiIdentityCreateInput, LtiIdentityUncheckedCreateInput>
+  }
+
+  /**
+   * LtiIdentity createMany
+   */
+  export type LtiIdentityCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LtiIdentities.
+     */
+    data: LtiIdentityCreateManyInput | LtiIdentityCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LtiIdentity createManyAndReturn
+   */
+  export type LtiIdentityCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiIdentity
+     */
+    select?: LtiIdentitySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LtiIdentity
+     */
+    omit?: LtiIdentityOmit<ExtArgs> | null
+    /**
+     * The data used to create many LtiIdentities.
+     */
+    data: LtiIdentityCreateManyInput | LtiIdentityCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LtiIdentityIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LtiIdentity update
+   */
+  export type LtiIdentityUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiIdentity
+     */
+    select?: LtiIdentitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LtiIdentity
+     */
+    omit?: LtiIdentityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LtiIdentityInclude<ExtArgs> | null
+    /**
+     * The data needed to update a LtiIdentity.
+     */
+    data: XOR<LtiIdentityUpdateInput, LtiIdentityUncheckedUpdateInput>
+    /**
+     * Choose, which LtiIdentity to update.
+     */
+    where: LtiIdentityWhereUniqueInput
+  }
+
+  /**
+   * LtiIdentity updateMany
+   */
+  export type LtiIdentityUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LtiIdentities.
+     */
+    data: XOR<LtiIdentityUpdateManyMutationInput, LtiIdentityUncheckedUpdateManyInput>
+    /**
+     * Filter which LtiIdentities to update
+     */
+    where?: LtiIdentityWhereInput
+    /**
+     * Limit how many LtiIdentities to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LtiIdentity updateManyAndReturn
+   */
+  export type LtiIdentityUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiIdentity
+     */
+    select?: LtiIdentitySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LtiIdentity
+     */
+    omit?: LtiIdentityOmit<ExtArgs> | null
+    /**
+     * The data used to update LtiIdentities.
+     */
+    data: XOR<LtiIdentityUpdateManyMutationInput, LtiIdentityUncheckedUpdateManyInput>
+    /**
+     * Filter which LtiIdentities to update
+     */
+    where?: LtiIdentityWhereInput
+    /**
+     * Limit how many LtiIdentities to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LtiIdentityIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LtiIdentity upsert
+   */
+  export type LtiIdentityUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiIdentity
+     */
+    select?: LtiIdentitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LtiIdentity
+     */
+    omit?: LtiIdentityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LtiIdentityInclude<ExtArgs> | null
+    /**
+     * The filter to search for the LtiIdentity to update in case it exists.
+     */
+    where: LtiIdentityWhereUniqueInput
+    /**
+     * In case the LtiIdentity found by the `where` argument doesn't exist, create a new LtiIdentity with this data.
+     */
+    create: XOR<LtiIdentityCreateInput, LtiIdentityUncheckedCreateInput>
+    /**
+     * In case the LtiIdentity was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LtiIdentityUpdateInput, LtiIdentityUncheckedUpdateInput>
+  }
+
+  /**
+   * LtiIdentity delete
+   */
+  export type LtiIdentityDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiIdentity
+     */
+    select?: LtiIdentitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LtiIdentity
+     */
+    omit?: LtiIdentityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LtiIdentityInclude<ExtArgs> | null
+    /**
+     * Filter which LtiIdentity to delete.
+     */
+    where: LtiIdentityWhereUniqueInput
+  }
+
+  /**
+   * LtiIdentity deleteMany
+   */
+  export type LtiIdentityDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LtiIdentities to delete
+     */
+    where?: LtiIdentityWhereInput
+    /**
+     * Limit how many LtiIdentities to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * LtiIdentity without action
+   */
+  export type LtiIdentityDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiIdentity
+     */
+    select?: LtiIdentitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LtiIdentity
+     */
+    omit?: LtiIdentityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LtiIdentityInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model LtiResourceLink
+   */
+
+  export type AggregateLtiResourceLink = {
+    _count: LtiResourceLinkCountAggregateOutputType | null
+    _avg: LtiResourceLinkAvgAggregateOutputType | null
+    _sum: LtiResourceLinkSumAggregateOutputType | null
+    _min: LtiResourceLinkMinAggregateOutputType | null
+    _max: LtiResourceLinkMaxAggregateOutputType | null
+  }
+
+  export type LtiResourceLinkAvgAggregateOutputType = {
+    assignmentId: number | null
+  }
+
+  export type LtiResourceLinkSumAggregateOutputType = {
+    assignmentId: number | null
+  }
+
+  export type LtiResourceLinkMinAggregateOutputType = {
+    id: string | null
+    platformId: string | null
+    deploymentId: string | null
+    contextId: string | null
+    resourceLinkId: string | null
+    assignmentId: number | null
+    lineitemUrl: string | null
+    createdAt: Date | null
+  }
+
+  export type LtiResourceLinkMaxAggregateOutputType = {
+    id: string | null
+    platformId: string | null
+    deploymentId: string | null
+    contextId: string | null
+    resourceLinkId: string | null
+    assignmentId: number | null
+    lineitemUrl: string | null
+    createdAt: Date | null
+  }
+
+  export type LtiResourceLinkCountAggregateOutputType = {
+    id: number
+    platformId: number
+    deploymentId: number
+    contextId: number
+    resourceLinkId: number
+    assignmentId: number
+    lineitemUrl: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type LtiResourceLinkAvgAggregateInputType = {
+    assignmentId?: true
+  }
+
+  export type LtiResourceLinkSumAggregateInputType = {
+    assignmentId?: true
+  }
+
+  export type LtiResourceLinkMinAggregateInputType = {
+    id?: true
+    platformId?: true
+    deploymentId?: true
+    contextId?: true
+    resourceLinkId?: true
+    assignmentId?: true
+    lineitemUrl?: true
+    createdAt?: true
+  }
+
+  export type LtiResourceLinkMaxAggregateInputType = {
+    id?: true
+    platformId?: true
+    deploymentId?: true
+    contextId?: true
+    resourceLinkId?: true
+    assignmentId?: true
+    lineitemUrl?: true
+    createdAt?: true
+  }
+
+  export type LtiResourceLinkCountAggregateInputType = {
+    id?: true
+    platformId?: true
+    deploymentId?: true
+    contextId?: true
+    resourceLinkId?: true
+    assignmentId?: true
+    lineitemUrl?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type LtiResourceLinkAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LtiResourceLink to aggregate.
+     */
+    where?: LtiResourceLinkWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LtiResourceLinks to fetch.
+     */
+    orderBy?: LtiResourceLinkOrderByWithRelationInput | LtiResourceLinkOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LtiResourceLinkWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LtiResourceLinks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LtiResourceLinks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LtiResourceLinks
+    **/
+    _count?: true | LtiResourceLinkCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: LtiResourceLinkAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: LtiResourceLinkSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LtiResourceLinkMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LtiResourceLinkMaxAggregateInputType
+  }
+
+  export type GetLtiResourceLinkAggregateType<T extends LtiResourceLinkAggregateArgs> = {
+        [P in keyof T & keyof AggregateLtiResourceLink]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLtiResourceLink[P]>
+      : GetScalarType<T[P], AggregateLtiResourceLink[P]>
+  }
+
+
+
+
+  export type LtiResourceLinkGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LtiResourceLinkWhereInput
+    orderBy?: LtiResourceLinkOrderByWithAggregationInput | LtiResourceLinkOrderByWithAggregationInput[]
+    by: LtiResourceLinkScalarFieldEnum[] | LtiResourceLinkScalarFieldEnum
+    having?: LtiResourceLinkScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LtiResourceLinkCountAggregateInputType | true
+    _avg?: LtiResourceLinkAvgAggregateInputType
+    _sum?: LtiResourceLinkSumAggregateInputType
+    _min?: LtiResourceLinkMinAggregateInputType
+    _max?: LtiResourceLinkMaxAggregateInputType
+  }
+
+  export type LtiResourceLinkGroupByOutputType = {
+    id: string
+    platformId: string
+    deploymentId: string
+    contextId: string
+    resourceLinkId: string
+    assignmentId: number
+    lineitemUrl: string | null
+    createdAt: Date
+    _count: LtiResourceLinkCountAggregateOutputType | null
+    _avg: LtiResourceLinkAvgAggregateOutputType | null
+    _sum: LtiResourceLinkSumAggregateOutputType | null
+    _min: LtiResourceLinkMinAggregateOutputType | null
+    _max: LtiResourceLinkMaxAggregateOutputType | null
+  }
+
+  type GetLtiResourceLinkGroupByPayload<T extends LtiResourceLinkGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LtiResourceLinkGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LtiResourceLinkGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LtiResourceLinkGroupByOutputType[P]>
+            : GetScalarType<T[P], LtiResourceLinkGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LtiResourceLinkSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    platformId?: boolean
+    deploymentId?: boolean
+    contextId?: boolean
+    resourceLinkId?: boolean
+    assignmentId?: boolean
+    lineitemUrl?: boolean
+    createdAt?: boolean
+    platform?: boolean | LtiPlatformDefaultArgs<ExtArgs>
+    assignment?: boolean | AssignmentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ltiResourceLink"]>
+
+  export type LtiResourceLinkSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    platformId?: boolean
+    deploymentId?: boolean
+    contextId?: boolean
+    resourceLinkId?: boolean
+    assignmentId?: boolean
+    lineitemUrl?: boolean
+    createdAt?: boolean
+    platform?: boolean | LtiPlatformDefaultArgs<ExtArgs>
+    assignment?: boolean | AssignmentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ltiResourceLink"]>
+
+  export type LtiResourceLinkSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    platformId?: boolean
+    deploymentId?: boolean
+    contextId?: boolean
+    resourceLinkId?: boolean
+    assignmentId?: boolean
+    lineitemUrl?: boolean
+    createdAt?: boolean
+    platform?: boolean | LtiPlatformDefaultArgs<ExtArgs>
+    assignment?: boolean | AssignmentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ltiResourceLink"]>
+
+  export type LtiResourceLinkSelectScalar = {
+    id?: boolean
+    platformId?: boolean
+    deploymentId?: boolean
+    contextId?: boolean
+    resourceLinkId?: boolean
+    assignmentId?: boolean
+    lineitemUrl?: boolean
+    createdAt?: boolean
+  }
+
+  export type LtiResourceLinkOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "platformId" | "deploymentId" | "contextId" | "resourceLinkId" | "assignmentId" | "lineitemUrl" | "createdAt", ExtArgs["result"]["ltiResourceLink"]>
+  export type LtiResourceLinkInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    platform?: boolean | LtiPlatformDefaultArgs<ExtArgs>
+    assignment?: boolean | AssignmentDefaultArgs<ExtArgs>
+  }
+  export type LtiResourceLinkIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    platform?: boolean | LtiPlatformDefaultArgs<ExtArgs>
+    assignment?: boolean | AssignmentDefaultArgs<ExtArgs>
+  }
+  export type LtiResourceLinkIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    platform?: boolean | LtiPlatformDefaultArgs<ExtArgs>
+    assignment?: boolean | AssignmentDefaultArgs<ExtArgs>
+  }
+
+  export type $LtiResourceLinkPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LtiResourceLink"
+    objects: {
+      platform: Prisma.$LtiPlatformPayload<ExtArgs>
+      assignment: Prisma.$AssignmentPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      platformId: string
+      deploymentId: string
+      contextId: string
+      resourceLinkId: string
+      assignmentId: number
+      lineitemUrl: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["ltiResourceLink"]>
+    composites: {}
+  }
+
+  type LtiResourceLinkGetPayload<S extends boolean | null | undefined | LtiResourceLinkDefaultArgs> = $Result.GetResult<Prisma.$LtiResourceLinkPayload, S>
+
+  type LtiResourceLinkCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LtiResourceLinkFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LtiResourceLinkCountAggregateInputType | true
+    }
+
+  export interface LtiResourceLinkDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LtiResourceLink'], meta: { name: 'LtiResourceLink' } }
+    /**
+     * Find zero or one LtiResourceLink that matches the filter.
+     * @param {LtiResourceLinkFindUniqueArgs} args - Arguments to find a LtiResourceLink
+     * @example
+     * // Get one LtiResourceLink
+     * const ltiResourceLink = await prisma.ltiResourceLink.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LtiResourceLinkFindUniqueArgs>(args: SelectSubset<T, LtiResourceLinkFindUniqueArgs<ExtArgs>>): Prisma__LtiResourceLinkClient<$Result.GetResult<Prisma.$LtiResourceLinkPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one LtiResourceLink that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LtiResourceLinkFindUniqueOrThrowArgs} args - Arguments to find a LtiResourceLink
+     * @example
+     * // Get one LtiResourceLink
+     * const ltiResourceLink = await prisma.ltiResourceLink.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LtiResourceLinkFindUniqueOrThrowArgs>(args: SelectSubset<T, LtiResourceLinkFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LtiResourceLinkClient<$Result.GetResult<Prisma.$LtiResourceLinkPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LtiResourceLink that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LtiResourceLinkFindFirstArgs} args - Arguments to find a LtiResourceLink
+     * @example
+     * // Get one LtiResourceLink
+     * const ltiResourceLink = await prisma.ltiResourceLink.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LtiResourceLinkFindFirstArgs>(args?: SelectSubset<T, LtiResourceLinkFindFirstArgs<ExtArgs>>): Prisma__LtiResourceLinkClient<$Result.GetResult<Prisma.$LtiResourceLinkPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LtiResourceLink that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LtiResourceLinkFindFirstOrThrowArgs} args - Arguments to find a LtiResourceLink
+     * @example
+     * // Get one LtiResourceLink
+     * const ltiResourceLink = await prisma.ltiResourceLink.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LtiResourceLinkFindFirstOrThrowArgs>(args?: SelectSubset<T, LtiResourceLinkFindFirstOrThrowArgs<ExtArgs>>): Prisma__LtiResourceLinkClient<$Result.GetResult<Prisma.$LtiResourceLinkPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LtiResourceLinks that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LtiResourceLinkFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LtiResourceLinks
+     * const ltiResourceLinks = await prisma.ltiResourceLink.findMany()
+     * 
+     * // Get first 10 LtiResourceLinks
+     * const ltiResourceLinks = await prisma.ltiResourceLink.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const ltiResourceLinkWithIdOnly = await prisma.ltiResourceLink.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LtiResourceLinkFindManyArgs>(args?: SelectSubset<T, LtiResourceLinkFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LtiResourceLinkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a LtiResourceLink.
+     * @param {LtiResourceLinkCreateArgs} args - Arguments to create a LtiResourceLink.
+     * @example
+     * // Create one LtiResourceLink
+     * const LtiResourceLink = await prisma.ltiResourceLink.create({
+     *   data: {
+     *     // ... data to create a LtiResourceLink
+     *   }
+     * })
+     * 
+     */
+    create<T extends LtiResourceLinkCreateArgs>(args: SelectSubset<T, LtiResourceLinkCreateArgs<ExtArgs>>): Prisma__LtiResourceLinkClient<$Result.GetResult<Prisma.$LtiResourceLinkPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many LtiResourceLinks.
+     * @param {LtiResourceLinkCreateManyArgs} args - Arguments to create many LtiResourceLinks.
+     * @example
+     * // Create many LtiResourceLinks
+     * const ltiResourceLink = await prisma.ltiResourceLink.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LtiResourceLinkCreateManyArgs>(args?: SelectSubset<T, LtiResourceLinkCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LtiResourceLinks and returns the data saved in the database.
+     * @param {LtiResourceLinkCreateManyAndReturnArgs} args - Arguments to create many LtiResourceLinks.
+     * @example
+     * // Create many LtiResourceLinks
+     * const ltiResourceLink = await prisma.ltiResourceLink.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LtiResourceLinks and only return the `id`
+     * const ltiResourceLinkWithIdOnly = await prisma.ltiResourceLink.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LtiResourceLinkCreateManyAndReturnArgs>(args?: SelectSubset<T, LtiResourceLinkCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LtiResourceLinkPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a LtiResourceLink.
+     * @param {LtiResourceLinkDeleteArgs} args - Arguments to delete one LtiResourceLink.
+     * @example
+     * // Delete one LtiResourceLink
+     * const LtiResourceLink = await prisma.ltiResourceLink.delete({
+     *   where: {
+     *     // ... filter to delete one LtiResourceLink
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LtiResourceLinkDeleteArgs>(args: SelectSubset<T, LtiResourceLinkDeleteArgs<ExtArgs>>): Prisma__LtiResourceLinkClient<$Result.GetResult<Prisma.$LtiResourceLinkPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one LtiResourceLink.
+     * @param {LtiResourceLinkUpdateArgs} args - Arguments to update one LtiResourceLink.
+     * @example
+     * // Update one LtiResourceLink
+     * const ltiResourceLink = await prisma.ltiResourceLink.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LtiResourceLinkUpdateArgs>(args: SelectSubset<T, LtiResourceLinkUpdateArgs<ExtArgs>>): Prisma__LtiResourceLinkClient<$Result.GetResult<Prisma.$LtiResourceLinkPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more LtiResourceLinks.
+     * @param {LtiResourceLinkDeleteManyArgs} args - Arguments to filter LtiResourceLinks to delete.
+     * @example
+     * // Delete a few LtiResourceLinks
+     * const { count } = await prisma.ltiResourceLink.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LtiResourceLinkDeleteManyArgs>(args?: SelectSubset<T, LtiResourceLinkDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LtiResourceLinks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LtiResourceLinkUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LtiResourceLinks
+     * const ltiResourceLink = await prisma.ltiResourceLink.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LtiResourceLinkUpdateManyArgs>(args: SelectSubset<T, LtiResourceLinkUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LtiResourceLinks and returns the data updated in the database.
+     * @param {LtiResourceLinkUpdateManyAndReturnArgs} args - Arguments to update many LtiResourceLinks.
+     * @example
+     * // Update many LtiResourceLinks
+     * const ltiResourceLink = await prisma.ltiResourceLink.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more LtiResourceLinks and only return the `id`
+     * const ltiResourceLinkWithIdOnly = await prisma.ltiResourceLink.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends LtiResourceLinkUpdateManyAndReturnArgs>(args: SelectSubset<T, LtiResourceLinkUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LtiResourceLinkPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one LtiResourceLink.
+     * @param {LtiResourceLinkUpsertArgs} args - Arguments to update or create a LtiResourceLink.
+     * @example
+     * // Update or create a LtiResourceLink
+     * const ltiResourceLink = await prisma.ltiResourceLink.upsert({
+     *   create: {
+     *     // ... data to create a LtiResourceLink
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LtiResourceLink we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LtiResourceLinkUpsertArgs>(args: SelectSubset<T, LtiResourceLinkUpsertArgs<ExtArgs>>): Prisma__LtiResourceLinkClient<$Result.GetResult<Prisma.$LtiResourceLinkPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of LtiResourceLinks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LtiResourceLinkCountArgs} args - Arguments to filter LtiResourceLinks to count.
+     * @example
+     * // Count the number of LtiResourceLinks
+     * const count = await prisma.ltiResourceLink.count({
+     *   where: {
+     *     // ... the filter for the LtiResourceLinks we want to count
+     *   }
+     * })
+    **/
+    count<T extends LtiResourceLinkCountArgs>(
+      args?: Subset<T, LtiResourceLinkCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LtiResourceLinkCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LtiResourceLink.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LtiResourceLinkAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LtiResourceLinkAggregateArgs>(args: Subset<T, LtiResourceLinkAggregateArgs>): Prisma.PrismaPromise<GetLtiResourceLinkAggregateType<T>>
+
+    /**
+     * Group by LtiResourceLink.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LtiResourceLinkGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LtiResourceLinkGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LtiResourceLinkGroupByArgs['orderBy'] }
+        : { orderBy?: LtiResourceLinkGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LtiResourceLinkGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLtiResourceLinkGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LtiResourceLink model
+   */
+  readonly fields: LtiResourceLinkFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LtiResourceLink.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LtiResourceLinkClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    platform<T extends LtiPlatformDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LtiPlatformDefaultArgs<ExtArgs>>): Prisma__LtiPlatformClient<$Result.GetResult<Prisma.$LtiPlatformPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    assignment<T extends AssignmentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AssignmentDefaultArgs<ExtArgs>>): Prisma__AssignmentClient<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LtiResourceLink model
+   */
+  interface LtiResourceLinkFieldRefs {
+    readonly id: FieldRef<"LtiResourceLink", 'String'>
+    readonly platformId: FieldRef<"LtiResourceLink", 'String'>
+    readonly deploymentId: FieldRef<"LtiResourceLink", 'String'>
+    readonly contextId: FieldRef<"LtiResourceLink", 'String'>
+    readonly resourceLinkId: FieldRef<"LtiResourceLink", 'String'>
+    readonly assignmentId: FieldRef<"LtiResourceLink", 'Int'>
+    readonly lineitemUrl: FieldRef<"LtiResourceLink", 'String'>
+    readonly createdAt: FieldRef<"LtiResourceLink", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LtiResourceLink findUnique
+   */
+  export type LtiResourceLinkFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiResourceLink
+     */
+    select?: LtiResourceLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LtiResourceLink
+     */
+    omit?: LtiResourceLinkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LtiResourceLinkInclude<ExtArgs> | null
+    /**
+     * Filter, which LtiResourceLink to fetch.
+     */
+    where: LtiResourceLinkWhereUniqueInput
+  }
+
+  /**
+   * LtiResourceLink findUniqueOrThrow
+   */
+  export type LtiResourceLinkFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiResourceLink
+     */
+    select?: LtiResourceLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LtiResourceLink
+     */
+    omit?: LtiResourceLinkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LtiResourceLinkInclude<ExtArgs> | null
+    /**
+     * Filter, which LtiResourceLink to fetch.
+     */
+    where: LtiResourceLinkWhereUniqueInput
+  }
+
+  /**
+   * LtiResourceLink findFirst
+   */
+  export type LtiResourceLinkFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiResourceLink
+     */
+    select?: LtiResourceLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LtiResourceLink
+     */
+    omit?: LtiResourceLinkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LtiResourceLinkInclude<ExtArgs> | null
+    /**
+     * Filter, which LtiResourceLink to fetch.
+     */
+    where?: LtiResourceLinkWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LtiResourceLinks to fetch.
+     */
+    orderBy?: LtiResourceLinkOrderByWithRelationInput | LtiResourceLinkOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LtiResourceLinks.
+     */
+    cursor?: LtiResourceLinkWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LtiResourceLinks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LtiResourceLinks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LtiResourceLinks.
+     */
+    distinct?: LtiResourceLinkScalarFieldEnum | LtiResourceLinkScalarFieldEnum[]
+  }
+
+  /**
+   * LtiResourceLink findFirstOrThrow
+   */
+  export type LtiResourceLinkFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiResourceLink
+     */
+    select?: LtiResourceLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LtiResourceLink
+     */
+    omit?: LtiResourceLinkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LtiResourceLinkInclude<ExtArgs> | null
+    /**
+     * Filter, which LtiResourceLink to fetch.
+     */
+    where?: LtiResourceLinkWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LtiResourceLinks to fetch.
+     */
+    orderBy?: LtiResourceLinkOrderByWithRelationInput | LtiResourceLinkOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LtiResourceLinks.
+     */
+    cursor?: LtiResourceLinkWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LtiResourceLinks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LtiResourceLinks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LtiResourceLinks.
+     */
+    distinct?: LtiResourceLinkScalarFieldEnum | LtiResourceLinkScalarFieldEnum[]
+  }
+
+  /**
+   * LtiResourceLink findMany
+   */
+  export type LtiResourceLinkFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiResourceLink
+     */
+    select?: LtiResourceLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LtiResourceLink
+     */
+    omit?: LtiResourceLinkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LtiResourceLinkInclude<ExtArgs> | null
+    /**
+     * Filter, which LtiResourceLinks to fetch.
+     */
+    where?: LtiResourceLinkWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LtiResourceLinks to fetch.
+     */
+    orderBy?: LtiResourceLinkOrderByWithRelationInput | LtiResourceLinkOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LtiResourceLinks.
+     */
+    cursor?: LtiResourceLinkWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LtiResourceLinks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LtiResourceLinks.
+     */
+    skip?: number
+    distinct?: LtiResourceLinkScalarFieldEnum | LtiResourceLinkScalarFieldEnum[]
+  }
+
+  /**
+   * LtiResourceLink create
+   */
+  export type LtiResourceLinkCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiResourceLink
+     */
+    select?: LtiResourceLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LtiResourceLink
+     */
+    omit?: LtiResourceLinkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LtiResourceLinkInclude<ExtArgs> | null
+    /**
+     * The data needed to create a LtiResourceLink.
+     */
+    data: XOR<LtiResourceLinkCreateInput, LtiResourceLinkUncheckedCreateInput>
+  }
+
+  /**
+   * LtiResourceLink createMany
+   */
+  export type LtiResourceLinkCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LtiResourceLinks.
+     */
+    data: LtiResourceLinkCreateManyInput | LtiResourceLinkCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LtiResourceLink createManyAndReturn
+   */
+  export type LtiResourceLinkCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiResourceLink
+     */
+    select?: LtiResourceLinkSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LtiResourceLink
+     */
+    omit?: LtiResourceLinkOmit<ExtArgs> | null
+    /**
+     * The data used to create many LtiResourceLinks.
+     */
+    data: LtiResourceLinkCreateManyInput | LtiResourceLinkCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LtiResourceLinkIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LtiResourceLink update
+   */
+  export type LtiResourceLinkUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiResourceLink
+     */
+    select?: LtiResourceLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LtiResourceLink
+     */
+    omit?: LtiResourceLinkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LtiResourceLinkInclude<ExtArgs> | null
+    /**
+     * The data needed to update a LtiResourceLink.
+     */
+    data: XOR<LtiResourceLinkUpdateInput, LtiResourceLinkUncheckedUpdateInput>
+    /**
+     * Choose, which LtiResourceLink to update.
+     */
+    where: LtiResourceLinkWhereUniqueInput
+  }
+
+  /**
+   * LtiResourceLink updateMany
+   */
+  export type LtiResourceLinkUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LtiResourceLinks.
+     */
+    data: XOR<LtiResourceLinkUpdateManyMutationInput, LtiResourceLinkUncheckedUpdateManyInput>
+    /**
+     * Filter which LtiResourceLinks to update
+     */
+    where?: LtiResourceLinkWhereInput
+    /**
+     * Limit how many LtiResourceLinks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LtiResourceLink updateManyAndReturn
+   */
+  export type LtiResourceLinkUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiResourceLink
+     */
+    select?: LtiResourceLinkSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LtiResourceLink
+     */
+    omit?: LtiResourceLinkOmit<ExtArgs> | null
+    /**
+     * The data used to update LtiResourceLinks.
+     */
+    data: XOR<LtiResourceLinkUpdateManyMutationInput, LtiResourceLinkUncheckedUpdateManyInput>
+    /**
+     * Filter which LtiResourceLinks to update
+     */
+    where?: LtiResourceLinkWhereInput
+    /**
+     * Limit how many LtiResourceLinks to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LtiResourceLinkIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LtiResourceLink upsert
+   */
+  export type LtiResourceLinkUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiResourceLink
+     */
+    select?: LtiResourceLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LtiResourceLink
+     */
+    omit?: LtiResourceLinkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LtiResourceLinkInclude<ExtArgs> | null
+    /**
+     * The filter to search for the LtiResourceLink to update in case it exists.
+     */
+    where: LtiResourceLinkWhereUniqueInput
+    /**
+     * In case the LtiResourceLink found by the `where` argument doesn't exist, create a new LtiResourceLink with this data.
+     */
+    create: XOR<LtiResourceLinkCreateInput, LtiResourceLinkUncheckedCreateInput>
+    /**
+     * In case the LtiResourceLink was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LtiResourceLinkUpdateInput, LtiResourceLinkUncheckedUpdateInput>
+  }
+
+  /**
+   * LtiResourceLink delete
+   */
+  export type LtiResourceLinkDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiResourceLink
+     */
+    select?: LtiResourceLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LtiResourceLink
+     */
+    omit?: LtiResourceLinkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LtiResourceLinkInclude<ExtArgs> | null
+    /**
+     * Filter which LtiResourceLink to delete.
+     */
+    where: LtiResourceLinkWhereUniqueInput
+  }
+
+  /**
+   * LtiResourceLink deleteMany
+   */
+  export type LtiResourceLinkDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LtiResourceLinks to delete
+     */
+    where?: LtiResourceLinkWhereInput
+    /**
+     * Limit how many LtiResourceLinks to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * LtiResourceLink without action
+   */
+  export type LtiResourceLinkDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LtiResourceLink
+     */
+    select?: LtiResourceLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LtiResourceLink
+     */
+    omit?: LtiResourceLinkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LtiResourceLinkInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -19811,6 +23547,49 @@ export namespace Prisma {
   export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum]
 
 
+  export const LtiPlatformScalarFieldEnum: {
+    id: 'id',
+    issuer: 'issuer',
+    clientId: 'clientId',
+    authLoginUrl: 'authLoginUrl',
+    authTokenUrl: 'authTokenUrl',
+    keySetUrl: 'keySetUrl',
+    name: 'name',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type LtiPlatformScalarFieldEnum = (typeof LtiPlatformScalarFieldEnum)[keyof typeof LtiPlatformScalarFieldEnum]
+
+
+  export const LtiIdentityScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    issuer: 'issuer',
+    subject: 'subject',
+    email: 'email',
+    name: 'name',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type LtiIdentityScalarFieldEnum = (typeof LtiIdentityScalarFieldEnum)[keyof typeof LtiIdentityScalarFieldEnum]
+
+
+  export const LtiResourceLinkScalarFieldEnum: {
+    id: 'id',
+    platformId: 'platformId',
+    deploymentId: 'deploymentId',
+    contextId: 'contextId',
+    resourceLinkId: 'resourceLinkId',
+    assignmentId: 'assignmentId',
+    lineitemUrl: 'lineitemUrl',
+    createdAt: 'createdAt'
+  };
+
+  export type LtiResourceLinkScalarFieldEnum = (typeof LtiResourceLinkScalarFieldEnum)[keyof typeof LtiResourceLinkScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -19951,6 +23730,7 @@ export namespace Prisma {
     classes?: ClassMembershipListRelationFilter
     submissions?: SubmissionListRelationFilter
     groupMemberships?: GroupMemberListRelationFilter
+    ltiIdentities?: LtiIdentityListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -19967,6 +23747,7 @@ export namespace Prisma {
     classes?: ClassMembershipOrderByRelationAggregateInput
     submissions?: SubmissionOrderByRelationAggregateInput
     groupMemberships?: GroupMemberOrderByRelationAggregateInput
+    ltiIdentities?: LtiIdentityOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -19986,6 +23767,7 @@ export namespace Prisma {
     classes?: ClassMembershipListRelationFilter
     submissions?: SubmissionListRelationFilter
     groupMemberships?: GroupMemberListRelationFilter
+    ltiIdentities?: LtiIdentityListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -20297,6 +24079,7 @@ export namespace Prisma {
     groupAssignments?: AssignmentGroupListRelationFilter
     groupSubmissions?: GroupSubmissionListRelationFilter
     rubric?: XOR<RubricNullableScalarRelationFilter, RubricWhereInput> | null
+    ltiResourceLinks?: LtiResourceLinkListRelationFilter
   }
 
   export type AssignmentOrderByWithRelationInput = {
@@ -20313,6 +24096,7 @@ export namespace Prisma {
     groupAssignments?: AssignmentGroupOrderByRelationAggregateInput
     groupSubmissions?: GroupSubmissionOrderByRelationAggregateInput
     rubric?: RubricOrderByWithRelationInput
+    ltiResourceLinks?: LtiResourceLinkOrderByRelationAggregateInput
   }
 
   export type AssignmentWhereUniqueInput = Prisma.AtLeast<{
@@ -20332,6 +24116,7 @@ export namespace Prisma {
     groupAssignments?: AssignmentGroupListRelationFilter
     groupSubmissions?: GroupSubmissionListRelationFilter
     rubric?: XOR<RubricNullableScalarRelationFilter, RubricWhereInput> | null
+    ltiResourceLinks?: LtiResourceLinkListRelationFilter
   }, "id">
 
   export type AssignmentOrderByWithAggregationInput = {
@@ -20978,6 +24763,228 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Verification"> | Date | string
   }
 
+  export type LtiPlatformWhereInput = {
+    AND?: LtiPlatformWhereInput | LtiPlatformWhereInput[]
+    OR?: LtiPlatformWhereInput[]
+    NOT?: LtiPlatformWhereInput | LtiPlatformWhereInput[]
+    id?: StringFilter<"LtiPlatform"> | string
+    issuer?: StringFilter<"LtiPlatform"> | string
+    clientId?: StringFilter<"LtiPlatform"> | string
+    authLoginUrl?: StringFilter<"LtiPlatform"> | string
+    authTokenUrl?: StringFilter<"LtiPlatform"> | string
+    keySetUrl?: StringFilter<"LtiPlatform"> | string
+    name?: StringFilter<"LtiPlatform"> | string
+    createdAt?: DateTimeFilter<"LtiPlatform"> | Date | string
+    updatedAt?: DateTimeFilter<"LtiPlatform"> | Date | string
+    resourceLinks?: LtiResourceLinkListRelationFilter
+  }
+
+  export type LtiPlatformOrderByWithRelationInput = {
+    id?: SortOrder
+    issuer?: SortOrder
+    clientId?: SortOrder
+    authLoginUrl?: SortOrder
+    authTokenUrl?: SortOrder
+    keySetUrl?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    resourceLinks?: LtiResourceLinkOrderByRelationAggregateInput
+  }
+
+  export type LtiPlatformWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    issuer?: string
+    AND?: LtiPlatformWhereInput | LtiPlatformWhereInput[]
+    OR?: LtiPlatformWhereInput[]
+    NOT?: LtiPlatformWhereInput | LtiPlatformWhereInput[]
+    clientId?: StringFilter<"LtiPlatform"> | string
+    authLoginUrl?: StringFilter<"LtiPlatform"> | string
+    authTokenUrl?: StringFilter<"LtiPlatform"> | string
+    keySetUrl?: StringFilter<"LtiPlatform"> | string
+    name?: StringFilter<"LtiPlatform"> | string
+    createdAt?: DateTimeFilter<"LtiPlatform"> | Date | string
+    updatedAt?: DateTimeFilter<"LtiPlatform"> | Date | string
+    resourceLinks?: LtiResourceLinkListRelationFilter
+  }, "id" | "issuer">
+
+  export type LtiPlatformOrderByWithAggregationInput = {
+    id?: SortOrder
+    issuer?: SortOrder
+    clientId?: SortOrder
+    authLoginUrl?: SortOrder
+    authTokenUrl?: SortOrder
+    keySetUrl?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: LtiPlatformCountOrderByAggregateInput
+    _max?: LtiPlatformMaxOrderByAggregateInput
+    _min?: LtiPlatformMinOrderByAggregateInput
+  }
+
+  export type LtiPlatformScalarWhereWithAggregatesInput = {
+    AND?: LtiPlatformScalarWhereWithAggregatesInput | LtiPlatformScalarWhereWithAggregatesInput[]
+    OR?: LtiPlatformScalarWhereWithAggregatesInput[]
+    NOT?: LtiPlatformScalarWhereWithAggregatesInput | LtiPlatformScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"LtiPlatform"> | string
+    issuer?: StringWithAggregatesFilter<"LtiPlatform"> | string
+    clientId?: StringWithAggregatesFilter<"LtiPlatform"> | string
+    authLoginUrl?: StringWithAggregatesFilter<"LtiPlatform"> | string
+    authTokenUrl?: StringWithAggregatesFilter<"LtiPlatform"> | string
+    keySetUrl?: StringWithAggregatesFilter<"LtiPlatform"> | string
+    name?: StringWithAggregatesFilter<"LtiPlatform"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"LtiPlatform"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"LtiPlatform"> | Date | string
+  }
+
+  export type LtiIdentityWhereInput = {
+    AND?: LtiIdentityWhereInput | LtiIdentityWhereInput[]
+    OR?: LtiIdentityWhereInput[]
+    NOT?: LtiIdentityWhereInput | LtiIdentityWhereInput[]
+    id?: StringFilter<"LtiIdentity"> | string
+    userId?: StringFilter<"LtiIdentity"> | string
+    issuer?: StringFilter<"LtiIdentity"> | string
+    subject?: StringFilter<"LtiIdentity"> | string
+    email?: StringNullableFilter<"LtiIdentity"> | string | null
+    name?: StringNullableFilter<"LtiIdentity"> | string | null
+    createdAt?: DateTimeFilter<"LtiIdentity"> | Date | string
+    updatedAt?: DateTimeFilter<"LtiIdentity"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type LtiIdentityOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    issuer?: SortOrder
+    subject?: SortOrder
+    email?: SortOrderInput | SortOrder
+    name?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type LtiIdentityWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    issuer_subject?: LtiIdentityIssuerSubjectCompoundUniqueInput
+    AND?: LtiIdentityWhereInput | LtiIdentityWhereInput[]
+    OR?: LtiIdentityWhereInput[]
+    NOT?: LtiIdentityWhereInput | LtiIdentityWhereInput[]
+    userId?: StringFilter<"LtiIdentity"> | string
+    issuer?: StringFilter<"LtiIdentity"> | string
+    subject?: StringFilter<"LtiIdentity"> | string
+    email?: StringNullableFilter<"LtiIdentity"> | string | null
+    name?: StringNullableFilter<"LtiIdentity"> | string | null
+    createdAt?: DateTimeFilter<"LtiIdentity"> | Date | string
+    updatedAt?: DateTimeFilter<"LtiIdentity"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "issuer_subject">
+
+  export type LtiIdentityOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    issuer?: SortOrder
+    subject?: SortOrder
+    email?: SortOrderInput | SortOrder
+    name?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: LtiIdentityCountOrderByAggregateInput
+    _max?: LtiIdentityMaxOrderByAggregateInput
+    _min?: LtiIdentityMinOrderByAggregateInput
+  }
+
+  export type LtiIdentityScalarWhereWithAggregatesInput = {
+    AND?: LtiIdentityScalarWhereWithAggregatesInput | LtiIdentityScalarWhereWithAggregatesInput[]
+    OR?: LtiIdentityScalarWhereWithAggregatesInput[]
+    NOT?: LtiIdentityScalarWhereWithAggregatesInput | LtiIdentityScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"LtiIdentity"> | string
+    userId?: StringWithAggregatesFilter<"LtiIdentity"> | string
+    issuer?: StringWithAggregatesFilter<"LtiIdentity"> | string
+    subject?: StringWithAggregatesFilter<"LtiIdentity"> | string
+    email?: StringNullableWithAggregatesFilter<"LtiIdentity"> | string | null
+    name?: StringNullableWithAggregatesFilter<"LtiIdentity"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"LtiIdentity"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"LtiIdentity"> | Date | string
+  }
+
+  export type LtiResourceLinkWhereInput = {
+    AND?: LtiResourceLinkWhereInput | LtiResourceLinkWhereInput[]
+    OR?: LtiResourceLinkWhereInput[]
+    NOT?: LtiResourceLinkWhereInput | LtiResourceLinkWhereInput[]
+    id?: StringFilter<"LtiResourceLink"> | string
+    platformId?: StringFilter<"LtiResourceLink"> | string
+    deploymentId?: StringFilter<"LtiResourceLink"> | string
+    contextId?: StringFilter<"LtiResourceLink"> | string
+    resourceLinkId?: StringFilter<"LtiResourceLink"> | string
+    assignmentId?: IntFilter<"LtiResourceLink"> | number
+    lineitemUrl?: StringNullableFilter<"LtiResourceLink"> | string | null
+    createdAt?: DateTimeFilter<"LtiResourceLink"> | Date | string
+    platform?: XOR<LtiPlatformScalarRelationFilter, LtiPlatformWhereInput>
+    assignment?: XOR<AssignmentScalarRelationFilter, AssignmentWhereInput>
+  }
+
+  export type LtiResourceLinkOrderByWithRelationInput = {
+    id?: SortOrder
+    platformId?: SortOrder
+    deploymentId?: SortOrder
+    contextId?: SortOrder
+    resourceLinkId?: SortOrder
+    assignmentId?: SortOrder
+    lineitemUrl?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    platform?: LtiPlatformOrderByWithRelationInput
+    assignment?: AssignmentOrderByWithRelationInput
+  }
+
+  export type LtiResourceLinkWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    platformId_deploymentId_resourceLinkId?: LtiResourceLinkPlatformIdDeploymentIdResourceLinkIdCompoundUniqueInput
+    AND?: LtiResourceLinkWhereInput | LtiResourceLinkWhereInput[]
+    OR?: LtiResourceLinkWhereInput[]
+    NOT?: LtiResourceLinkWhereInput | LtiResourceLinkWhereInput[]
+    platformId?: StringFilter<"LtiResourceLink"> | string
+    deploymentId?: StringFilter<"LtiResourceLink"> | string
+    contextId?: StringFilter<"LtiResourceLink"> | string
+    resourceLinkId?: StringFilter<"LtiResourceLink"> | string
+    assignmentId?: IntFilter<"LtiResourceLink"> | number
+    lineitemUrl?: StringNullableFilter<"LtiResourceLink"> | string | null
+    createdAt?: DateTimeFilter<"LtiResourceLink"> | Date | string
+    platform?: XOR<LtiPlatformScalarRelationFilter, LtiPlatformWhereInput>
+    assignment?: XOR<AssignmentScalarRelationFilter, AssignmentWhereInput>
+  }, "id" | "platformId_deploymentId_resourceLinkId">
+
+  export type LtiResourceLinkOrderByWithAggregationInput = {
+    id?: SortOrder
+    platformId?: SortOrder
+    deploymentId?: SortOrder
+    contextId?: SortOrder
+    resourceLinkId?: SortOrder
+    assignmentId?: SortOrder
+    lineitemUrl?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: LtiResourceLinkCountOrderByAggregateInput
+    _avg?: LtiResourceLinkAvgOrderByAggregateInput
+    _max?: LtiResourceLinkMaxOrderByAggregateInput
+    _min?: LtiResourceLinkMinOrderByAggregateInput
+    _sum?: LtiResourceLinkSumOrderByAggregateInput
+  }
+
+  export type LtiResourceLinkScalarWhereWithAggregatesInput = {
+    AND?: LtiResourceLinkScalarWhereWithAggregatesInput | LtiResourceLinkScalarWhereWithAggregatesInput[]
+    OR?: LtiResourceLinkScalarWhereWithAggregatesInput[]
+    NOT?: LtiResourceLinkScalarWhereWithAggregatesInput | LtiResourceLinkScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"LtiResourceLink"> | string
+    platformId?: StringWithAggregatesFilter<"LtiResourceLink"> | string
+    deploymentId?: StringWithAggregatesFilter<"LtiResourceLink"> | string
+    contextId?: StringWithAggregatesFilter<"LtiResourceLink"> | string
+    resourceLinkId?: StringWithAggregatesFilter<"LtiResourceLink"> | string
+    assignmentId?: IntWithAggregatesFilter<"LtiResourceLink"> | number
+    lineitemUrl?: StringNullableWithAggregatesFilter<"LtiResourceLink"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"LtiResourceLink"> | Date | string
+  }
+
   export type UserCreateInput = {
     id: string
     handle: string
@@ -20992,6 +24999,7 @@ export namespace Prisma {
     classes?: ClassMembershipCreateNestedManyWithoutUserInput
     submissions?: SubmissionCreateNestedManyWithoutStudentInput
     groupMemberships?: GroupMemberCreateNestedManyWithoutStudentInput
+    ltiIdentities?: LtiIdentityCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -21008,6 +25016,7 @@ export namespace Prisma {
     classes?: ClassMembershipUncheckedCreateNestedManyWithoutUserInput
     submissions?: SubmissionUncheckedCreateNestedManyWithoutStudentInput
     groupMemberships?: GroupMemberUncheckedCreateNestedManyWithoutStudentInput
+    ltiIdentities?: LtiIdentityUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -21024,6 +25033,7 @@ export namespace Prisma {
     classes?: ClassMembershipUpdateManyWithoutUserNestedInput
     submissions?: SubmissionUpdateManyWithoutStudentNestedInput
     groupMemberships?: GroupMemberUpdateManyWithoutStudentNestedInput
+    ltiIdentities?: LtiIdentityUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -21040,6 +25050,7 @@ export namespace Prisma {
     classes?: ClassMembershipUncheckedUpdateManyWithoutUserNestedInput
     submissions?: SubmissionUncheckedUpdateManyWithoutStudentNestedInput
     groupMemberships?: GroupMemberUncheckedUpdateManyWithoutStudentNestedInput
+    ltiIdentities?: LtiIdentityUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -21337,6 +25348,7 @@ export namespace Prisma {
     groupAssignments?: AssignmentGroupCreateNestedManyWithoutAssignmentInput
     groupSubmissions?: GroupSubmissionCreateNestedManyWithoutAssignmentInput
     rubric?: RubricCreateNestedOneWithoutAssignmentInput
+    ltiResourceLinks?: LtiResourceLinkCreateNestedManyWithoutAssignmentInput
   }
 
   export type AssignmentUncheckedCreateInput = {
@@ -21352,6 +25364,7 @@ export namespace Prisma {
     groupAssignments?: AssignmentGroupUncheckedCreateNestedManyWithoutAssignmentInput
     groupSubmissions?: GroupSubmissionUncheckedCreateNestedManyWithoutAssignmentInput
     rubric?: RubricUncheckedCreateNestedOneWithoutAssignmentInput
+    ltiResourceLinks?: LtiResourceLinkUncheckedCreateNestedManyWithoutAssignmentInput
   }
 
   export type AssignmentUpdateInput = {
@@ -21366,6 +25379,7 @@ export namespace Prisma {
     groupAssignments?: AssignmentGroupUpdateManyWithoutAssignmentNestedInput
     groupSubmissions?: GroupSubmissionUpdateManyWithoutAssignmentNestedInput
     rubric?: RubricUpdateOneWithoutAssignmentNestedInput
+    ltiResourceLinks?: LtiResourceLinkUpdateManyWithoutAssignmentNestedInput
   }
 
   export type AssignmentUncheckedUpdateInput = {
@@ -21381,6 +25395,7 @@ export namespace Prisma {
     groupAssignments?: AssignmentGroupUncheckedUpdateManyWithoutAssignmentNestedInput
     groupSubmissions?: GroupSubmissionUncheckedUpdateManyWithoutAssignmentNestedInput
     rubric?: RubricUncheckedUpdateOneWithoutAssignmentNestedInput
+    ltiResourceLinks?: LtiResourceLinkUncheckedUpdateManyWithoutAssignmentNestedInput
   }
 
   export type AssignmentCreateManyInput = {
@@ -22031,6 +26046,245 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type LtiPlatformCreateInput = {
+    id?: string
+    issuer: string
+    clientId: string
+    authLoginUrl: string
+    authTokenUrl: string
+    keySetUrl: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    resourceLinks?: LtiResourceLinkCreateNestedManyWithoutPlatformInput
+  }
+
+  export type LtiPlatformUncheckedCreateInput = {
+    id?: string
+    issuer: string
+    clientId: string
+    authLoginUrl: string
+    authTokenUrl: string
+    keySetUrl: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    resourceLinks?: LtiResourceLinkUncheckedCreateNestedManyWithoutPlatformInput
+  }
+
+  export type LtiPlatformUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    issuer?: StringFieldUpdateOperationsInput | string
+    clientId?: StringFieldUpdateOperationsInput | string
+    authLoginUrl?: StringFieldUpdateOperationsInput | string
+    authTokenUrl?: StringFieldUpdateOperationsInput | string
+    keySetUrl?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resourceLinks?: LtiResourceLinkUpdateManyWithoutPlatformNestedInput
+  }
+
+  export type LtiPlatformUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    issuer?: StringFieldUpdateOperationsInput | string
+    clientId?: StringFieldUpdateOperationsInput | string
+    authLoginUrl?: StringFieldUpdateOperationsInput | string
+    authTokenUrl?: StringFieldUpdateOperationsInput | string
+    keySetUrl?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resourceLinks?: LtiResourceLinkUncheckedUpdateManyWithoutPlatformNestedInput
+  }
+
+  export type LtiPlatformCreateManyInput = {
+    id?: string
+    issuer: string
+    clientId: string
+    authLoginUrl: string
+    authTokenUrl: string
+    keySetUrl: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LtiPlatformUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    issuer?: StringFieldUpdateOperationsInput | string
+    clientId?: StringFieldUpdateOperationsInput | string
+    authLoginUrl?: StringFieldUpdateOperationsInput | string
+    authTokenUrl?: StringFieldUpdateOperationsInput | string
+    keySetUrl?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LtiPlatformUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    issuer?: StringFieldUpdateOperationsInput | string
+    clientId?: StringFieldUpdateOperationsInput | string
+    authLoginUrl?: StringFieldUpdateOperationsInput | string
+    authTokenUrl?: StringFieldUpdateOperationsInput | string
+    keySetUrl?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LtiIdentityCreateInput = {
+    id?: string
+    issuer: string
+    subject: string
+    email?: string | null
+    name?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutLtiIdentitiesInput
+  }
+
+  export type LtiIdentityUncheckedCreateInput = {
+    id?: string
+    userId: string
+    issuer: string
+    subject: string
+    email?: string | null
+    name?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LtiIdentityUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    issuer?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutLtiIdentitiesNestedInput
+  }
+
+  export type LtiIdentityUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    issuer?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LtiIdentityCreateManyInput = {
+    id?: string
+    userId: string
+    issuer: string
+    subject: string
+    email?: string | null
+    name?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LtiIdentityUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    issuer?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LtiIdentityUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    issuer?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LtiResourceLinkCreateInput = {
+    id?: string
+    deploymentId: string
+    contextId: string
+    resourceLinkId: string
+    lineitemUrl?: string | null
+    createdAt?: Date | string
+    platform: LtiPlatformCreateNestedOneWithoutResourceLinksInput
+    assignment: AssignmentCreateNestedOneWithoutLtiResourceLinksInput
+  }
+
+  export type LtiResourceLinkUncheckedCreateInput = {
+    id?: string
+    platformId: string
+    deploymentId: string
+    contextId: string
+    resourceLinkId: string
+    assignmentId: number
+    lineitemUrl?: string | null
+    createdAt?: Date | string
+  }
+
+  export type LtiResourceLinkUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    deploymentId?: StringFieldUpdateOperationsInput | string
+    contextId?: StringFieldUpdateOperationsInput | string
+    resourceLinkId?: StringFieldUpdateOperationsInput | string
+    lineitemUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    platform?: LtiPlatformUpdateOneRequiredWithoutResourceLinksNestedInput
+    assignment?: AssignmentUpdateOneRequiredWithoutLtiResourceLinksNestedInput
+  }
+
+  export type LtiResourceLinkUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    platformId?: StringFieldUpdateOperationsInput | string
+    deploymentId?: StringFieldUpdateOperationsInput | string
+    contextId?: StringFieldUpdateOperationsInput | string
+    resourceLinkId?: StringFieldUpdateOperationsInput | string
+    assignmentId?: IntFieldUpdateOperationsInput | number
+    lineitemUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LtiResourceLinkCreateManyInput = {
+    id?: string
+    platformId: string
+    deploymentId: string
+    contextId: string
+    resourceLinkId: string
+    assignmentId: number
+    lineitemUrl?: string | null
+    createdAt?: Date | string
+  }
+
+  export type LtiResourceLinkUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    deploymentId?: StringFieldUpdateOperationsInput | string
+    contextId?: StringFieldUpdateOperationsInput | string
+    resourceLinkId?: StringFieldUpdateOperationsInput | string
+    lineitemUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LtiResourceLinkUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    platformId?: StringFieldUpdateOperationsInput | string
+    deploymentId?: StringFieldUpdateOperationsInput | string
+    contextId?: StringFieldUpdateOperationsInput | string
+    resourceLinkId?: StringFieldUpdateOperationsInput | string
+    assignmentId?: IntFieldUpdateOperationsInput | number
+    lineitemUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -22107,6 +26361,12 @@ export namespace Prisma {
     none?: GroupMemberWhereInput
   }
 
+  export type LtiIdentityListRelationFilter = {
+    every?: LtiIdentityWhereInput
+    some?: LtiIdentityWhereInput
+    none?: LtiIdentityWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -22129,6 +26389,10 @@ export namespace Prisma {
   }
 
   export type GroupMemberOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type LtiIdentityOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -22494,6 +26758,16 @@ export namespace Prisma {
   export type RubricNullableScalarRelationFilter = {
     is?: RubricWhereInput | null
     isNot?: RubricWhereInput | null
+  }
+
+  export type LtiResourceLinkListRelationFilter = {
+    every?: LtiResourceLinkWhereInput
+    some?: LtiResourceLinkWhereInput
+    none?: LtiResourceLinkWhereInput
+  }
+
+  export type LtiResourceLinkOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type AssignmentCountOrderByAggregateInput = {
@@ -22981,6 +27255,132 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type LtiPlatformCountOrderByAggregateInput = {
+    id?: SortOrder
+    issuer?: SortOrder
+    clientId?: SortOrder
+    authLoginUrl?: SortOrder
+    authTokenUrl?: SortOrder
+    keySetUrl?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LtiPlatformMaxOrderByAggregateInput = {
+    id?: SortOrder
+    issuer?: SortOrder
+    clientId?: SortOrder
+    authLoginUrl?: SortOrder
+    authTokenUrl?: SortOrder
+    keySetUrl?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LtiPlatformMinOrderByAggregateInput = {
+    id?: SortOrder
+    issuer?: SortOrder
+    clientId?: SortOrder
+    authLoginUrl?: SortOrder
+    authTokenUrl?: SortOrder
+    keySetUrl?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LtiIdentityIssuerSubjectCompoundUniqueInput = {
+    issuer: string
+    subject: string
+  }
+
+  export type LtiIdentityCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    issuer?: SortOrder
+    subject?: SortOrder
+    email?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LtiIdentityMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    issuer?: SortOrder
+    subject?: SortOrder
+    email?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LtiIdentityMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    issuer?: SortOrder
+    subject?: SortOrder
+    email?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LtiPlatformScalarRelationFilter = {
+    is?: LtiPlatformWhereInput
+    isNot?: LtiPlatformWhereInput
+  }
+
+  export type LtiResourceLinkPlatformIdDeploymentIdResourceLinkIdCompoundUniqueInput = {
+    platformId: string
+    deploymentId: string
+    resourceLinkId: string
+  }
+
+  export type LtiResourceLinkCountOrderByAggregateInput = {
+    id?: SortOrder
+    platformId?: SortOrder
+    deploymentId?: SortOrder
+    contextId?: SortOrder
+    resourceLinkId?: SortOrder
+    assignmentId?: SortOrder
+    lineitemUrl?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type LtiResourceLinkAvgOrderByAggregateInput = {
+    assignmentId?: SortOrder
+  }
+
+  export type LtiResourceLinkMaxOrderByAggregateInput = {
+    id?: SortOrder
+    platformId?: SortOrder
+    deploymentId?: SortOrder
+    contextId?: SortOrder
+    resourceLinkId?: SortOrder
+    assignmentId?: SortOrder
+    lineitemUrl?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type LtiResourceLinkMinOrderByAggregateInput = {
+    id?: SortOrder
+    platformId?: SortOrder
+    deploymentId?: SortOrder
+    contextId?: SortOrder
+    resourceLinkId?: SortOrder
+    assignmentId?: SortOrder
+    lineitemUrl?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type LtiResourceLinkSumOrderByAggregateInput = {
+    assignmentId?: SortOrder
+  }
+
   export type SessionCreateNestedManyWithoutUserInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -23016,6 +27416,13 @@ export namespace Prisma {
     connect?: GroupMemberWhereUniqueInput | GroupMemberWhereUniqueInput[]
   }
 
+  export type LtiIdentityCreateNestedManyWithoutUserInput = {
+    create?: XOR<LtiIdentityCreateWithoutUserInput, LtiIdentityUncheckedCreateWithoutUserInput> | LtiIdentityCreateWithoutUserInput[] | LtiIdentityUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LtiIdentityCreateOrConnectWithoutUserInput | LtiIdentityCreateOrConnectWithoutUserInput[]
+    createMany?: LtiIdentityCreateManyUserInputEnvelope
+    connect?: LtiIdentityWhereUniqueInput | LtiIdentityWhereUniqueInput[]
+  }
+
   export type SessionUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -23049,6 +27456,13 @@ export namespace Prisma {
     connectOrCreate?: GroupMemberCreateOrConnectWithoutStudentInput | GroupMemberCreateOrConnectWithoutStudentInput[]
     createMany?: GroupMemberCreateManyStudentInputEnvelope
     connect?: GroupMemberWhereUniqueInput | GroupMemberWhereUniqueInput[]
+  }
+
+  export type LtiIdentityUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<LtiIdentityCreateWithoutUserInput, LtiIdentityUncheckedCreateWithoutUserInput> | LtiIdentityCreateWithoutUserInput[] | LtiIdentityUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LtiIdentityCreateOrConnectWithoutUserInput | LtiIdentityCreateOrConnectWithoutUserInput[]
+    createMany?: LtiIdentityCreateManyUserInputEnvelope
+    connect?: LtiIdentityWhereUniqueInput | LtiIdentityWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -23137,6 +27551,20 @@ export namespace Prisma {
     deleteMany?: GroupMemberScalarWhereInput | GroupMemberScalarWhereInput[]
   }
 
+  export type LtiIdentityUpdateManyWithoutUserNestedInput = {
+    create?: XOR<LtiIdentityCreateWithoutUserInput, LtiIdentityUncheckedCreateWithoutUserInput> | LtiIdentityCreateWithoutUserInput[] | LtiIdentityUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LtiIdentityCreateOrConnectWithoutUserInput | LtiIdentityCreateOrConnectWithoutUserInput[]
+    upsert?: LtiIdentityUpsertWithWhereUniqueWithoutUserInput | LtiIdentityUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: LtiIdentityCreateManyUserInputEnvelope
+    set?: LtiIdentityWhereUniqueInput | LtiIdentityWhereUniqueInput[]
+    disconnect?: LtiIdentityWhereUniqueInput | LtiIdentityWhereUniqueInput[]
+    delete?: LtiIdentityWhereUniqueInput | LtiIdentityWhereUniqueInput[]
+    connect?: LtiIdentityWhereUniqueInput | LtiIdentityWhereUniqueInput[]
+    update?: LtiIdentityUpdateWithWhereUniqueWithoutUserInput | LtiIdentityUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: LtiIdentityUpdateManyWithWhereWithoutUserInput | LtiIdentityUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: LtiIdentityScalarWhereInput | LtiIdentityScalarWhereInput[]
+  }
+
   export type SessionUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -23205,6 +27633,20 @@ export namespace Prisma {
     update?: GroupMemberUpdateWithWhereUniqueWithoutStudentInput | GroupMemberUpdateWithWhereUniqueWithoutStudentInput[]
     updateMany?: GroupMemberUpdateManyWithWhereWithoutStudentInput | GroupMemberUpdateManyWithWhereWithoutStudentInput[]
     deleteMany?: GroupMemberScalarWhereInput | GroupMemberScalarWhereInput[]
+  }
+
+  export type LtiIdentityUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<LtiIdentityCreateWithoutUserInput, LtiIdentityUncheckedCreateWithoutUserInput> | LtiIdentityCreateWithoutUserInput[] | LtiIdentityUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LtiIdentityCreateOrConnectWithoutUserInput | LtiIdentityCreateOrConnectWithoutUserInput[]
+    upsert?: LtiIdentityUpsertWithWhereUniqueWithoutUserInput | LtiIdentityUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: LtiIdentityCreateManyUserInputEnvelope
+    set?: LtiIdentityWhereUniqueInput | LtiIdentityWhereUniqueInput[]
+    disconnect?: LtiIdentityWhereUniqueInput | LtiIdentityWhereUniqueInput[]
+    delete?: LtiIdentityWhereUniqueInput | LtiIdentityWhereUniqueInput[]
+    connect?: LtiIdentityWhereUniqueInput | LtiIdentityWhereUniqueInput[]
+    update?: LtiIdentityUpdateWithWhereUniqueWithoutUserInput | LtiIdentityUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: LtiIdentityUpdateManyWithWhereWithoutUserInput | LtiIdentityUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: LtiIdentityScalarWhereInput | LtiIdentityScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutClassesInput = {
@@ -23630,6 +28072,13 @@ export namespace Prisma {
     connect?: RubricWhereUniqueInput
   }
 
+  export type LtiResourceLinkCreateNestedManyWithoutAssignmentInput = {
+    create?: XOR<LtiResourceLinkCreateWithoutAssignmentInput, LtiResourceLinkUncheckedCreateWithoutAssignmentInput> | LtiResourceLinkCreateWithoutAssignmentInput[] | LtiResourceLinkUncheckedCreateWithoutAssignmentInput[]
+    connectOrCreate?: LtiResourceLinkCreateOrConnectWithoutAssignmentInput | LtiResourceLinkCreateOrConnectWithoutAssignmentInput[]
+    createMany?: LtiResourceLinkCreateManyAssignmentInputEnvelope
+    connect?: LtiResourceLinkWhereUniqueInput | LtiResourceLinkWhereUniqueInput[]
+  }
+
   export type SubmissionUncheckedCreateNestedManyWithoutAssignmentInput = {
     create?: XOR<SubmissionCreateWithoutAssignmentInput, SubmissionUncheckedCreateWithoutAssignmentInput> | SubmissionCreateWithoutAssignmentInput[] | SubmissionUncheckedCreateWithoutAssignmentInput[]
     connectOrCreate?: SubmissionCreateOrConnectWithoutAssignmentInput | SubmissionCreateOrConnectWithoutAssignmentInput[]
@@ -23655,6 +28104,13 @@ export namespace Prisma {
     create?: XOR<RubricCreateWithoutAssignmentInput, RubricUncheckedCreateWithoutAssignmentInput>
     connectOrCreate?: RubricCreateOrConnectWithoutAssignmentInput
     connect?: RubricWhereUniqueInput
+  }
+
+  export type LtiResourceLinkUncheckedCreateNestedManyWithoutAssignmentInput = {
+    create?: XOR<LtiResourceLinkCreateWithoutAssignmentInput, LtiResourceLinkUncheckedCreateWithoutAssignmentInput> | LtiResourceLinkCreateWithoutAssignmentInput[] | LtiResourceLinkUncheckedCreateWithoutAssignmentInput[]
+    connectOrCreate?: LtiResourceLinkCreateOrConnectWithoutAssignmentInput | LtiResourceLinkCreateOrConnectWithoutAssignmentInput[]
+    createMany?: LtiResourceLinkCreateManyAssignmentInputEnvelope
+    connect?: LtiResourceLinkWhereUniqueInput | LtiResourceLinkWhereUniqueInput[]
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -23725,6 +28181,20 @@ export namespace Prisma {
     update?: XOR<XOR<RubricUpdateToOneWithWhereWithoutAssignmentInput, RubricUpdateWithoutAssignmentInput>, RubricUncheckedUpdateWithoutAssignmentInput>
   }
 
+  export type LtiResourceLinkUpdateManyWithoutAssignmentNestedInput = {
+    create?: XOR<LtiResourceLinkCreateWithoutAssignmentInput, LtiResourceLinkUncheckedCreateWithoutAssignmentInput> | LtiResourceLinkCreateWithoutAssignmentInput[] | LtiResourceLinkUncheckedCreateWithoutAssignmentInput[]
+    connectOrCreate?: LtiResourceLinkCreateOrConnectWithoutAssignmentInput | LtiResourceLinkCreateOrConnectWithoutAssignmentInput[]
+    upsert?: LtiResourceLinkUpsertWithWhereUniqueWithoutAssignmentInput | LtiResourceLinkUpsertWithWhereUniqueWithoutAssignmentInput[]
+    createMany?: LtiResourceLinkCreateManyAssignmentInputEnvelope
+    set?: LtiResourceLinkWhereUniqueInput | LtiResourceLinkWhereUniqueInput[]
+    disconnect?: LtiResourceLinkWhereUniqueInput | LtiResourceLinkWhereUniqueInput[]
+    delete?: LtiResourceLinkWhereUniqueInput | LtiResourceLinkWhereUniqueInput[]
+    connect?: LtiResourceLinkWhereUniqueInput | LtiResourceLinkWhereUniqueInput[]
+    update?: LtiResourceLinkUpdateWithWhereUniqueWithoutAssignmentInput | LtiResourceLinkUpdateWithWhereUniqueWithoutAssignmentInput[]
+    updateMany?: LtiResourceLinkUpdateManyWithWhereWithoutAssignmentInput | LtiResourceLinkUpdateManyWithWhereWithoutAssignmentInput[]
+    deleteMany?: LtiResourceLinkScalarWhereInput | LtiResourceLinkScalarWhereInput[]
+  }
+
   export type SubmissionUncheckedUpdateManyWithoutAssignmentNestedInput = {
     create?: XOR<SubmissionCreateWithoutAssignmentInput, SubmissionUncheckedCreateWithoutAssignmentInput> | SubmissionCreateWithoutAssignmentInput[] | SubmissionUncheckedCreateWithoutAssignmentInput[]
     connectOrCreate?: SubmissionCreateOrConnectWithoutAssignmentInput | SubmissionCreateOrConnectWithoutAssignmentInput[]
@@ -23775,6 +28245,20 @@ export namespace Prisma {
     delete?: RubricWhereInput | boolean
     connect?: RubricWhereUniqueInput
     update?: XOR<XOR<RubricUpdateToOneWithWhereWithoutAssignmentInput, RubricUpdateWithoutAssignmentInput>, RubricUncheckedUpdateWithoutAssignmentInput>
+  }
+
+  export type LtiResourceLinkUncheckedUpdateManyWithoutAssignmentNestedInput = {
+    create?: XOR<LtiResourceLinkCreateWithoutAssignmentInput, LtiResourceLinkUncheckedCreateWithoutAssignmentInput> | LtiResourceLinkCreateWithoutAssignmentInput[] | LtiResourceLinkUncheckedCreateWithoutAssignmentInput[]
+    connectOrCreate?: LtiResourceLinkCreateOrConnectWithoutAssignmentInput | LtiResourceLinkCreateOrConnectWithoutAssignmentInput[]
+    upsert?: LtiResourceLinkUpsertWithWhereUniqueWithoutAssignmentInput | LtiResourceLinkUpsertWithWhereUniqueWithoutAssignmentInput[]
+    createMany?: LtiResourceLinkCreateManyAssignmentInputEnvelope
+    set?: LtiResourceLinkWhereUniqueInput | LtiResourceLinkWhereUniqueInput[]
+    disconnect?: LtiResourceLinkWhereUniqueInput | LtiResourceLinkWhereUniqueInput[]
+    delete?: LtiResourceLinkWhereUniqueInput | LtiResourceLinkWhereUniqueInput[]
+    connect?: LtiResourceLinkWhereUniqueInput | LtiResourceLinkWhereUniqueInput[]
+    update?: LtiResourceLinkUpdateWithWhereUniqueWithoutAssignmentInput | LtiResourceLinkUpdateWithWhereUniqueWithoutAssignmentInput[]
+    updateMany?: LtiResourceLinkUpdateManyWithWhereWithoutAssignmentInput | LtiResourceLinkUpdateManyWithWhereWithoutAssignmentInput[]
+    deleteMany?: LtiResourceLinkScalarWhereInput | LtiResourceLinkScalarWhereInput[]
   }
 
   export type AssignmentCreateNestedOneWithoutRubricInput = {
@@ -24081,6 +28565,90 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutAccountsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAccountsInput, UserUpdateWithoutAccountsInput>, UserUncheckedUpdateWithoutAccountsInput>
+  }
+
+  export type LtiResourceLinkCreateNestedManyWithoutPlatformInput = {
+    create?: XOR<LtiResourceLinkCreateWithoutPlatformInput, LtiResourceLinkUncheckedCreateWithoutPlatformInput> | LtiResourceLinkCreateWithoutPlatformInput[] | LtiResourceLinkUncheckedCreateWithoutPlatformInput[]
+    connectOrCreate?: LtiResourceLinkCreateOrConnectWithoutPlatformInput | LtiResourceLinkCreateOrConnectWithoutPlatformInput[]
+    createMany?: LtiResourceLinkCreateManyPlatformInputEnvelope
+    connect?: LtiResourceLinkWhereUniqueInput | LtiResourceLinkWhereUniqueInput[]
+  }
+
+  export type LtiResourceLinkUncheckedCreateNestedManyWithoutPlatformInput = {
+    create?: XOR<LtiResourceLinkCreateWithoutPlatformInput, LtiResourceLinkUncheckedCreateWithoutPlatformInput> | LtiResourceLinkCreateWithoutPlatformInput[] | LtiResourceLinkUncheckedCreateWithoutPlatformInput[]
+    connectOrCreate?: LtiResourceLinkCreateOrConnectWithoutPlatformInput | LtiResourceLinkCreateOrConnectWithoutPlatformInput[]
+    createMany?: LtiResourceLinkCreateManyPlatformInputEnvelope
+    connect?: LtiResourceLinkWhereUniqueInput | LtiResourceLinkWhereUniqueInput[]
+  }
+
+  export type LtiResourceLinkUpdateManyWithoutPlatformNestedInput = {
+    create?: XOR<LtiResourceLinkCreateWithoutPlatformInput, LtiResourceLinkUncheckedCreateWithoutPlatformInput> | LtiResourceLinkCreateWithoutPlatformInput[] | LtiResourceLinkUncheckedCreateWithoutPlatformInput[]
+    connectOrCreate?: LtiResourceLinkCreateOrConnectWithoutPlatformInput | LtiResourceLinkCreateOrConnectWithoutPlatformInput[]
+    upsert?: LtiResourceLinkUpsertWithWhereUniqueWithoutPlatformInput | LtiResourceLinkUpsertWithWhereUniqueWithoutPlatformInput[]
+    createMany?: LtiResourceLinkCreateManyPlatformInputEnvelope
+    set?: LtiResourceLinkWhereUniqueInput | LtiResourceLinkWhereUniqueInput[]
+    disconnect?: LtiResourceLinkWhereUniqueInput | LtiResourceLinkWhereUniqueInput[]
+    delete?: LtiResourceLinkWhereUniqueInput | LtiResourceLinkWhereUniqueInput[]
+    connect?: LtiResourceLinkWhereUniqueInput | LtiResourceLinkWhereUniqueInput[]
+    update?: LtiResourceLinkUpdateWithWhereUniqueWithoutPlatformInput | LtiResourceLinkUpdateWithWhereUniqueWithoutPlatformInput[]
+    updateMany?: LtiResourceLinkUpdateManyWithWhereWithoutPlatformInput | LtiResourceLinkUpdateManyWithWhereWithoutPlatformInput[]
+    deleteMany?: LtiResourceLinkScalarWhereInput | LtiResourceLinkScalarWhereInput[]
+  }
+
+  export type LtiResourceLinkUncheckedUpdateManyWithoutPlatformNestedInput = {
+    create?: XOR<LtiResourceLinkCreateWithoutPlatformInput, LtiResourceLinkUncheckedCreateWithoutPlatformInput> | LtiResourceLinkCreateWithoutPlatformInput[] | LtiResourceLinkUncheckedCreateWithoutPlatformInput[]
+    connectOrCreate?: LtiResourceLinkCreateOrConnectWithoutPlatformInput | LtiResourceLinkCreateOrConnectWithoutPlatformInput[]
+    upsert?: LtiResourceLinkUpsertWithWhereUniqueWithoutPlatformInput | LtiResourceLinkUpsertWithWhereUniqueWithoutPlatformInput[]
+    createMany?: LtiResourceLinkCreateManyPlatformInputEnvelope
+    set?: LtiResourceLinkWhereUniqueInput | LtiResourceLinkWhereUniqueInput[]
+    disconnect?: LtiResourceLinkWhereUniqueInput | LtiResourceLinkWhereUniqueInput[]
+    delete?: LtiResourceLinkWhereUniqueInput | LtiResourceLinkWhereUniqueInput[]
+    connect?: LtiResourceLinkWhereUniqueInput | LtiResourceLinkWhereUniqueInput[]
+    update?: LtiResourceLinkUpdateWithWhereUniqueWithoutPlatformInput | LtiResourceLinkUpdateWithWhereUniqueWithoutPlatformInput[]
+    updateMany?: LtiResourceLinkUpdateManyWithWhereWithoutPlatformInput | LtiResourceLinkUpdateManyWithWhereWithoutPlatformInput[]
+    deleteMany?: LtiResourceLinkScalarWhereInput | LtiResourceLinkScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutLtiIdentitiesInput = {
+    create?: XOR<UserCreateWithoutLtiIdentitiesInput, UserUncheckedCreateWithoutLtiIdentitiesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutLtiIdentitiesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutLtiIdentitiesNestedInput = {
+    create?: XOR<UserCreateWithoutLtiIdentitiesInput, UserUncheckedCreateWithoutLtiIdentitiesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutLtiIdentitiesInput
+    upsert?: UserUpsertWithoutLtiIdentitiesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutLtiIdentitiesInput, UserUpdateWithoutLtiIdentitiesInput>, UserUncheckedUpdateWithoutLtiIdentitiesInput>
+  }
+
+  export type LtiPlatformCreateNestedOneWithoutResourceLinksInput = {
+    create?: XOR<LtiPlatformCreateWithoutResourceLinksInput, LtiPlatformUncheckedCreateWithoutResourceLinksInput>
+    connectOrCreate?: LtiPlatformCreateOrConnectWithoutResourceLinksInput
+    connect?: LtiPlatformWhereUniqueInput
+  }
+
+  export type AssignmentCreateNestedOneWithoutLtiResourceLinksInput = {
+    create?: XOR<AssignmentCreateWithoutLtiResourceLinksInput, AssignmentUncheckedCreateWithoutLtiResourceLinksInput>
+    connectOrCreate?: AssignmentCreateOrConnectWithoutLtiResourceLinksInput
+    connect?: AssignmentWhereUniqueInput
+  }
+
+  export type LtiPlatformUpdateOneRequiredWithoutResourceLinksNestedInput = {
+    create?: XOR<LtiPlatformCreateWithoutResourceLinksInput, LtiPlatformUncheckedCreateWithoutResourceLinksInput>
+    connectOrCreate?: LtiPlatformCreateOrConnectWithoutResourceLinksInput
+    upsert?: LtiPlatformUpsertWithoutResourceLinksInput
+    connect?: LtiPlatformWhereUniqueInput
+    update?: XOR<XOR<LtiPlatformUpdateToOneWithWhereWithoutResourceLinksInput, LtiPlatformUpdateWithoutResourceLinksInput>, LtiPlatformUncheckedUpdateWithoutResourceLinksInput>
+  }
+
+  export type AssignmentUpdateOneRequiredWithoutLtiResourceLinksNestedInput = {
+    create?: XOR<AssignmentCreateWithoutLtiResourceLinksInput, AssignmentUncheckedCreateWithoutLtiResourceLinksInput>
+    connectOrCreate?: AssignmentCreateOrConnectWithoutLtiResourceLinksInput
+    upsert?: AssignmentUpsertWithoutLtiResourceLinksInput
+    connect?: AssignmentWhereUniqueInput
+    update?: XOR<XOR<AssignmentUpdateToOneWithWhereWithoutLtiResourceLinksInput, AssignmentUpdateWithoutLtiResourceLinksInput>, AssignmentUncheckedUpdateWithoutLtiResourceLinksInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -24462,6 +29030,36 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type LtiIdentityCreateWithoutUserInput = {
+    id?: string
+    issuer: string
+    subject: string
+    email?: string | null
+    name?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LtiIdentityUncheckedCreateWithoutUserInput = {
+    id?: string
+    issuer: string
+    subject: string
+    email?: string | null
+    name?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LtiIdentityCreateOrConnectWithoutUserInput = {
+    where: LtiIdentityWhereUniqueInput
+    create: XOR<LtiIdentityCreateWithoutUserInput, LtiIdentityUncheckedCreateWithoutUserInput>
+  }
+
+  export type LtiIdentityCreateManyUserInputEnvelope = {
+    data: LtiIdentityCreateManyUserInput | LtiIdentityCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type SessionUpsertWithWhereUniqueWithoutUserInput = {
     where: SessionWhereUniqueInput
     update: XOR<SessionUpdateWithoutUserInput, SessionUncheckedUpdateWithoutUserInput>
@@ -24608,6 +29206,36 @@ export namespace Prisma {
     studentId?: StringFilter<"GroupMember"> | string
   }
 
+  export type LtiIdentityUpsertWithWhereUniqueWithoutUserInput = {
+    where: LtiIdentityWhereUniqueInput
+    update: XOR<LtiIdentityUpdateWithoutUserInput, LtiIdentityUncheckedUpdateWithoutUserInput>
+    create: XOR<LtiIdentityCreateWithoutUserInput, LtiIdentityUncheckedCreateWithoutUserInput>
+  }
+
+  export type LtiIdentityUpdateWithWhereUniqueWithoutUserInput = {
+    where: LtiIdentityWhereUniqueInput
+    data: XOR<LtiIdentityUpdateWithoutUserInput, LtiIdentityUncheckedUpdateWithoutUserInput>
+  }
+
+  export type LtiIdentityUpdateManyWithWhereWithoutUserInput = {
+    where: LtiIdentityScalarWhereInput
+    data: XOR<LtiIdentityUpdateManyMutationInput, LtiIdentityUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type LtiIdentityScalarWhereInput = {
+    AND?: LtiIdentityScalarWhereInput | LtiIdentityScalarWhereInput[]
+    OR?: LtiIdentityScalarWhereInput[]
+    NOT?: LtiIdentityScalarWhereInput | LtiIdentityScalarWhereInput[]
+    id?: StringFilter<"LtiIdentity"> | string
+    userId?: StringFilter<"LtiIdentity"> | string
+    issuer?: StringFilter<"LtiIdentity"> | string
+    subject?: StringFilter<"LtiIdentity"> | string
+    email?: StringNullableFilter<"LtiIdentity"> | string | null
+    name?: StringNullableFilter<"LtiIdentity"> | string | null
+    createdAt?: DateTimeFilter<"LtiIdentity"> | Date | string
+    updatedAt?: DateTimeFilter<"LtiIdentity"> | Date | string
+  }
+
   export type UserCreateWithoutClassesInput = {
     id: string
     handle: string
@@ -24621,6 +29249,7 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     submissions?: SubmissionCreateNestedManyWithoutStudentInput
     groupMemberships?: GroupMemberCreateNestedManyWithoutStudentInput
+    ltiIdentities?: LtiIdentityCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutClassesInput = {
@@ -24636,6 +29265,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     submissions?: SubmissionUncheckedCreateNestedManyWithoutStudentInput
     groupMemberships?: GroupMemberUncheckedCreateNestedManyWithoutStudentInput
+    ltiIdentities?: LtiIdentityUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutClassesInput = {
@@ -24697,6 +29327,7 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     submissions?: SubmissionUpdateManyWithoutStudentNestedInput
     groupMemberships?: GroupMemberUpdateManyWithoutStudentNestedInput
+    ltiIdentities?: LtiIdentityUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutClassesInput = {
@@ -24712,6 +29343,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     submissions?: SubmissionUncheckedUpdateManyWithoutStudentNestedInput
     groupMemberships?: GroupMemberUncheckedUpdateManyWithoutStudentNestedInput
+    ltiIdentities?: LtiIdentityUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ClassUpsertWithoutMembersInput = {
@@ -24783,6 +29415,7 @@ export namespace Prisma {
     groupAssignments?: AssignmentGroupCreateNestedManyWithoutAssignmentInput
     groupSubmissions?: GroupSubmissionCreateNestedManyWithoutAssignmentInput
     rubric?: RubricCreateNestedOneWithoutAssignmentInput
+    ltiResourceLinks?: LtiResourceLinkCreateNestedManyWithoutAssignmentInput
   }
 
   export type AssignmentUncheckedCreateWithoutClassInput = {
@@ -24797,6 +29430,7 @@ export namespace Prisma {
     groupAssignments?: AssignmentGroupUncheckedCreateNestedManyWithoutAssignmentInput
     groupSubmissions?: GroupSubmissionUncheckedCreateNestedManyWithoutAssignmentInput
     rubric?: RubricUncheckedCreateNestedOneWithoutAssignmentInput
+    ltiResourceLinks?: LtiResourceLinkUncheckedCreateNestedManyWithoutAssignmentInput
   }
 
   export type AssignmentCreateOrConnectWithoutClassInput = {
@@ -25230,6 +29864,7 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     classes?: ClassMembershipCreateNestedManyWithoutUserInput
     submissions?: SubmissionCreateNestedManyWithoutStudentInput
+    ltiIdentities?: LtiIdentityCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupMembershipsInput = {
@@ -25245,6 +29880,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     classes?: ClassMembershipUncheckedCreateNestedManyWithoutUserInput
     submissions?: SubmissionUncheckedCreateNestedManyWithoutStudentInput
+    ltiIdentities?: LtiIdentityUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupMembershipsInput = {
@@ -25343,6 +29979,7 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     classes?: ClassMembershipUpdateManyWithoutUserNestedInput
     submissions?: SubmissionUpdateManyWithoutStudentNestedInput
+    ltiIdentities?: LtiIdentityUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupMembershipsInput = {
@@ -25358,6 +29995,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     classes?: ClassMembershipUncheckedUpdateManyWithoutUserNestedInput
     submissions?: SubmissionUncheckedUpdateManyWithoutStudentNestedInput
+    ltiIdentities?: LtiIdentityUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ClassCreateWithoutAssignmentsInput = {
@@ -25488,6 +30126,36 @@ export namespace Prisma {
     create: XOR<RubricCreateWithoutAssignmentInput, RubricUncheckedCreateWithoutAssignmentInput>
   }
 
+  export type LtiResourceLinkCreateWithoutAssignmentInput = {
+    id?: string
+    deploymentId: string
+    contextId: string
+    resourceLinkId: string
+    lineitemUrl?: string | null
+    createdAt?: Date | string
+    platform: LtiPlatformCreateNestedOneWithoutResourceLinksInput
+  }
+
+  export type LtiResourceLinkUncheckedCreateWithoutAssignmentInput = {
+    id?: string
+    platformId: string
+    deploymentId: string
+    contextId: string
+    resourceLinkId: string
+    lineitemUrl?: string | null
+    createdAt?: Date | string
+  }
+
+  export type LtiResourceLinkCreateOrConnectWithoutAssignmentInput = {
+    where: LtiResourceLinkWhereUniqueInput
+    create: XOR<LtiResourceLinkCreateWithoutAssignmentInput, LtiResourceLinkUncheckedCreateWithoutAssignmentInput>
+  }
+
+  export type LtiResourceLinkCreateManyAssignmentInputEnvelope = {
+    data: LtiResourceLinkCreateManyAssignmentInput | LtiResourceLinkCreateManyAssignmentInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ClassUpsertWithoutAssignmentsInput = {
     update: XOR<ClassUpdateWithoutAssignmentsInput, ClassUncheckedUpdateWithoutAssignmentsInput>
     create: XOR<ClassCreateWithoutAssignmentsInput, ClassUncheckedCreateWithoutAssignmentsInput>
@@ -25598,6 +30266,36 @@ export namespace Prisma {
     criteria?: RubricCriterionUncheckedUpdateManyWithoutRubricNestedInput
   }
 
+  export type LtiResourceLinkUpsertWithWhereUniqueWithoutAssignmentInput = {
+    where: LtiResourceLinkWhereUniqueInput
+    update: XOR<LtiResourceLinkUpdateWithoutAssignmentInput, LtiResourceLinkUncheckedUpdateWithoutAssignmentInput>
+    create: XOR<LtiResourceLinkCreateWithoutAssignmentInput, LtiResourceLinkUncheckedCreateWithoutAssignmentInput>
+  }
+
+  export type LtiResourceLinkUpdateWithWhereUniqueWithoutAssignmentInput = {
+    where: LtiResourceLinkWhereUniqueInput
+    data: XOR<LtiResourceLinkUpdateWithoutAssignmentInput, LtiResourceLinkUncheckedUpdateWithoutAssignmentInput>
+  }
+
+  export type LtiResourceLinkUpdateManyWithWhereWithoutAssignmentInput = {
+    where: LtiResourceLinkScalarWhereInput
+    data: XOR<LtiResourceLinkUpdateManyMutationInput, LtiResourceLinkUncheckedUpdateManyWithoutAssignmentInput>
+  }
+
+  export type LtiResourceLinkScalarWhereInput = {
+    AND?: LtiResourceLinkScalarWhereInput | LtiResourceLinkScalarWhereInput[]
+    OR?: LtiResourceLinkScalarWhereInput[]
+    NOT?: LtiResourceLinkScalarWhereInput | LtiResourceLinkScalarWhereInput[]
+    id?: StringFilter<"LtiResourceLink"> | string
+    platformId?: StringFilter<"LtiResourceLink"> | string
+    deploymentId?: StringFilter<"LtiResourceLink"> | string
+    contextId?: StringFilter<"LtiResourceLink"> | string
+    resourceLinkId?: StringFilter<"LtiResourceLink"> | string
+    assignmentId?: IntFilter<"LtiResourceLink"> | number
+    lineitemUrl?: StringNullableFilter<"LtiResourceLink"> | string | null
+    createdAt?: DateTimeFilter<"LtiResourceLink"> | Date | string
+  }
+
   export type AssignmentCreateWithoutRubricInput = {
     name: string
     dueDate?: Date | string | null
@@ -25609,6 +30307,7 @@ export namespace Prisma {
     submissions?: SubmissionCreateNestedManyWithoutAssignmentInput
     groupAssignments?: AssignmentGroupCreateNestedManyWithoutAssignmentInput
     groupSubmissions?: GroupSubmissionCreateNestedManyWithoutAssignmentInput
+    ltiResourceLinks?: LtiResourceLinkCreateNestedManyWithoutAssignmentInput
   }
 
   export type AssignmentUncheckedCreateWithoutRubricInput = {
@@ -25623,6 +30322,7 @@ export namespace Prisma {
     submissions?: SubmissionUncheckedCreateNestedManyWithoutAssignmentInput
     groupAssignments?: AssignmentGroupUncheckedCreateNestedManyWithoutAssignmentInput
     groupSubmissions?: GroupSubmissionUncheckedCreateNestedManyWithoutAssignmentInput
+    ltiResourceLinks?: LtiResourceLinkUncheckedCreateNestedManyWithoutAssignmentInput
   }
 
   export type AssignmentCreateOrConnectWithoutRubricInput = {
@@ -25679,6 +30379,7 @@ export namespace Prisma {
     submissions?: SubmissionUpdateManyWithoutAssignmentNestedInput
     groupAssignments?: AssignmentGroupUpdateManyWithoutAssignmentNestedInput
     groupSubmissions?: GroupSubmissionUpdateManyWithoutAssignmentNestedInput
+    ltiResourceLinks?: LtiResourceLinkUpdateManyWithoutAssignmentNestedInput
   }
 
   export type AssignmentUncheckedUpdateWithoutRubricInput = {
@@ -25693,6 +30394,7 @@ export namespace Prisma {
     submissions?: SubmissionUncheckedUpdateManyWithoutAssignmentNestedInput
     groupAssignments?: AssignmentGroupUncheckedUpdateManyWithoutAssignmentNestedInput
     groupSubmissions?: GroupSubmissionUncheckedUpdateManyWithoutAssignmentNestedInput
+    ltiResourceLinks?: LtiResourceLinkUncheckedUpdateManyWithoutAssignmentNestedInput
   }
 
   export type RubricCriterionUpsertWithWhereUniqueWithoutRubricInput = {
@@ -25781,6 +30483,7 @@ export namespace Prisma {
     submissions?: SubmissionCreateNestedManyWithoutAssignmentInput
     groupSubmissions?: GroupSubmissionCreateNestedManyWithoutAssignmentInput
     rubric?: RubricCreateNestedOneWithoutAssignmentInput
+    ltiResourceLinks?: LtiResourceLinkCreateNestedManyWithoutAssignmentInput
   }
 
   export type AssignmentUncheckedCreateWithoutGroupAssignmentsInput = {
@@ -25795,6 +30498,7 @@ export namespace Prisma {
     submissions?: SubmissionUncheckedCreateNestedManyWithoutAssignmentInput
     groupSubmissions?: GroupSubmissionUncheckedCreateNestedManyWithoutAssignmentInput
     rubric?: RubricUncheckedCreateNestedOneWithoutAssignmentInput
+    ltiResourceLinks?: LtiResourceLinkUncheckedCreateNestedManyWithoutAssignmentInput
   }
 
   export type AssignmentCreateOrConnectWithoutGroupAssignmentsInput = {
@@ -25849,6 +30553,7 @@ export namespace Prisma {
     submissions?: SubmissionUpdateManyWithoutAssignmentNestedInput
     groupSubmissions?: GroupSubmissionUpdateManyWithoutAssignmentNestedInput
     rubric?: RubricUpdateOneWithoutAssignmentNestedInput
+    ltiResourceLinks?: LtiResourceLinkUpdateManyWithoutAssignmentNestedInput
   }
 
   export type AssignmentUncheckedUpdateWithoutGroupAssignmentsInput = {
@@ -25863,6 +30568,7 @@ export namespace Prisma {
     submissions?: SubmissionUncheckedUpdateManyWithoutAssignmentNestedInput
     groupSubmissions?: GroupSubmissionUncheckedUpdateManyWithoutAssignmentNestedInput
     rubric?: RubricUncheckedUpdateOneWithoutAssignmentNestedInput
+    ltiResourceLinks?: LtiResourceLinkUncheckedUpdateManyWithoutAssignmentNestedInput
   }
 
   export type GroupUpsertWithoutAssignmentLinksInput = {
@@ -25907,6 +30613,7 @@ export namespace Prisma {
     groupAssignments?: AssignmentGroupCreateNestedManyWithoutAssignmentInput
     groupSubmissions?: GroupSubmissionCreateNestedManyWithoutAssignmentInput
     rubric?: RubricCreateNestedOneWithoutAssignmentInput
+    ltiResourceLinks?: LtiResourceLinkCreateNestedManyWithoutAssignmentInput
   }
 
   export type AssignmentUncheckedCreateWithoutSubmissionsInput = {
@@ -25921,6 +30628,7 @@ export namespace Prisma {
     groupAssignments?: AssignmentGroupUncheckedCreateNestedManyWithoutAssignmentInput
     groupSubmissions?: GroupSubmissionUncheckedCreateNestedManyWithoutAssignmentInput
     rubric?: RubricUncheckedCreateNestedOneWithoutAssignmentInput
+    ltiResourceLinks?: LtiResourceLinkUncheckedCreateNestedManyWithoutAssignmentInput
   }
 
   export type AssignmentCreateOrConnectWithoutSubmissionsInput = {
@@ -25941,6 +30649,7 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     classes?: ClassMembershipCreateNestedManyWithoutUserInput
     groupMemberships?: GroupMemberCreateNestedManyWithoutStudentInput
+    ltiIdentities?: LtiIdentityCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSubmissionsInput = {
@@ -25956,6 +30665,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     classes?: ClassMembershipUncheckedCreateNestedManyWithoutUserInput
     groupMemberships?: GroupMemberUncheckedCreateNestedManyWithoutStudentInput
+    ltiIdentities?: LtiIdentityUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSubmissionsInput = {
@@ -26013,6 +30723,7 @@ export namespace Prisma {
     groupAssignments?: AssignmentGroupUpdateManyWithoutAssignmentNestedInput
     groupSubmissions?: GroupSubmissionUpdateManyWithoutAssignmentNestedInput
     rubric?: RubricUpdateOneWithoutAssignmentNestedInput
+    ltiResourceLinks?: LtiResourceLinkUpdateManyWithoutAssignmentNestedInput
   }
 
   export type AssignmentUncheckedUpdateWithoutSubmissionsInput = {
@@ -26027,6 +30738,7 @@ export namespace Prisma {
     groupAssignments?: AssignmentGroupUncheckedUpdateManyWithoutAssignmentNestedInput
     groupSubmissions?: GroupSubmissionUncheckedUpdateManyWithoutAssignmentNestedInput
     rubric?: RubricUncheckedUpdateOneWithoutAssignmentNestedInput
+    ltiResourceLinks?: LtiResourceLinkUncheckedUpdateManyWithoutAssignmentNestedInput
   }
 
   export type UserUpsertWithoutSubmissionsInput = {
@@ -26053,6 +30765,7 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     classes?: ClassMembershipUpdateManyWithoutUserNestedInput
     groupMemberships?: GroupMemberUpdateManyWithoutStudentNestedInput
+    ltiIdentities?: LtiIdentityUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSubmissionsInput = {
@@ -26068,6 +30781,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     classes?: ClassMembershipUncheckedUpdateManyWithoutUserNestedInput
     groupMemberships?: GroupMemberUncheckedUpdateManyWithoutStudentNestedInput
+    ltiIdentities?: LtiIdentityUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type FeedbackUpsertWithWhereUniqueWithoutSubmissionInput = {
@@ -26110,6 +30824,7 @@ export namespace Prisma {
     submissions?: SubmissionCreateNestedManyWithoutAssignmentInput
     groupAssignments?: AssignmentGroupCreateNestedManyWithoutAssignmentInput
     rubric?: RubricCreateNestedOneWithoutAssignmentInput
+    ltiResourceLinks?: LtiResourceLinkCreateNestedManyWithoutAssignmentInput
   }
 
   export type AssignmentUncheckedCreateWithoutGroupSubmissionsInput = {
@@ -26124,6 +30839,7 @@ export namespace Prisma {
     submissions?: SubmissionUncheckedCreateNestedManyWithoutAssignmentInput
     groupAssignments?: AssignmentGroupUncheckedCreateNestedManyWithoutAssignmentInput
     rubric?: RubricUncheckedCreateNestedOneWithoutAssignmentInput
+    ltiResourceLinks?: LtiResourceLinkUncheckedCreateNestedManyWithoutAssignmentInput
   }
 
   export type AssignmentCreateOrConnectWithoutGroupSubmissionsInput = {
@@ -26206,6 +30922,7 @@ export namespace Prisma {
     submissions?: SubmissionUpdateManyWithoutAssignmentNestedInput
     groupAssignments?: AssignmentGroupUpdateManyWithoutAssignmentNestedInput
     rubric?: RubricUpdateOneWithoutAssignmentNestedInput
+    ltiResourceLinks?: LtiResourceLinkUpdateManyWithoutAssignmentNestedInput
   }
 
   export type AssignmentUncheckedUpdateWithoutGroupSubmissionsInput = {
@@ -26220,6 +30937,7 @@ export namespace Prisma {
     submissions?: SubmissionUncheckedUpdateManyWithoutAssignmentNestedInput
     groupAssignments?: AssignmentGroupUncheckedUpdateManyWithoutAssignmentNestedInput
     rubric?: RubricUncheckedUpdateOneWithoutAssignmentNestedInput
+    ltiResourceLinks?: LtiResourceLinkUncheckedUpdateManyWithoutAssignmentNestedInput
   }
 
   export type GroupUpsertWithoutGroupSubmissionsInput = {
@@ -26386,6 +31104,7 @@ export namespace Prisma {
     classes?: ClassMembershipCreateNestedManyWithoutUserInput
     submissions?: SubmissionCreateNestedManyWithoutStudentInput
     groupMemberships?: GroupMemberCreateNestedManyWithoutStudentInput
+    ltiIdentities?: LtiIdentityCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -26401,6 +31120,7 @@ export namespace Prisma {
     classes?: ClassMembershipUncheckedCreateNestedManyWithoutUserInput
     submissions?: SubmissionUncheckedCreateNestedManyWithoutStudentInput
     groupMemberships?: GroupMemberUncheckedCreateNestedManyWithoutStudentInput
+    ltiIdentities?: LtiIdentityUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -26432,6 +31152,7 @@ export namespace Prisma {
     classes?: ClassMembershipUpdateManyWithoutUserNestedInput
     submissions?: SubmissionUpdateManyWithoutStudentNestedInput
     groupMemberships?: GroupMemberUpdateManyWithoutStudentNestedInput
+    ltiIdentities?: LtiIdentityUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -26447,6 +31168,7 @@ export namespace Prisma {
     classes?: ClassMembershipUncheckedUpdateManyWithoutUserNestedInput
     submissions?: SubmissionUncheckedUpdateManyWithoutStudentNestedInput
     groupMemberships?: GroupMemberUncheckedUpdateManyWithoutStudentNestedInput
+    ltiIdentities?: LtiIdentityUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -26462,6 +31184,7 @@ export namespace Prisma {
     classes?: ClassMembershipCreateNestedManyWithoutUserInput
     submissions?: SubmissionCreateNestedManyWithoutStudentInput
     groupMemberships?: GroupMemberCreateNestedManyWithoutStudentInput
+    ltiIdentities?: LtiIdentityCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -26477,6 +31200,7 @@ export namespace Prisma {
     classes?: ClassMembershipUncheckedCreateNestedManyWithoutUserInput
     submissions?: SubmissionUncheckedCreateNestedManyWithoutStudentInput
     groupMemberships?: GroupMemberUncheckedCreateNestedManyWithoutStudentInput
+    ltiIdentities?: LtiIdentityUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -26508,6 +31232,7 @@ export namespace Prisma {
     classes?: ClassMembershipUpdateManyWithoutUserNestedInput
     submissions?: SubmissionUpdateManyWithoutStudentNestedInput
     groupMemberships?: GroupMemberUpdateManyWithoutStudentNestedInput
+    ltiIdentities?: LtiIdentityUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -26523,6 +31248,271 @@ export namespace Prisma {
     classes?: ClassMembershipUncheckedUpdateManyWithoutUserNestedInput
     submissions?: SubmissionUncheckedUpdateManyWithoutStudentNestedInput
     groupMemberships?: GroupMemberUncheckedUpdateManyWithoutStudentNestedInput
+    ltiIdentities?: LtiIdentityUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type LtiResourceLinkCreateWithoutPlatformInput = {
+    id?: string
+    deploymentId: string
+    contextId: string
+    resourceLinkId: string
+    lineitemUrl?: string | null
+    createdAt?: Date | string
+    assignment: AssignmentCreateNestedOneWithoutLtiResourceLinksInput
+  }
+
+  export type LtiResourceLinkUncheckedCreateWithoutPlatformInput = {
+    id?: string
+    deploymentId: string
+    contextId: string
+    resourceLinkId: string
+    assignmentId: number
+    lineitemUrl?: string | null
+    createdAt?: Date | string
+  }
+
+  export type LtiResourceLinkCreateOrConnectWithoutPlatformInput = {
+    where: LtiResourceLinkWhereUniqueInput
+    create: XOR<LtiResourceLinkCreateWithoutPlatformInput, LtiResourceLinkUncheckedCreateWithoutPlatformInput>
+  }
+
+  export type LtiResourceLinkCreateManyPlatformInputEnvelope = {
+    data: LtiResourceLinkCreateManyPlatformInput | LtiResourceLinkCreateManyPlatformInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type LtiResourceLinkUpsertWithWhereUniqueWithoutPlatformInput = {
+    where: LtiResourceLinkWhereUniqueInput
+    update: XOR<LtiResourceLinkUpdateWithoutPlatformInput, LtiResourceLinkUncheckedUpdateWithoutPlatformInput>
+    create: XOR<LtiResourceLinkCreateWithoutPlatformInput, LtiResourceLinkUncheckedCreateWithoutPlatformInput>
+  }
+
+  export type LtiResourceLinkUpdateWithWhereUniqueWithoutPlatformInput = {
+    where: LtiResourceLinkWhereUniqueInput
+    data: XOR<LtiResourceLinkUpdateWithoutPlatformInput, LtiResourceLinkUncheckedUpdateWithoutPlatformInput>
+  }
+
+  export type LtiResourceLinkUpdateManyWithWhereWithoutPlatformInput = {
+    where: LtiResourceLinkScalarWhereInput
+    data: XOR<LtiResourceLinkUpdateManyMutationInput, LtiResourceLinkUncheckedUpdateManyWithoutPlatformInput>
+  }
+
+  export type UserCreateWithoutLtiIdentitiesInput = {
+    id: string
+    handle: string
+    name: string
+    email: string
+    emailVerified?: boolean
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    classes?: ClassMembershipCreateNestedManyWithoutUserInput
+    submissions?: SubmissionCreateNestedManyWithoutStudentInput
+    groupMemberships?: GroupMemberCreateNestedManyWithoutStudentInput
+  }
+
+  export type UserUncheckedCreateWithoutLtiIdentitiesInput = {
+    id: string
+    handle: string
+    name: string
+    email: string
+    emailVerified?: boolean
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    classes?: ClassMembershipUncheckedCreateNestedManyWithoutUserInput
+    submissions?: SubmissionUncheckedCreateNestedManyWithoutStudentInput
+    groupMemberships?: GroupMemberUncheckedCreateNestedManyWithoutStudentInput
+  }
+
+  export type UserCreateOrConnectWithoutLtiIdentitiesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutLtiIdentitiesInput, UserUncheckedCreateWithoutLtiIdentitiesInput>
+  }
+
+  export type UserUpsertWithoutLtiIdentitiesInput = {
+    update: XOR<UserUpdateWithoutLtiIdentitiesInput, UserUncheckedUpdateWithoutLtiIdentitiesInput>
+    create: XOR<UserCreateWithoutLtiIdentitiesInput, UserUncheckedCreateWithoutLtiIdentitiesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutLtiIdentitiesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutLtiIdentitiesInput, UserUncheckedUpdateWithoutLtiIdentitiesInput>
+  }
+
+  export type UserUpdateWithoutLtiIdentitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    handle?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    classes?: ClassMembershipUpdateManyWithoutUserNestedInput
+    submissions?: SubmissionUpdateManyWithoutStudentNestedInput
+    groupMemberships?: GroupMemberUpdateManyWithoutStudentNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutLtiIdentitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    handle?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    classes?: ClassMembershipUncheckedUpdateManyWithoutUserNestedInput
+    submissions?: SubmissionUncheckedUpdateManyWithoutStudentNestedInput
+    groupMemberships?: GroupMemberUncheckedUpdateManyWithoutStudentNestedInput
+  }
+
+  export type LtiPlatformCreateWithoutResourceLinksInput = {
+    id?: string
+    issuer: string
+    clientId: string
+    authLoginUrl: string
+    authTokenUrl: string
+    keySetUrl: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LtiPlatformUncheckedCreateWithoutResourceLinksInput = {
+    id?: string
+    issuer: string
+    clientId: string
+    authLoginUrl: string
+    authTokenUrl: string
+    keySetUrl: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LtiPlatformCreateOrConnectWithoutResourceLinksInput = {
+    where: LtiPlatformWhereUniqueInput
+    create: XOR<LtiPlatformCreateWithoutResourceLinksInput, LtiPlatformUncheckedCreateWithoutResourceLinksInput>
+  }
+
+  export type AssignmentCreateWithoutLtiResourceLinksInput = {
+    name: string
+    dueDate?: Date | string | null
+    points: number
+    published: boolean
+    autogradeWithRubric?: boolean
+    submissionMode?: $Enums.AssignmentSubmissionMode
+    class: ClassCreateNestedOneWithoutAssignmentsInput
+    submissions?: SubmissionCreateNestedManyWithoutAssignmentInput
+    groupAssignments?: AssignmentGroupCreateNestedManyWithoutAssignmentInput
+    groupSubmissions?: GroupSubmissionCreateNestedManyWithoutAssignmentInput
+    rubric?: RubricCreateNestedOneWithoutAssignmentInput
+  }
+
+  export type AssignmentUncheckedCreateWithoutLtiResourceLinksInput = {
+    id?: number
+    classId: number
+    name: string
+    dueDate?: Date | string | null
+    points: number
+    published: boolean
+    autogradeWithRubric?: boolean
+    submissionMode?: $Enums.AssignmentSubmissionMode
+    submissions?: SubmissionUncheckedCreateNestedManyWithoutAssignmentInput
+    groupAssignments?: AssignmentGroupUncheckedCreateNestedManyWithoutAssignmentInput
+    groupSubmissions?: GroupSubmissionUncheckedCreateNestedManyWithoutAssignmentInput
+    rubric?: RubricUncheckedCreateNestedOneWithoutAssignmentInput
+  }
+
+  export type AssignmentCreateOrConnectWithoutLtiResourceLinksInput = {
+    where: AssignmentWhereUniqueInput
+    create: XOR<AssignmentCreateWithoutLtiResourceLinksInput, AssignmentUncheckedCreateWithoutLtiResourceLinksInput>
+  }
+
+  export type LtiPlatformUpsertWithoutResourceLinksInput = {
+    update: XOR<LtiPlatformUpdateWithoutResourceLinksInput, LtiPlatformUncheckedUpdateWithoutResourceLinksInput>
+    create: XOR<LtiPlatformCreateWithoutResourceLinksInput, LtiPlatformUncheckedCreateWithoutResourceLinksInput>
+    where?: LtiPlatformWhereInput
+  }
+
+  export type LtiPlatformUpdateToOneWithWhereWithoutResourceLinksInput = {
+    where?: LtiPlatformWhereInput
+    data: XOR<LtiPlatformUpdateWithoutResourceLinksInput, LtiPlatformUncheckedUpdateWithoutResourceLinksInput>
+  }
+
+  export type LtiPlatformUpdateWithoutResourceLinksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    issuer?: StringFieldUpdateOperationsInput | string
+    clientId?: StringFieldUpdateOperationsInput | string
+    authLoginUrl?: StringFieldUpdateOperationsInput | string
+    authTokenUrl?: StringFieldUpdateOperationsInput | string
+    keySetUrl?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LtiPlatformUncheckedUpdateWithoutResourceLinksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    issuer?: StringFieldUpdateOperationsInput | string
+    clientId?: StringFieldUpdateOperationsInput | string
+    authLoginUrl?: StringFieldUpdateOperationsInput | string
+    authTokenUrl?: StringFieldUpdateOperationsInput | string
+    keySetUrl?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssignmentUpsertWithoutLtiResourceLinksInput = {
+    update: XOR<AssignmentUpdateWithoutLtiResourceLinksInput, AssignmentUncheckedUpdateWithoutLtiResourceLinksInput>
+    create: XOR<AssignmentCreateWithoutLtiResourceLinksInput, AssignmentUncheckedCreateWithoutLtiResourceLinksInput>
+    where?: AssignmentWhereInput
+  }
+
+  export type AssignmentUpdateToOneWithWhereWithoutLtiResourceLinksInput = {
+    where?: AssignmentWhereInput
+    data: XOR<AssignmentUpdateWithoutLtiResourceLinksInput, AssignmentUncheckedUpdateWithoutLtiResourceLinksInput>
+  }
+
+  export type AssignmentUpdateWithoutLtiResourceLinksInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    points?: IntFieldUpdateOperationsInput | number
+    published?: BoolFieldUpdateOperationsInput | boolean
+    autogradeWithRubric?: BoolFieldUpdateOperationsInput | boolean
+    submissionMode?: EnumAssignmentSubmissionModeFieldUpdateOperationsInput | $Enums.AssignmentSubmissionMode
+    class?: ClassUpdateOneRequiredWithoutAssignmentsNestedInput
+    submissions?: SubmissionUpdateManyWithoutAssignmentNestedInput
+    groupAssignments?: AssignmentGroupUpdateManyWithoutAssignmentNestedInput
+    groupSubmissions?: GroupSubmissionUpdateManyWithoutAssignmentNestedInput
+    rubric?: RubricUpdateOneWithoutAssignmentNestedInput
+  }
+
+  export type AssignmentUncheckedUpdateWithoutLtiResourceLinksInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    classId?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    points?: IntFieldUpdateOperationsInput | number
+    published?: BoolFieldUpdateOperationsInput | boolean
+    autogradeWithRubric?: BoolFieldUpdateOperationsInput | boolean
+    submissionMode?: EnumAssignmentSubmissionModeFieldUpdateOperationsInput | $Enums.AssignmentSubmissionMode
+    submissions?: SubmissionUncheckedUpdateManyWithoutAssignmentNestedInput
+    groupAssignments?: AssignmentGroupUncheckedUpdateManyWithoutAssignmentNestedInput
+    groupSubmissions?: GroupSubmissionUncheckedUpdateManyWithoutAssignmentNestedInput
+    rubric?: RubricUncheckedUpdateOneWithoutAssignmentNestedInput
   }
 
   export type SessionCreateManyUserInput = {
@@ -26569,6 +31559,16 @@ export namespace Prisma {
     assignedAt?: Date | string
     groupId: string
     classId: number
+  }
+
+  export type LtiIdentityCreateManyUserInput = {
+    id?: string
+    issuer: string
+    subject: string
+    email?: string | null
+    name?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type SessionUpdateWithoutUserInput = {
@@ -26711,6 +31711,36 @@ export namespace Prisma {
     classId?: IntFieldUpdateOperationsInput | number
   }
 
+  export type LtiIdentityUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    issuer?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LtiIdentityUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    issuer?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LtiIdentityUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    issuer?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ClassMembershipCreateManyClassInput = {
     id?: string
     userId: string
@@ -26770,6 +31800,7 @@ export namespace Prisma {
     groupAssignments?: AssignmentGroupUpdateManyWithoutAssignmentNestedInput
     groupSubmissions?: GroupSubmissionUpdateManyWithoutAssignmentNestedInput
     rubric?: RubricUpdateOneWithoutAssignmentNestedInput
+    ltiResourceLinks?: LtiResourceLinkUpdateManyWithoutAssignmentNestedInput
   }
 
   export type AssignmentUncheckedUpdateWithoutClassInput = {
@@ -26784,6 +31815,7 @@ export namespace Prisma {
     groupAssignments?: AssignmentGroupUncheckedUpdateManyWithoutAssignmentNestedInput
     groupSubmissions?: GroupSubmissionUncheckedUpdateManyWithoutAssignmentNestedInput
     rubric?: RubricUncheckedUpdateOneWithoutAssignmentNestedInput
+    ltiResourceLinks?: LtiResourceLinkUncheckedUpdateManyWithoutAssignmentNestedInput
   }
 
   export type AssignmentUncheckedUpdateManyWithoutClassInput = {
@@ -26952,6 +31984,16 @@ export namespace Prisma {
     grade?: number | null
   }
 
+  export type LtiResourceLinkCreateManyAssignmentInput = {
+    id?: string
+    platformId: string
+    deploymentId: string
+    contextId: string
+    resourceLinkId: string
+    lineitemUrl?: string | null
+    createdAt?: Date | string
+  }
+
   export type SubmissionUpdateWithoutAssignmentInput = {
     id?: StringFieldUpdateOperationsInput | string
     ref?: StringFieldUpdateOperationsInput | string
@@ -27020,6 +32062,36 @@ export namespace Prisma {
     groupId?: StringFieldUpdateOperationsInput | string
     submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     grade?: NullableFloatFieldUpdateOperationsInput | number | null
+  }
+
+  export type LtiResourceLinkUpdateWithoutAssignmentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    deploymentId?: StringFieldUpdateOperationsInput | string
+    contextId?: StringFieldUpdateOperationsInput | string
+    resourceLinkId?: StringFieldUpdateOperationsInput | string
+    lineitemUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    platform?: LtiPlatformUpdateOneRequiredWithoutResourceLinksNestedInput
+  }
+
+  export type LtiResourceLinkUncheckedUpdateWithoutAssignmentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    platformId?: StringFieldUpdateOperationsInput | string
+    deploymentId?: StringFieldUpdateOperationsInput | string
+    contextId?: StringFieldUpdateOperationsInput | string
+    resourceLinkId?: StringFieldUpdateOperationsInput | string
+    lineitemUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LtiResourceLinkUncheckedUpdateManyWithoutAssignmentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    platformId?: StringFieldUpdateOperationsInput | string
+    deploymentId?: StringFieldUpdateOperationsInput | string
+    contextId?: StringFieldUpdateOperationsInput | string
+    resourceLinkId?: StringFieldUpdateOperationsInput | string
+    lineitemUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RubricCriterionCreateManyRubricInput = {
@@ -27127,6 +32199,46 @@ export namespace Prisma {
     startLine?: IntFieldUpdateOperationsInput | number
     endLine?: IntFieldUpdateOperationsInput | number
     comment?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type LtiResourceLinkCreateManyPlatformInput = {
+    id?: string
+    deploymentId: string
+    contextId: string
+    resourceLinkId: string
+    assignmentId: number
+    lineitemUrl?: string | null
+    createdAt?: Date | string
+  }
+
+  export type LtiResourceLinkUpdateWithoutPlatformInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    deploymentId?: StringFieldUpdateOperationsInput | string
+    contextId?: StringFieldUpdateOperationsInput | string
+    resourceLinkId?: StringFieldUpdateOperationsInput | string
+    lineitemUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assignment?: AssignmentUpdateOneRequiredWithoutLtiResourceLinksNestedInput
+  }
+
+  export type LtiResourceLinkUncheckedUpdateWithoutPlatformInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    deploymentId?: StringFieldUpdateOperationsInput | string
+    contextId?: StringFieldUpdateOperationsInput | string
+    resourceLinkId?: StringFieldUpdateOperationsInput | string
+    assignmentId?: IntFieldUpdateOperationsInput | number
+    lineitemUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LtiResourceLinkUncheckedUpdateManyWithoutPlatformInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    deploymentId?: StringFieldUpdateOperationsInput | string
+    contextId?: StringFieldUpdateOperationsInput | string
+    resourceLinkId?: StringFieldUpdateOperationsInput | string
+    assignmentId?: IntFieldUpdateOperationsInput | number
+    lineitemUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 
