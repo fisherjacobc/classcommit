@@ -71,7 +71,7 @@ model Class {
 
     assignments Assignment[]
     groups Group[]
-  groupMembers GroupMember[]
+    groupMembers GroupMember[]
 }
 
 model Group {
@@ -155,6 +155,8 @@ model Submission {
   submittedAt   DateTime?
   grade         Float?
 
+  feedbacks     Feedback[] @relation("SubmissionFeedback")
+
   @@unique([assignmentId, studentId])
 }
 
@@ -171,7 +173,24 @@ model GroupSubmission {
   submittedAt   DateTime?
   grade         Float?
 
+  feedbacks     Feedback[] @relation("GroupSubmissionFeedback")
+
   @@unique([assignmentId, groupId])
+}
+
+model Feedback {
+  id                 String   @id @default(cuid())
+
+  submission         Submission?     @relation("SubmissionFeedback", fields: [submissionId], references: [id])
+  submissionId       String?
+
+  groupSubmission    GroupSubmission? @relation("GroupSubmissionFeedback", fields: [groupSubmissionId], references: [id])
+  groupSubmissionId  String?
+
+  filePath           String
+  startLine          Int
+  endLine            Int
+  comment            String
 }
 
 model Session {

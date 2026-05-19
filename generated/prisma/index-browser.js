@@ -200,6 +200,16 @@ exports.Prisma.GroupSubmissionScalarFieldEnum = {
   grade: 'grade'
 };
 
+exports.Prisma.FeedbackScalarFieldEnum = {
+  id: 'id',
+  submissionId: 'submissionId',
+  groupSubmissionId: 'groupSubmissionId',
+  filePath: 'filePath',
+  startLine: 'startLine',
+  endLine: 'endLine',
+  comment: 'comment'
+};
+
 exports.Prisma.SessionScalarFieldEnum = {
   id: 'id',
   expiresAt: 'expiresAt',
@@ -271,6 +281,7 @@ exports.Prisma.ModelName = {
   AssignmentGroup: 'AssignmentGroup',
   Submission: 'Submission',
   GroupSubmission: 'GroupSubmission',
+  Feedback: 'Feedback',
   Session: 'Session',
   Account: 'Account',
   Verification: 'Verification'
